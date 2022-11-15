@@ -6,6 +6,7 @@ import SettingButton from './setting-button'
 
 const BaseHeader = styled.header`
   position: fixed;
+  top: 0;
   width: 100%;
 `
 

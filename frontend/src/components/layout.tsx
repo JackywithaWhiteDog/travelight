@@ -1,5 +1,5 @@
 import React from 'react'
-import { createGlobalStyle } from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 import Header from './header'
 
 const GlobalStyles = createGlobalStyle`
@@ -13,11 +13,15 @@ interface LayoutProps {
   children: React.ReactElement
 }
 
+const BaseMain = styled.main`
+  margin-top: 60px;
+`
+
 const Layout = (props: LayoutProps): React.ReactElement => (
   <>
     <GlobalStyles />
     <Header />
-    <main>{props.children}</main>
+    <BaseMain>{props.children}</BaseMain>
   </>
 )
 

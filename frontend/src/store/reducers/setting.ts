@@ -1,10 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+interface State {
+  displaySettingBox: boolean
+}
+
+const initialState: State = {
+  displaySettingBox: false
+}
+
 const settingSlice = createSlice({
   name: 'setting',
-  initialState: {
-    displaySettingBox: false
-  },
+  initialState,
   reducers: {
     toggleSettingBox: (state) => {
       state.displaySettingBox = !state.displaySettingBox
