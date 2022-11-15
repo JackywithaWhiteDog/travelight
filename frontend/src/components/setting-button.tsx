@@ -1,12 +1,11 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { toggleSettingBox } from '../store/setting'
 
 const SettingButton = (): React.ReactElement => {
-  const toggleSettingBox: React.MouseEventHandler<HTMLButtonElement> = (event) => {
-    // TODO: toggle setting box
-  }
-
+  const dispatch = useDispatch()
   return (
-    <button onClick={toggleSettingBox}>
+    <button onClick={() => dispatch(toggleSettingBox())}>
       Setting
     </button>
   )
