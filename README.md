@@ -31,6 +31,7 @@ Commit message should be structured as
 
 - `frontend` (e.g., `frontend.api`, `frontend.map`)
 - `backend` (e.g., `beckend.optimize`)
+- `devops`
 
 #### Examples:
 
