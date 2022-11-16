@@ -1,5 +1,6 @@
 import { StoreDispath } from '../store'
-import { Region, setDefaultRegions } from '../store/reducers/attractions'
+import { setDefaultRegions } from '../store/reducers/attractions'
+import { Region } from '../types'
 
 export const getDefaultRegions = async (dispath: StoreDispath): Promise<void> => {
   const mockData: Region[] = [
