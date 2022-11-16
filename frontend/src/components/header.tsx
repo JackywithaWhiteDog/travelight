@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { COLORS } from '../constants'
-import SettingBox from './setting-box'
-import SettingButton from './setting-button'
+import SettingBox from './settingBox'
+import SettingButton from './settingButton'
 
 const BaseHeader = styled.header`
   position: fixed;

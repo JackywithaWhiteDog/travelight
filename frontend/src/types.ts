@@ -10,7 +10,6 @@ export interface Region {
 
 export interface Attraction extends Region {
   placeId: string
-  priceLevel: number
   rating: number
 }
 
