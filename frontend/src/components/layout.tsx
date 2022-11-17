@@ -14,7 +14,8 @@ interface LayoutProps {
 }
 
 const BaseMain = styled.main`
-  margin-top: 60px;
+  padding-top: 60px;
+  height: calc(100vh - 60px);
 `
 
 const Layout = (props: LayoutProps): React.ReactElement => (

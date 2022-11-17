@@ -12,7 +12,7 @@ const Home = (): React.ReactElement => {
 
   useEffect(() => {
     void getDefaultRegions(dispatch)
-  }, [dispatch])
+  }, [])
 
   return (
     <>
