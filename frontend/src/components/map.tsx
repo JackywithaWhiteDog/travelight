@@ -11,7 +11,7 @@ const Map = (): React.ReactElement => {
     <div>
       <h1>map</h1>
       <p>location: {location.latitude}, {location.longitude}</p>
-      {recommendation.map((attraction, i) => <AttractionPin attraction={attraction} key={i} />)}
+      {recommendation.map((attraction, i) => <AttractionPin attraction={attraction} index={i} key={i} />)}
     </div>
   )
 }

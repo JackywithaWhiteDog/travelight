@@ -19,7 +19,6 @@ const App = (): React.ReactElement => {
 
   useEffect(() => {
     void getRecommendation(location, dispatch)
-    console.log('trigger')
   }, [location])
 
   return (
