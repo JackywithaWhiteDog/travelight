@@ -1,8 +1,8 @@
-import { StoreDispath } from '../store'
+import { StoreDispatch } from '../store'
 import { addRecommendation } from '../store/reducers/attractions'
 import { Location, SelectableAttraction } from '../types'
 
-export const getRecommendation = async (location: Location, dispath: StoreDispath): Promise<void> => {
+export const getRecommendation = async (location: Location, dispatch: StoreDispatch): Promise<void> => {
   const mockData: SelectableAttraction[] = [
     {
       name: '台北車站',
@@ -40,5 +40,5 @@ export const getRecommendation = async (location: Location, dispath: StoreDispat
       isSelected: false
     }
   ]
-  dispath(addRecommendation(mockData))
+  dispatch(addRecommendation(mockData))
 }

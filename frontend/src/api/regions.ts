@@ -1,8 +1,8 @@
-import { StoreDispath } from '../store'
+import { StoreDispatch } from '../store'
 import { setDefaultRegions } from '../store/reducers/attractions'
 import { Region } from '../types'
 
-export const getDefaultRegions = async (dispath: StoreDispath): Promise<void> => {
+export const getDefaultRegions = async (dispatch: StoreDispatch): Promise<void> => {
   const mockData: Region[] = [
     {
       name: '基隆市',
@@ -13,5 +13,5 @@ export const getDefaultRegions = async (dispath: StoreDispath): Promise<void> =>
       location: { longitude: 121.421072, latitude: 25.085651 }
     }
   ]
-  dispath(setDefaultRegions(mockData))
+  dispatch(setDefaultRegions(mockData))
 }
