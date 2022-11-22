@@ -10,7 +10,7 @@ export interface Region {
 
 export interface Constraint {
   openingTimes: number[]
-  closeTimes: number[]
+  closingTimes: number[]
   stayTime: number
   transportation: string
 }
@@ -28,7 +28,7 @@ export interface SelectableAttraction extends Attraction {
 
 export interface Order {
   order: number[]
-  arrivalTimes: number[]
+  arriveTimes: number[]
   leaveTimes: number[]
   isValid: boolean
 }

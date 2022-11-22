@@ -10,7 +10,7 @@ export const mockSelectableAttractionList = [
       openingTimes: [
         8
       ],
-      closeTimes: [
+      closingTimes: [
         17
       ],
       stayTime: 1,
@@ -28,7 +28,7 @@ export const mockSelectableAttractionList = [
       openingTimes: [
         8
       ],
-      closeTimes: [
+      closingTimes: [
         17
       ],
       stayTime: 1,
@@ -46,7 +46,7 @@ export const mockSelectableAttractionList = [
       openingTimes: [
         8
       ],
-      closeTimes: [
+      closingTimes: [
         17
       ],
       stayTime: 1,
@@ -64,7 +64,7 @@ export const mockSelectableAttractionList = [
       openingTimes: [
         8
       ],
-      closeTimes: [
+      closingTimes: [
         17
       ],
       stayTime: 1,
@@ -82,7 +82,7 @@ export const mockSelectableAttractionList = [
       openingTimes: [
         8
       ],
-      closeTimes: [
+      closingTimes: [
         17
       ],
       stayTime: 1,
@@ -93,11 +93,11 @@ export const mockSelectableAttractionList = [
 ]
 
 export const generateMockOrder = (schedule: Attraction[]): Order => {
-  const arrivalTimes = Array.from(Array(schedule.length).keys()).map(x => 8 + x * 3)
-  const leaveTimes = arrivalTimes.map(x => x + 1)
+  const arriveTimes = Array.from(Array(schedule.length).keys()).map(x => 8 + x * 3)
+  const leaveTimes = arriveTimes.map(x => x + 1)
   const order: Order = {
     order: Array.from(Array(schedule.length).keys()).sort(() => Math.random() - 0.5),
-    arrivalTimes: arrivalTimes,
+    arriveTimes: arriveTimes,
     leaveTimes: leaveTimes,
     isValid: false
   }
