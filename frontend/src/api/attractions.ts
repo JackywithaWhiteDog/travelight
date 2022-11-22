@@ -16,7 +16,7 @@ export const getRecommendationAPI = async (location: Location): Promise<Selectab
   const data: SelectableAttraction[] = []
   rawdata.forEach((rawElement: any) => {
     const element: SelectableAttraction = {
-      placeId: rawElement.place_id as string,
+      placeId: rawElement.placeId as string,
       rating: rawElement.rating as number,
       name: rawElement.name as string,
       location: rawElement.location as Location,
