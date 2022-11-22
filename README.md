@@ -1,7 +1,5 @@
 # Software Engineering Toy Project
 
-testing
-
 ## Contribution
 
 ### Pull Request
