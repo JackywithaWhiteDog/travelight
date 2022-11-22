@@ -1,3 +1,4 @@
+import { Order, Attraction } from '../types'
 export const mockSelectableAttractionList = [
   {
     name: '台北車站',
@@ -7,12 +8,12 @@ export const mockSelectableAttractionList = [
     isSelected: false,
     constraint: {
       openingTimes: [
-        0
+        8
       ],
       closeTimes: [
-        0
+        17
       ],
-      stayTime: 0,
+      stayTime: 1,
       transportation: 'driving'
     },
     address: '100台北市中正區'
@@ -25,12 +26,12 @@ export const mockSelectableAttractionList = [
     isSelected: false,
     constraint: {
       openingTimes: [
-        0
+        8
       ],
       closeTimes: [
-        0
+        17
       ],
-      stayTime: 0,
+      stayTime: 1,
       transportation: 'driving'
     },
     address: '100台北市中正區八德路一段1號'
@@ -43,12 +44,12 @@ export const mockSelectableAttractionList = [
     isSelected: false,
     constraint: {
       openingTimes: [
-        0
+        8
       ],
       closeTimes: [
-        0
+        17
       ],
-      stayTime: 0,
+      stayTime: 1,
       transportation: 'driving'
     },
     address: '100台北市中正區中山南路21-1號'
@@ -61,12 +62,12 @@ export const mockSelectableAttractionList = [
     isSelected: false,
     constraint: {
       openingTimes: [
-        0
+        8
       ],
       closeTimes: [
-        0
+        17
       ],
-      stayTime: 0,
+      stayTime: 1,
       transportation: 'driving'
     },
     address: '100台北市中正區林森南路61巷19號'
@@ -79,14 +80,26 @@ export const mockSelectableAttractionList = [
     isSelected: false,
     constraint: {
       openingTimes: [
-        0
+        8
       ],
       closeTimes: [
-        0
+        17
       ],
-      stayTime: 0,
+      stayTime: 1,
       transportation: 'driving'
     },
     address: '100台北市中正區忠孝東路二段27號'
   }
 ]
+
+export const generateMockOrder = (schedule: Attraction[]): Order => {
+  const arrivalTimes = Array.from(Array(schedule.length).keys()).map(x => 8 + x * 3)
+  const leaveTimes = arrivalTimes.map(x => x + 1)
+  const order: Order = {
+    order: Array.from(Array(schedule.length).keys()).sort(() => Math.random() - 0.5),
+    arrivalTimes: arrivalTimes,
+    leaveTimes: leaveTimes,
+    isValid: false
+  }
+  return order
+}
