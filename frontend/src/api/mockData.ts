@@ -102,8 +102,8 @@ export const generateMockOrder = (schedule: Attraction[]): Order => {
   const leaveTimes = arriveTimes.map(x => x + 1)
   const order: Order = {
     order: Array.from(Array(schedule.length).keys()).sort(() => Math.random() - 0.5),
-    arriveTimes: arriveTimes,
-    leaveTimes: leaveTimes,
+    arriveTimes,
+    leaveTimes,
     isValid: false
   }
   return order
