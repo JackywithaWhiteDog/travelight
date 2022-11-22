@@ -20,6 +20,7 @@ export interface Attraction extends Region {
   constraint: Constraint
   rating: number
   address: string
+  pictureURL: string
 }
 
 export interface SelectableAttraction extends Attraction {

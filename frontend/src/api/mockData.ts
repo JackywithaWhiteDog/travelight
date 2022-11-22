@@ -1,5 +1,5 @@
-import { Order, Attraction } from '../types'
-export const mockSelectableAttractionList = [
+import { Order, Attraction, SelectableAttraction } from '../types'
+export const mockSelectableAttractionList: SelectableAttraction[] = [
   {
     name: '台北車站',
     location: { longitude: 121.515336, latitude: 25.0462548 },
@@ -16,7 +16,8 @@ export const mockSelectableAttractionList = [
       stayTime: 1,
       transportation: 'driving'
     },
-    address: '100台北市中正區'
+    address: '100台北市中正區',
+    pictureURL: ''
   },
   {
     name: '華山1914文化創意產業園區',
@@ -34,7 +35,8 @@ export const mockSelectableAttractionList = [
       stayTime: 1,
       transportation: 'driving'
     },
-    address: '100台北市中正區八德路一段1號'
+    address: '100台北市中正區八德路一段1號',
+    pictureURL: ''
   },
   {
     name: '國家音樂廳',
@@ -52,7 +54,8 @@ export const mockSelectableAttractionList = [
       stayTime: 1,
       transportation: 'driving'
     },
-    address: '100台北市中正區中山南路21-1號'
+    address: '100台北市中正區中山南路21-1號',
+    pictureURL: ''
   },
   {
     name: '龍門客棧餃子館 (林森店)',
@@ -70,7 +73,8 @@ export const mockSelectableAttractionList = [
       stayTime: 1,
       transportation: 'driving'
     },
-    address: '100台北市中正區林森南路61巷19號'
+    address: '100台北市中正區林森南路61巷19號',
+    pictureURL: ''
   },
   {
     name: '興波咖啡旗艦店',
@@ -88,7 +92,8 @@ export const mockSelectableAttractionList = [
       stayTime: 1,
       transportation: 'driving'
     },
-    address: '100台北市中正區忠孝東路二段27號'
+    address: '100台北市中正區忠孝東路二段27號',
+    pictureURL: ''
   }
 ]
 
