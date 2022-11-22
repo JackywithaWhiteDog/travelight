@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import { Button } from '@mui/material'
 import styled from 'styled-components'
 import { cancelAttraction } from '../store/reducers/attractions'
 import { SelectableAttraction } from '../types'
@@ -25,7 +26,7 @@ const AttractionCard = (props: { attraction: SelectableAttraction, visibility: b
         <p>({props.attraction.location.latitude}, {props.attraction.location.longitude})</p>
         <p>rating: {props.attraction.rating}</p>
       </div>
-      {props.attraction.isSelected && <button onClick={() => dispatch(cancelAttraction(props.index))} >取消</button>}
+      {props.attraction.isSelected && <Button variant="contained" onClick={() => dispatch(cancelAttraction(props.index))} >取消</Button>}
     </BaseDiv>
   )
 }

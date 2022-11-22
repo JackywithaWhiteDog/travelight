@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
+import { Button } from '@mui/material'
 import { StoreState } from '../store'
 import { COLORS } from '../constants'
 import AttractionCard from './attractionCard'
@@ -18,7 +19,7 @@ const Schedule = (): React.ReactElement => {
   return (
     <BaseDiv>
       <h1>Schedule</h1>
-      <button onClick={() => { void optimizeSchedule(schedule, dispatch) }} >Optimize</button>
+      <Button variant="contained" onClick={() => { void optimizeSchedule(schedule, dispatch) }} >Optimize</Button>
       {schedule.map((attraction, i) => <AttractionCard attraction={attraction} index={i} key={i} />)}
     </BaseDiv>
   )
