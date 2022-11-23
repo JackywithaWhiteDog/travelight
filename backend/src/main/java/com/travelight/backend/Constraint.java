@@ -2,9 +2,10 @@ package com.travelight.backend;
 
 public class Constraint {
     double[] openingTimes = new double[7];
-    double[] closeTimes = new double[7];
+    double[] closingTimes = new double[7];
     double stayTime;
     String transportation;
+
 
     public double[] getOpeningTimes() {
         return this.openingTimes;
@@ -14,12 +15,12 @@ public class Constraint {
         this.openingTimes = openingTimes;
     }
 
-    public double[] getCloseTimes() {
-        return this.closeTimes;
+    public double[] getClosingTimes() {
+        return this.closingTimes;
     }
 
-    public void setCloseTimes(double[] closeTimes) {
-        this.closeTimes = closeTimes;
+    public void setClosingTimes(double[] closingTimes) {
+        this.closingTimes = closingTimes;
     }
 
     public double getStayTime() {
