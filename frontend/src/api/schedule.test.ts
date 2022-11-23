@@ -13,7 +13,6 @@ const resp = {
 }
 
 test('Test optimizeScheduleAPI', async () => {
-  mockedAxios.get.mockRejectedValue('Network error: Something went wrong')
   mockedAxios.get.mockResolvedValue(resp)
   const data = await optimizeScheduleAPI(mockSelectableAttractionList)
   expect(data).toEqual(mockOrder)

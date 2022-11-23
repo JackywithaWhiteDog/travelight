@@ -16,7 +16,6 @@ const resp = {
 }
 
 test('Test getRecommendationAPI', async () => {
-  mockedAxios.get.mockRejectedValue('Network error: Something went wrong')
   mockedAxios.get.mockResolvedValue(resp)
   const data = await getRecommendationAPI(location)
   expect(data).toEqual(mockSelectableAttractionList)
