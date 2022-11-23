@@ -2,8 +2,9 @@ import { StoreDispatch } from '../store'
 import { addRecommendation } from '../store/reducers/attractions'
 import { Constraint, Location, SelectableAttraction } from '../types'
 import axios from 'axios'
+import { mockSelectableAttractionList } from './mockData'
 
-const API_ROOT = 'http://localhost:4000/api'
+const API_ROOT = process.env.REACT_APP_API_ROOT ?? ''
 
 export const getRecommendationAPI = async (location: Location): Promise<SelectableAttraction[]> => {
   const response = await axios.get(API_ROOT + '/nearbyAttractions', {
@@ -31,6 +32,12 @@ export const getRecommendationAPI = async (location: Location): Promise<Selectab
 }
 
 export const getRecommendation = async (location: Location, dispatch: StoreDispatch): Promise<void> => {
-  const data = await getRecommendationAPI(location)
+  let data: SelectableAttraction[]
+  console.log(API_ROOT)
+  if (API_ROOT !== '') {
+    data = await getRecommendationAPI(location)
+  } else {
+    data = mockSelectableAttractionList
+  }
   dispatch(addRecommendation(data))
 }
