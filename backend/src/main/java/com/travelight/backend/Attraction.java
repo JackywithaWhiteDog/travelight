@@ -5,6 +5,8 @@ import com.travelight.backend.Constraint;
 
 public class Attraction {
     String placeId;
+    String name;
+    String pictureURL;
     String address;
     double rating;
     GeoLocation geoLocation;
@@ -24,6 +26,22 @@ public class Attraction {
 
     public void setPlaceId(String placeId) {
         this.placeId = placeId;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPictureURL() {
+        return this.pictureURL;
+    }
+
+    public void setPictureURL(String pictureURL) {
+        this.pictureURL = pictureURL;
     }
 
     public String getAddress() {
