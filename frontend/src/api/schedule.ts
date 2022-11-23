@@ -2,8 +2,9 @@ import { StoreDispatch } from '../store'
 import { reorderSchedule } from '../store/reducers/attractions'
 import { Attraction, Order } from '../types'
 import axios from 'axios'
+import { generateMockOrder } from './mockData'
 
-const API_ROOT = 'http://localhost:4000/api'
+const API_ROOT = process.env.REACT_APP_API_ROOT ?? ''
 
 export const optimizeScheduleAPI = async (schedule: Attraction[]): Promise<Order> => {
   const response = await axios.get(API_ROOT + '/optimize', {
@@ -15,6 +16,11 @@ export const optimizeScheduleAPI = async (schedule: Attraction[]): Promise<Order
 }
 
 export const optimizeSchedule = async (schedule: Attraction[], dispatch: StoreDispatch): Promise<void> => {
-  const order: Order = await optimizeScheduleAPI(schedule)
+  let order: Order
+  if (API_ROOT !== '') {
+    order = await optimizeScheduleAPI(schedule)
+  } else {
+    order = generateMockOrder(schedule)
+  }
   dispatch(reorderSchedule(order.order))
 }
