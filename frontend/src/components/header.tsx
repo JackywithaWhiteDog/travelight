@@ -23,7 +23,7 @@ const Header = (): React.ReactElement => {
   const open = Boolean(anchorEl)
 
   return (
-    <AppBar position="fixed">
+    <AppBar position="sticky">
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         <img src={logo} height={40} />
         <Button
