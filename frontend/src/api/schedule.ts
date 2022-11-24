@@ -8,7 +8,7 @@ import { attractionToApiFormat } from './converter'
 const API_ROOT = process.env.REACT_APP_API_ROOT ?? ''
 
 export const optimizeScheduleAPI = async (schedule: Attraction[], departureDay: number, check: boolean): Promise<Order> => {
-  const response = await axios.get(API_ROOT + '/optimize', {
+  const response = await axios.post(API_ROOT + '/optimize', {
     params: {
       data: {
         attractions: schedule.map(attractionToApiFormat),
