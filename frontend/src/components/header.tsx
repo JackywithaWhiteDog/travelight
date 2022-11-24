@@ -55,7 +55,7 @@ const Header = (): React.ReactElement => {
             horizontal: 'right'
           }}
         >
-          <SettingBox />
+          <SettingBox closeSettingBox={closeSettingBox} />
         </Popover>
       </Toolbar>
     </AppBar>
