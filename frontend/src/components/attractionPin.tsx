@@ -19,11 +19,14 @@ const AttractionPin = (props: { attraction: SelectableAttraction, index: number 
       <Button
         variant={props.attraction.isSelected ? 'contained' : 'outlined'}
         onClick={() => !props.attraction.isSelected && dispatch(selectAttraction(props.index))}
+        sx={
+          props.attraction.isSelected ? {} : { color: 'primary.dark', borderColor: 'primary.dark' }
+        }
       >
         {props.attraction.name}
       </Button>
       <AttractionCard attraction={props.attraction} visibility={cardDisplay} index={scheduleIndex} />
-    </div>
+    </div >
   )
 }
 

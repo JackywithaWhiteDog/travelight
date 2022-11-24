@@ -18,10 +18,18 @@ const Home = (): React.ReactElement => {
   return (
     <>
       <h1>home</h1>
-      {defaultRegions.map((region, i) => <Button variant="contained" key={i} onClick={() => {
-        dispatch(setLocation(region.location))
-        navigate('map')
-      }} >{region.name}</Button>)}
+      {defaultRegions.map((region, i) => (
+        <Button
+          variant="contained"
+          key={i}
+          onClick={() => {
+            dispatch(setLocation(region.location))
+            navigate('map')
+          }}
+        >
+          {region.name}
+        </Button>
+      ))}
     </>
   )
 }

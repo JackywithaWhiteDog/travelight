@@ -23,14 +23,22 @@ const Header = (): React.ReactElement => {
   const open = Boolean(anchorEl)
 
   return (
-    <AppBar position="sticky">
+    <AppBar
+      position="sticky"
+      sx={{
+        backgroundColor: 'primary.dark'
+      }}
+    >
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         <img src={logo} height={40} />
         <Button
-          color='warning'
           variant="outlined"
           startIcon={<Settings />}
           onClick={openSettingBox}
+          sx={{
+            color: 'primary.light',
+            borderColor: 'primary.light'
+          }}
         >
           選項
         </Button>
