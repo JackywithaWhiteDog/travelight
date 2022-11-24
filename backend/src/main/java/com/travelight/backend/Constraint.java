@@ -6,6 +6,12 @@ public class Constraint {
     double stayTime;
     String transportation;
 
+    public Constraint(double[] openingTimes, double[] closingTimes, double stayTime, String transportation) {
+        this.openingTimes = openingTimes;
+        this.closingTimes = closingTimes;
+        this.stayTime = stayTime;
+        this.transportation = transportation;
+    }
 
     public double[] getOpeningTimes() {
         return this.openingTimes;
@@ -37,5 +43,15 @@ public class Constraint {
 
     public void setTransportation(String transportation) {
         this.transportation = transportation;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " openingTimes='" + getOpeningTimes() + "'" +
+            ", closingTimes='" + getClosingTimes() + "'" +
+            ", stayTime='" + getStayTime() + "'" +
+            ", transportation='" + getTransportation() + "'" +
+            "}";
     }
 }
