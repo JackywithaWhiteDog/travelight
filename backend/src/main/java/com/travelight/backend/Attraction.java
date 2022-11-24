@@ -75,4 +75,17 @@ public class Attraction {
     public void setConstraint(Constraint constraint) {
         this.constraint = constraint;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " placeId='" + getPlaceId() + "'" +
+            ", name='" + getName() + "'" +
+            ", pictureURL='" + getPictureURL() + "'" +
+            ", address='" + getAddress() + "'" +
+            ", rating='" + getRating() + "'" +
+            ", geoLocation='" + getGeoLocation() + "'" +
+            ", constraint='" + getConstraint() + "'" +
+            "}";
+    }
 }
