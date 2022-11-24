@@ -1,4 +1,15 @@
-import { Order, Attraction, SelectableAttraction } from '../types'
+import { Order, Attraction, SelectableAttraction, Constraint } from '../types'
+
+const openingTimes: number[] = Array.from(Array(7).keys()).map(x => 8)
+const closingTimes: number[] = Array.from(Array(7).keys()).map(x => 19)
+const constraint: Constraint = {
+  openingTimes,
+  closingTimes,
+  stayTime: 1,
+  transportation: 'driving'
+}
+const pictureURL = 'https://pic.pimg.tw/anrine910070/1591550218-3199929553.jpg?fbclid=IwAR3ZMYFhHWd55JsFHi7C-15cS5mV7K985WarlLJF-RhVO4PUbhEAIlZxQOI'
+
 export const mockSelectableAttractionList: SelectableAttraction[] = [
   {
     name: '台北車站',
@@ -6,18 +17,9 @@ export const mockSelectableAttractionList: SelectableAttraction[] = [
     placeId: '1234',
     rating: 4.1,
     isSelected: false,
-    constraint: {
-      openingTimes: [
-        8
-      ],
-      closingTimes: [
-        17
-      ],
-      stayTime: 1,
-      transportation: 'driving'
-    },
+    constraint,
     address: '100台北市中正區',
-    pictureURL: ''
+    pictureURL
   },
   {
     name: '華山1914文化創意產業園區',
@@ -25,18 +27,9 @@ export const mockSelectableAttractionList: SelectableAttraction[] = [
     placeId: '5678',
     rating: 4.4,
     isSelected: false,
-    constraint: {
-      openingTimes: [
-        8
-      ],
-      closingTimes: [
-        17
-      ],
-      stayTime: 1,
-      transportation: 'driving'
-    },
+    constraint,
     address: '100台北市中正區八德路一段1號',
-    pictureURL: ''
+    pictureURL
   },
   {
     name: '國家音樂廳',
@@ -44,18 +37,9 @@ export const mockSelectableAttractionList: SelectableAttraction[] = [
     placeId: '4123',
     rating: 4.7,
     isSelected: false,
-    constraint: {
-      openingTimes: [
-        8
-      ],
-      closingTimes: [
-        17
-      ],
-      stayTime: 1,
-      transportation: 'driving'
-    },
+    constraint,
     address: '100台北市中正區中山南路21-1號',
-    pictureURL: ''
+    pictureURL
   },
   {
     name: '龍門客棧餃子館 (林森店)',
@@ -63,18 +47,9 @@ export const mockSelectableAttractionList: SelectableAttraction[] = [
     placeId: '5682',
     rating: 4.4,
     isSelected: false,
-    constraint: {
-      openingTimes: [
-        8
-      ],
-      closingTimes: [
-        17
-      ],
-      stayTime: 1,
-      transportation: 'driving'
-    },
+    constraint,
     address: '100台北市中正區林森南路61巷19號',
-    pictureURL: ''
+    pictureURL
   },
   {
     name: '興波咖啡旗艦店',
@@ -82,18 +57,9 @@ export const mockSelectableAttractionList: SelectableAttraction[] = [
     placeId: '3228',
     rating: 4.4,
     isSelected: false,
-    constraint: {
-      openingTimes: [
-        8
-      ],
-      closingTimes: [
-        17
-      ],
-      stayTime: 1,
-      transportation: 'driving'
-    },
+    constraint,
     address: '100台北市中正區忠孝東路二段27號',
-    pictureURL: ''
+    pictureURL
   }
 ]
 
