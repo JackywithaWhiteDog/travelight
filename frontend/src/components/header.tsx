@@ -1,32 +1,65 @@
-import React from 'react'
-import styled from 'styled-components'
-import { COLORS } from '../constants'
+import React, { useState } from 'react'
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  Popover
+} from '@mui/material'
+import { Settings } from '@mui/icons-material'
 import SettingBox from './settingBox'
-import SettingButton from './settingButton'
+import logo from '../assets/logo.svg'
 
-const BaseHeader = styled.header`
-  position: fixed;
-  top: 0;
-  width: 100%;
-`
+const Header = (): React.ReactElement => {
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
 
-const BaseNav = styled.nav`
-  background: ${COLORS.primary};
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 5px;
-`
+  const openSettingBox = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    setAnchorEl(event.currentTarget)
+  }
 
-const Header = (): React.ReactElement => (
-  <BaseHeader>
-    <BaseNav>
-      <span>Travelight</span>
-      <SettingButton />
-    </BaseNav>
-    <SettingBox />
-  </BaseHeader>
-)
+  const closeSettingBox = (): void => {
+    setAnchorEl(null)
+  }
+
+  const open = Boolean(anchorEl)
+
+  return (
+    <AppBar
+      position="sticky"
+      sx={{
+        backgroundColor: 'primary.dark'
+      }}
+    >
+      <Toolbar sx={{ justifyContent: 'space-between' }}>
+        <img src={logo} height={40} />
+        <Button
+          variant="outlined"
+          startIcon={<Settings />}
+          onClick={openSettingBox}
+          sx={{
+            color: 'primary.light',
+            borderColor: 'primary.light'
+          }}
+        >
+          選項
+        </Button>
+        <Popover
+          open={open}
+          anchorEl={anchorEl}
+          onClose={closeSettingBox}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right'
+          }}
+        >
+          <SettingBox />
+        </Popover>
+      </Toolbar>
+    </AppBar>
+  )
+}
 
 export default Header

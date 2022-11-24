@@ -5,7 +5,7 @@ import {
   Autocomplete
 } from '@react-google-maps/api'
 
-import { Input, Skeleton, Button, Box } from '@mui/material'
+import { Input, Skeleton, Button, Box, Typography } from '@mui/material'
 import React from 'react'
 
 import { shallowEqual, useSelector } from 'react-redux'
@@ -23,7 +23,7 @@ const Map = (): React.ReactElement => {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: ['places']
   })
-  const [map, setMap] = React.useState<google.maps.Map | null>(/** @type google.maps.Map */ (null))
+  const [map, setMap] = React.useState<google.maps.Map | null>(/** @type google.maps.Map */(null))
   /** const [directionsResponse, setDirectionsResponse] = React.useState<google.maps.DirectionsResult|null>((null)) */
 
   /** @type React.MutableRefObject<HTMLInputElement> */
@@ -36,23 +36,28 @@ const Map = (): React.ReactElement => {
   }
 
   return (
-    <div>
-      <h1>map</h1>
-      <p>location: {location.latitude}, {location.longitude}</p>
+    <Box
+      sx={{
+        height: 'calc(100vh - 64px)',
+        overflow: 'auto'
+      }}
+    >
+      <Typography>Map</Typography>
+      <Typography>location: {location.latitude}, {location.longitude}</Typography>
       {recommendation.map((attraction, i) => <AttractionPin attraction={attraction} index={i} key={i} />)}
       <Box>
         <div>
-        <Autocomplete>
-                  <Input type='text' placeholder='Origin' ref={originRef} />
-        </Autocomplete>
+          <Autocomplete>
+            <Input type='text' placeholder='Origin' ref={originRef} />
+          </Autocomplete>
         </div>
         <div>
-        <Autocomplete>
-                  <Input
-                    type='text'
-                    placeholder='Destination'
-                    ref={destiantionRef} />
-        </Autocomplete>
+          <Autocomplete>
+            <Input
+              type='text'
+              placeholder='Destination'
+              ref={destiantionRef} />
+          </Autocomplete>
         </div>
         <Button
           onClick={() => {
@@ -66,21 +71,21 @@ const Map = (): React.ReactElement => {
         </Button>
       </Box>
       <GoogleMap
-            center={center}
-            zoom={15}
-            mapContainerStyle={{ width: '100%', height: '100%' }}
-            options={{
-              zoomControl: false,
-              streetViewControl: false,
-              mapTypeControl: false,
-              fullscreenControl: false
-            }}
-            onLoad={map => setMap(map)}
-          >
-            <Marker position={center} />
+        center={center}
+        zoom={15}
+        mapContainerStyle={{ width: '100%', height: '100%' }}
+        options={{
+          zoomControl: false,
+          streetViewControl: false,
+          mapTypeControl: false,
+          fullscreenControl: false
+        }}
+        onLoad={map => setMap(map)}
+      >
+        <Marker position={center} />
 
       </GoogleMap>
-    </div>
+    </Box>
   )
 }
 

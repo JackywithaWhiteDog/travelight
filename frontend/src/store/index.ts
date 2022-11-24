@@ -1,10 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-import settingReducer from './reducers/setting'
 import attractionsReducer from './reducers/attractions'
 
 const store = configureStore({
   reducer: {
-    setting: settingReducer,
     attractions: attractionsReducer
   }
 })

@@ -1,29 +1,27 @@
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material'
 import React from 'react'
-import styled, { createGlobalStyle } from 'styled-components'
 import Header from './header'
 
-const GlobalStyles = createGlobalStyle`
-  body {
-    margin: 0;
-    padding: 0;
+const theme = createTheme({
+  palette: {
+    primary: {
+      light: '#def5e5',
+      main: '#bcead5',
+      dark: '#8ec3b0'
+    }
   }
-`
+})
 
 interface LayoutProps {
   children: React.ReactElement
 }
 
-const BaseMain = styled.main`
-  padding-top: 60px;
-  height: calc(100vh - 60px);
-`
-
 const Layout = (props: LayoutProps): React.ReactElement => (
-  <>
-    <GlobalStyles />
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
     <Header />
-    <BaseMain>{props.children}</BaseMain>
-  </>
+    <main>{props.children}</main>
+  </ThemeProvider>
 )
 
 export default Layout
