@@ -8,6 +8,7 @@ const constraint: Constraint = {
   stayTime: 1,
   transportation: 'driving'
 }
+const pictureURL = 'https://pic.pimg.tw/anrine910070/1591550218-3199929553.jpg?fbclid=IwAR3ZMYFhHWd55JsFHi7C-15cS5mV7K985WarlLJF-RhVO4PUbhEAIlZxQOI'
 
 export const mockSelectableAttractionList: SelectableAttraction[] = [
   {
@@ -18,7 +19,7 @@ export const mockSelectableAttractionList: SelectableAttraction[] = [
     isSelected: false,
     constraint,
     address: '100台北市中正區',
-    pictureURL: ''
+    pictureURL
   },
   {
     name: '華山1914文化創意產業園區',
@@ -28,7 +29,7 @@ export const mockSelectableAttractionList: SelectableAttraction[] = [
     isSelected: false,
     constraint,
     address: '100台北市中正區八德路一段1號',
-    pictureURL: ''
+    pictureURL
   },
   {
     name: '國家音樂廳',
@@ -38,7 +39,7 @@ export const mockSelectableAttractionList: SelectableAttraction[] = [
     isSelected: false,
     constraint,
     address: '100台北市中正區中山南路21-1號',
-    pictureURL: ''
+    pictureURL
   },
   {
     name: '龍門客棧餃子館 (林森店)',
@@ -48,7 +49,7 @@ export const mockSelectableAttractionList: SelectableAttraction[] = [
     isSelected: false,
     constraint,
     address: '100台北市中正區林森南路61巷19號',
-    pictureURL: ''
+    pictureURL
   },
   {
     name: '興波咖啡旗艦店',
@@ -58,7 +59,7 @@ export const mockSelectableAttractionList: SelectableAttraction[] = [
     isSelected: false,
     constraint,
     address: '100台北市中正區忠孝東路二段27號',
-    pictureURL: ''
+    pictureURL
   }
 ]
 
