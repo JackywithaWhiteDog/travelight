@@ -24,7 +24,7 @@ const Schedule = (): React.ReactElement => {
         }}
       >
         <Typography>規劃行程</Typography>
-        <Button variant="contained" onClick={() => { void optimizeSchedule(schedule, dispatch) }} >Optimize</Button>
+        <Button variant="contained" onClick={() => { void optimizeSchedule(schedule, 0, true, dispatch) }} >Optimize</Button>
       </Toolbar>
       <Box
         sx={{
