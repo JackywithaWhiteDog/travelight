@@ -17,12 +17,6 @@ public class BackendApplication {
 		SpringApplication.run(BackendApplication.class, args);
 	}
 
-	@GetMapping("/nearbyAttractions")
-	public GeoLocation getNearbyAttractions(@RequestParam String latitude, @RequestParam String longitude) {
-		System.out.println(String.format("Lat: %s, Long: %s", latitude, longitude));
-		return new GeoLocation(Double.parseDouble(latitude), Double.parseDouble(longitude));
-	}
-
 	@PostMapping("/optimize")
 	public TravelSchedule optimizeTravelSchedule(@RequestBody OptimizationInfo optimizationInfo) {
 		// Logging
