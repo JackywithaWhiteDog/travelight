@@ -5,6 +5,7 @@ import { Button } from '@mui/material'
 import { getDefaultRegions } from '../api/regions'
 import { StoreState } from '../store'
 import { setLocation } from '../store/reducers/attractions'
+import TaiwanButton from '../components/taiwanButton'
 
 const Home = (): React.ReactElement => {
   const dispatch = useDispatch()
@@ -30,6 +31,7 @@ const Home = (): React.ReactElement => {
           {region.name}
         </Button>
       ))}
+      <TaiwanButton/>
     </>
   )
 }
