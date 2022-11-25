@@ -1,5 +1,7 @@
 package com.travelight.backend;
 
+import com.google.maps.model.LatLng;
+
 public class GeoLocation {
     double latitude;
     double longitude;
@@ -7,6 +9,11 @@ public class GeoLocation {
     public GeoLocation(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public GeoLocation(LatLng location) {
+        this.latitude = location.lat;
+        this.longitude = location.lng;
     }
 
     public double getLatitude() {
