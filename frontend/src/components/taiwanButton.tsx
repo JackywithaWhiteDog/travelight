@@ -1,27 +1,50 @@
 import { useNavigate } from 'react-router-dom'
-import { Card, CardMedia, Grid, CardContent, Typography } from '@mui/material'
-import { setLocation } from '../store/reducers/attractions'
+import { Card, CardMedia, Box, CardContent, Typography } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import React, { SyntheticEvent, useState } from 'react'
-// import Taiwan SVG Map
 import { SVGMap } from 'react-svg-map'
-import 'react-svg-map/lib/index.css'
+
+import { setLocation } from '../store/reducers/attractions'
 import Taiwan from '../assets/map'
-// import dictionaries whose key value are event.target.id of SVGMap (see onClick, moveOn and moveOut)
 import defaultRegions from '../assets/defaultRegions'
 import defaultAttractions from '../assets/defaultAttractions'
 
 const AttractionPreview = (props: { name: string, pictureURL: string, index: number }): React.ReactElement => {
   return (
-    <Card>
+    <Card sx={{
+      position: 'relative',
+      height: '100px'
+    }}>
       <CardMedia
         component="img"
-        height="100"
-        width="150"
         image={props.pictureURL}
+        sx={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          height: '100%',
+          width: '100%'
+        }}
       />
-      <CardContent sx={{ padding: 1, '&:first-child': { paddingBottom: 1 }, paddingLeft: 2 }}>
-        <Typography component="div" variant="h6" sx={{ fontWeight: 'bold', lineHeight: 1.4 }}>
+      <Box sx={{
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        height: '100%',
+        width: '100%',
+        background: 'linear-gradient(transparent 0 50%, rgba(0, 0, 0, 0.5) 80% 100%)'
+      }}></Box>
+      <CardContent sx={{
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        color: 'white',
+        padding: '5px',
+        '&:last-child': {
+          paddingBottom: '10px'
+        }
+      }}>
+        <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
           {props.name}
         </Typography>
       </CardContent>
@@ -57,35 +80,53 @@ const TaiwanButton = (): React.ReactElement => {
   }
   // Return introduction, Taiwan map and recommendations if hovered.
   return (
-    <Grid container columnSpacing={{ xs: 2, sm: 2, md: 5 }}>
-      <Grid item xs={4}>
-        <Typography paragraph>
-          Before traveling, there are a bunch of things to consider.
-          For instance, we need to decide which attractions to visit and how to visit them one by one, so that we can spend less time on transportation while also matching the attractions’ opening hours.
-
-          Coming up with a plan to satisfy the above requirements is often tedious and time-consuming.
-          But no worries, here comes your savior -
-          Travelight: your best travelling assistant!
-
-          The system not only recommends high-rating attractions, but also optimize your traveling schedule to meet your personal interest as well as external constraints.
-          With Travelight, everyone can plan their travelling way more easier!
-        </Typography>
-      </Grid>
-      <Grid item xs={3} sx={{ display: 'flex', width: '500px' }}>
+    <Box sx={{
+      display: 'grid',
+      gridTemplateColumns: '50% auto',
+      alignItems: 'center',
+      marginTop: '10px',
+      marginBottom: '10px'
+    }}>
+      <Box sx={{
+        width: '80%',
+        '.svg-map': {
+          width: '100%',
+          height: 'auto',
+          stroke: 'gray',
+          strokeWidth: 1,
+          strokeLinecap: 'round',
+          strokeLinejoin: 'round',
+          '&__location': {
+            fill: '#bcead5',
+            cursor: 'pointer',
+            '&:focus, &:hover': {
+              fill: '#8ec3b0',
+              outline: 0
+            }
+          }
+        }
+      }}>
         <SVGMap map={Taiwan} onLocationClick={onClick} onLocationMouseOut={moveOut} onLocationMouseOver={moveOn}
         />
-      </Grid>
-      <Grid item xs={4} sx={{ display: 'relative', width: '500px' }}>
+      </Box>
+      <Box>
         <p>{hoveredRegion}</p>
-        {
-          defaultAttractions[hoveredRegion] === undefined
-            ? null
-            : defaultAttractions[hoveredRegion].map((attraction, i) => (
-              <AttractionPreview name={attraction.name} pictureURL={attraction.pictureURL} index={i} key={i} />
-            ))
-        }
-      </Grid>
-    </Grid>
+        <Box sx={{
+          display: 'grid',
+          gridGap: '10px',
+          gridTemplateColumns: 'repeat(auto-fill, 190px)'
+        }}>
+
+          {
+            defaultAttractions[hoveredRegion] === undefined
+              ? null
+              : defaultAttractions[hoveredRegion].map((attraction, i) => (
+                <AttractionPreview name={attraction.name} pictureURL={attraction.pictureURL} index={i} key={i} />
+              ))
+          }
+        </Box>
+      </Box>
+    </Box>
   )
 }
 export default TaiwanButton
