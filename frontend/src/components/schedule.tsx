@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { Box, Button, Toolbar, Typography } from '@mui/material'
-import cx from 'classnames'
 import DraggableList from 'react-draggable-list'
 
 import AttractionCard from './attractionCard'
@@ -23,12 +22,8 @@ interface TemplateProps {
 
 class Template extends React.Component<TemplateProps, {}> {
   render (): React.ReactElement {
-    const dragged = this.props.itemSelected !== 0
     return (
-      <div
-        className={cx('item', { dragged })}
-        {...this.props.dragHandleProps}
-      >
+      <div {...this.props.dragHandleProps}>
         <AttractionCard attraction={this.props.item.attraction} />
       </div>
     )
