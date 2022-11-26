@@ -9,9 +9,13 @@ import { StoreState } from '../store'
 const App = (): React.ReactElement => {
   const dispatch = useDispatch()
   const location = useSelector((state: StoreState) => state.attractions.location)
+  const { minRating, minComments } = useSelector((state: StoreState) => ({
+    minRating: state.attractions.setting.minRating,
+    minComments: state.attractions.setting.minComments
+  }))
 
   useEffect(() => {
-    void getRecommendation(location, dispatch)
+    void getRecommendation(location, minRating, minComments, dispatch)
   }, [location])
 
   return (

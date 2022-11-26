@@ -7,6 +7,10 @@ import { optimizeSchedule } from '../api/schedule'
 
 const Schedule = (): React.ReactElement => {
   const schedule = useSelector((state: StoreState) => state.attractions.schedule.map(index => state.attractions.recommendation[index]))
+  const { transportation, departureDay } = useSelector((state: StoreState) => ({
+    transportation: state.attractions.setting.transportation,
+    departureDay: state.attractions.setting.departureDay
+  }))
   const dispatch = useDispatch()
 
   return (
@@ -24,7 +28,7 @@ const Schedule = (): React.ReactElement => {
         }}
       >
         <Typography>規劃行程</Typography>
-        <Button variant="contained" onClick={() => { void optimizeSchedule(schedule, 0, false, dispatch) }} >Optimize</Button>
+        <Button variant="contained" onClick={() => { void optimizeSchedule(schedule, transportation, departureDay, false, dispatch) }} >Optimize</Button>
       </Toolbar>
       <Box
         sx={{

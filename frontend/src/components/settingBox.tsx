@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import React, { Dispatch, useState } from 'react'
 import { Card, CardHeader, CardContent, Typography, Button, Box, Checkbox, FormControlLabel, IconButton, Rating, CardActions } from '@mui/material'
 import { Settings, Close, CircleOutlined, Circle } from '@mui/icons-material'
+import { Transportation, Setting } from '../types'
+import { useDispatch } from 'react-redux'
+import { setSetting } from '../store/reducers/attractions'
 
 interface SingleCheckBoxProps {
   title: string
@@ -43,11 +46,18 @@ const StarLabel = ({ name }: StarLabelProps): React.ReactElement => (
 )
 
 interface SettingBoxProps {
+  checkedIndices: number[]
+  setCheckedIndices: Dispatch<number[]>
   closeSettingBox: VoidFunction
 }
 
-const SettingBox = ({ closeSettingBox }: SettingBoxProps): React.ReactElement => {
-  const [checkedIndices, setCheckedIndices] = useState<number[]>([0, 0, 0, 0])
+const transportation: Transportation[] = ['driving', 'bicycling', 'transit', 'walking']
+const minRating: number[] = [4.7, 4.5, 4.0, 3.5, 3.0, 0]
+const minComments: number[] = [10000, 5000, 2500, 1500, 500, 0]
+
+const SettingBox = ({ checkedIndices, setCheckedIndices, closeSettingBox }: SettingBoxProps): React.ReactElement => {
+  const [disabledButton, setDisabledButton] = useState<boolean>(true)
+  const dispatch = useDispatch()
 
   const RecommendationOptions: SingleCheckBoxProps[] = [
     {
@@ -57,6 +67,7 @@ const SettingBox = ({ closeSettingBox }: SettingBoxProps): React.ReactElement =>
       setCheckedIndex: (index: number): void => {
         checkedIndices[0] = index
         setCheckedIndices([...checkedIndices])
+        setDisabledButton(false)
       }
     },
     {
@@ -66,6 +77,7 @@ const SettingBox = ({ closeSettingBox }: SettingBoxProps): React.ReactElement =>
       setCheckedIndex: (index: number): void => {
         checkedIndices[1] = index
         setCheckedIndices([...checkedIndices])
+        setDisabledButton(false)
       }
     }
   ]
@@ -73,11 +85,12 @@ const SettingBox = ({ closeSettingBox }: SettingBoxProps): React.ReactElement =>
   const ScheduleOptions: SingleCheckBoxProps[] = [
     {
       title: '出發日',
-      options: ['週一', '週二', '週三', '週四', '週五', '週六', '週日'],
+      options: ['週日', '週一', '週二', '週三', '週四', '週五', '週六'],
       checkedIndex: checkedIndices[2],
       setCheckedIndex: (index: number): void => {
         checkedIndices[2] = index
         setCheckedIndices([...checkedIndices])
+        setDisabledButton(false)
       }
     },
     {
@@ -87,12 +100,23 @@ const SettingBox = ({ closeSettingBox }: SettingBoxProps): React.ReactElement =>
       setCheckedIndex: (index: number): void => {
         checkedIndices[3] = index
         setCheckedIndices([...checkedIndices])
+        setDisabledButton(false)
       }
     }
   ]
 
   const saveSettings = (): void => {
-    console.log(checkedIndices)
+    const setting: Setting = {
+      transportation: transportation[checkedIndices[3]],
+      departureDay: checkedIndices[2],
+      minRating: minRating[checkedIndices[0]],
+      minComments: minComments[checkedIndices[1]]
+    }
+    dispatch(setSetting({
+      setting,
+      checkedIndices
+    }))
+    setDisabledButton(true)
   }
 
   return (
@@ -136,6 +160,7 @@ const SettingBox = ({ closeSettingBox }: SettingBoxProps): React.ReactElement =>
             color: 'white'
           }}
           onClick={saveSettings}
+          disabled={disabledButton}
         >
           保存
         </Button>

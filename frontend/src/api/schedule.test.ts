@@ -15,6 +15,6 @@ const resp = {
 
 test('Test optimizeScheduleAPI', async () => {
   mockedAxios.post.mockResolvedValue(resp)
-  const data = await optimizeScheduleAPI(mockSelectableAttractionList, 0, false)
+  const data = await optimizeScheduleAPI(mockSelectableAttractionList, 'transit', 0, false)
   expect(data).toEqual(mockOrder)
 })

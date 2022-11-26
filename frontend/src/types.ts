@@ -33,3 +33,12 @@ export interface Order {
   leaveTimes: number[]
   isValid: boolean
 }
+
+export type Transportation = 'driving' | 'bicycling' | 'transit' | 'walking'
+
+export interface Setting {
+  transportation: Transportation
+  departureDay: number
+  minRating: number
+  minComments: number
+}
