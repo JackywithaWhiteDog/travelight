@@ -5,7 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import { cancelAttraction } from '../store/reducers/attractions'
 import { SelectableAttraction } from '../types'
 
-const AttractionCard = (props: { attraction: SelectableAttraction, visibility: boolean, index: number }): React.ReactElement => {
+const AttractionCard = (props: { attraction: SelectableAttraction, visibility: boolean }): React.ReactElement => {
   const dispatch = useDispatch()
   const openingTimeHour = Math.floor(props.attraction.constraint.openingTimes[0])
   const openingTimeMin = (props.attraction.constraint.openingTimes[0] - Math.floor(props.attraction.constraint.openingTimes[0])) * 60
@@ -17,11 +17,11 @@ const AttractionCard = (props: { attraction: SelectableAttraction, visibility: b
   }
 
   return (
-    <Box sx ={{ display: props.visibility ? 'relative' : 'none', position: 'relative', maxWidth: 360 }}>
+    <Box sx={{ display: props.visibility ? 'relative' : 'none', position: 'relative', maxWidth: 360 }}>
       {
         props.attraction.isSelected &&
-        <CardActions onClick={() => dispatch(cancelAttraction(props.index))}
-        sx={{ top: 0, right: 0, zIndex: 1, position: 'absolute' }}>
+        <CardActions onClick={() => dispatch(cancelAttraction(props.attraction.placeId))}
+          sx={{ top: 0, right: 0, zIndex: 1, position: 'absolute' }}>
           <IconButton aria-label="delete">
             <DeleteIcon />
           </IconButton>
@@ -38,10 +38,10 @@ const AttractionCard = (props: { attraction: SelectableAttraction, visibility: b
               {props.attraction.name}
             </Typography>
             <Box sx={{ display: 'inline-flex' }}>
-              <Typography variant="body2" color="text.secondary" component="div" sx ={{ paddingLeft: 0.25, paddingRight: 0.2 }}>
+              <Typography variant="body2" color="text.secondary" component="div" sx={{ paddingLeft: 0.25, paddingRight: 0.2 }}>
                 {props.attraction.rating}
               </Typography>
-              <Rating value={props.attraction.rating} readOnly precision={0.1} size="small"/>
+              <Rating value={props.attraction.rating} readOnly precision={0.1} size="small" />
             </Box>
             <Typography variant="body2" color="text.secondary" component="div">
               {props.attraction.address}
