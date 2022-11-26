@@ -36,6 +36,29 @@ class Template extends React.Component<TemplateProps, {}> {
 }
 
 const Schedule = (): React.ReactElement => {
+  /*
+    CRITICAL ISSUES:
+
+    1. Using react-draggable-list with redux
+      When using both react-draggable-list and redux, there are bugs in the animations since
+      the dispatch would update slightly slower. As a result, we have to use the proxy lists
+      `listItems` to avoid the problems.
+
+    2. The consistency of items' keys
+      If the draggable list is reconstructed with different items' keys after an item is dragged
+      and dropped, there would be some unxepected animations. As a result, except for selecting
+      attractions or optimizing schedule (without drag-and-drop), we have to keep the consistency
+      of items' keys.
+
+      - Drag-and-drop:
+        1. Update the state of proxy list
+        2. Dispatch changes without changing proxy list again
+      - Adding attractions / Optimizing schedule
+        1. Dispatch changes and reconstruct proxy list
+      - Cancel attractions
+        1. Dispatch changes
+        2. Only removing the canceled attraction and keep all the others
+  */
   const reorderByDragging = useSelector((state: StoreState) => state.attractions.reorderByDragging)
   const canceledIndex = useSelector((state: StoreState) => state.attractions.canceledIndex, shallowEqual)
   const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.recommendation[index])), shallowEqual)
