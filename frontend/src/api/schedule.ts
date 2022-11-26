@@ -13,7 +13,8 @@ export const optimizeScheduleAPI = async (schedule: Attraction[], transportation
       data: {
         attractions: schedule.map(attractionToApiFormat),
         departureDay,
-        check
+        check,
+        transportation
       }
     }
   })
