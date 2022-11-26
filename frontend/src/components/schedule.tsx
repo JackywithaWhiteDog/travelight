@@ -1,84 +1,36 @@
 import React, { useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { Box, Button, Toolbar, Typography } from '@mui/material'
-import { StoreDispatch, StoreState } from '../store'
-import AttractionCard from './attractionCard'
-import { optimizeSchedule } from '../api/schedule'
 import cx from 'classnames'
 import DraggableList from 'react-draggable-list'
+
+import AttractionCard from './attractionCard'
+import { optimizeSchedule } from '../api/schedule'
+import { StoreState } from '../store'
 import { reorderSchedule } from '../store/reducers/attractions'
 import { SelectableAttraction } from '../types'
 
-interface ItemType {
+interface ItemInterface {
   index: number
   attraction: SelectableAttraction
 }
 
-interface PlanetProps {
-  item: ItemType
+interface TemplateProps {
+  item: ItemInterface
   itemSelected: number
   dragHandleProps: object
 }
 
-interface PlanetState {
-  value: number
-}
-
-class PlanetItem extends React.Component<PlanetProps, PlanetState> {
-  render (): any {
-    const { item, itemSelected, dragHandleProps } = this.props
-    const dragged = itemSelected !== 0
+class Template extends React.Component<TemplateProps, {}> {
+  render (): React.ReactElement {
+    const dragged = this.props.itemSelected !== 0
     return (
       <div
         className={cx('item', { dragged })}
-        {...dragHandleProps}
+        {...this.props.dragHandleProps}
       >
-        <AttractionCard attraction={item.attraction} />
+        <AttractionCard attraction={this.props.item.attraction} />
       </div>
-    )
-  }
-}
-
-interface ExampleProps {
-  listItems: ItemType[]
-  setListItems: React.Dispatch<ItemType[]>
-  dispatch: StoreDispatch
-}
-
-class Example extends React.Component<ExampleProps, {}> {
-  render (): React.ReactElement {
-    return (
-      <DraggableList<any, void, PlanetItem>
-        itemKey="index"
-        template={PlanetItem}
-        list={this.props.listItems}
-        onMoveEnd={(newList, movedItem, oldIndex, newIndex) => {
-          let indices = Array.from(Array(this.props.listItems.length).keys())
-          if (newIndex > oldIndex) {
-            const left = indices.slice(0, oldIndex)
-            const mid = indices.slice(oldIndex + 1, newIndex + 1)
-            const right = indices.slice(newIndex + 1)
-            indices = [
-              ...left,
-              ...mid,
-              oldIndex,
-              ...right
-            ]
-          } else {
-            const left = indices.slice(0, newIndex)
-            const mid = indices.slice(newIndex, oldIndex)
-            const right = indices.slice(oldIndex + 1)
-            indices = [
-              ...left,
-              oldIndex,
-              ...mid,
-              ...right
-            ]
-          }
-          this.props.setListItems(newList.map(item => item as ItemType))
-          this.props.dispatch(reorderSchedule({ indices, reorderByDragging: true }))
-        }}
-      />
     )
   }
 }
@@ -87,7 +39,7 @@ const Schedule = (): React.ReactElement => {
   const reorderByDragging = useSelector((state: StoreState) => state.attractions.reorderByDragging)
   const canceledIndex = useSelector((state: StoreState) => state.attractions.canceledIndex, shallowEqual)
   const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.recommendation[index])), shallowEqual)
-  const [listItems, setListItems] = useState<ItemType[]>(schedule.map((attraction, index) => ({ index, attraction })))
+  const [listItems, setListItems] = useState<ItemInterface[]>(schedule.map((attraction, index) => ({ index, attraction })))
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -123,7 +75,20 @@ const Schedule = (): React.ReactElement => {
           margin: '10px'
         }}
       >
-        <Example listItems={listItems} setListItems={setListItems} dispatch={dispatch} />
+        <DraggableList<any, void, Template>
+          itemKey="index"
+          template={Template}
+          list={listItems}
+          onMoveEnd={(newList, movedItem, oldIndex, newIndex) => {
+            const indices = Array.from(Array(listItems.length).keys())
+            const left = indices.slice(0, Math.min(oldIndex, newIndex))
+            const right = indices.slice(Math.max(oldIndex, newIndex) + 1)
+            const mid = newIndex > oldIndex ? [...indices.slice(oldIndex + 1, newIndex + 1), oldIndex] : [oldIndex, ...indices.slice(newIndex, oldIndex)]
+            const newIndices = [...left, ...mid, ...right]
+            setListItems(newList.map(item => item as ItemInterface))
+            dispatch(reorderSchedule({ indices: newIndices, reorderByDragging: true }))
+          }}
+        />
       </Box>
     </Box>
   )
