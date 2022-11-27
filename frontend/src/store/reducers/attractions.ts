@@ -8,6 +8,13 @@ interface State {
   recommendationId: string[]
   schedule: number[]
   scheduleIndex: number[]
+  reorderByDragging: boolean
+  canceledIndex: number | null
+}
+
+interface reorderSchedulePayload {
+  indices: number[]
+  reorderByDragging: boolean
 }
 
 const initialState: State = {
@@ -16,7 +23,9 @@ const initialState: State = {
   recommendation: [],
   recommendationId: [],
   schedule: [],
-  scheduleIndex: []
+  scheduleIndex: [],
+  reorderByDragging: false,
+  canceledIndex: null
 }
 
 const attractionsSlice = createSlice({
@@ -47,28 +56,36 @@ const attractionsSlice = createSlice({
       Payload:
         - Index of recommended attractions: number
       */
+      state.reorderByDragging = false
+      state.canceledIndex = null
       state.recommendation[action.payload].isSelected = true
       state.scheduleIndex[action.payload] = state.schedule.length
       state.schedule.push(action.payload)
     },
-    cancelAttraction: (state, action: PayloadAction<number>) => {
+    cancelAttraction: (state, action: PayloadAction<string>) => {
       /*
       Payload:
-        - Index of selected indices: number
+        - PlaceId of selected indices: string
       */
-      const index = state.schedule.splice(action.payload, 1)[0]
+      state.reorderByDragging = false
+      const scheduleIndex = state.schedule.map(index => state.recommendationId[index]).indexOf(action.payload)
+      state.canceledIndex = scheduleIndex
+      const index = state.schedule.splice(scheduleIndex, 1)[0]
       state.recommendation[index].isSelected = false
-      state.scheduleIndex[action.payload] = -1
+      state.scheduleIndex[scheduleIndex] = -1
     },
-    reorderSchedule: (state, action: PayloadAction<number[]>) => {
+    reorderSchedule: (state, action: PayloadAction<reorderSchedulePayload>) => {
       /*
       Payload:
         - Indices of selected indices: number[]
+        - Reorder by dragging: boolean
       */
-      action.payload.forEach((index, i) => {
+      state.reorderByDragging = action.payload.reorderByDragging
+      state.canceledIndex = null
+      action.payload.indices.forEach((index, i) => {
         state.scheduleIndex[state.schedule[index]] = i
       })
-      state.schedule = action.payload.map(index => state.schedule[index])
+      state.schedule = action.payload.indices.map(index => state.schedule[index])
     }
   }
 })
