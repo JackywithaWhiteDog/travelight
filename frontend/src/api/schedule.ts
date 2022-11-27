@@ -9,14 +9,10 @@ const API_ROOT = process.env.REACT_APP_API_ROOT ?? ''
 
 export const optimizeScheduleAPI = async (schedule: Attraction[], transportation: Transportation, departureDay: number, check: boolean): Promise<Order> => {
   const response = await axios.post(API_ROOT + '/optimize', {
-    params: {
-      data: {
-        attractions: schedule.map(attractionToApiFormat),
-        departureDay,
-        check,
-        transportation
-      }
-    }
+    attractions: schedule.map(attractionToApiFormat),
+    departureDay,
+    check,
+    transportation
   })
   return (response.data as Order)
 }
