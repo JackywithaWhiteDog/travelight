@@ -31,32 +31,36 @@ class Template extends React.Component<TemplateProps, {}> {
 }
 
 const Schedule = (): React.ReactElement => {
-  /*
-    CRITICAL ISSUES:
+/*
+  CRITICAL ISSUES:
 
-    1. Using react-draggable-list with redux
-      When using both react-draggable-list and redux, there are bugs in the animations since
-      the dispatch would update slightly slower. As a result, we have to use the proxy lists
-      `listItems` to avoid the problems.
+  1. Using react-draggable-list with redux
+    When using both react-draggable-list and redux, there are bugs in the animations since
+    the dispatch would update slightly slower. As a result, we have to use the proxy lists
+    `listItems` to avoid the problems.
 
-    2. The consistency of items' keys
-      If the draggable list is reconstructed with different items' keys after an item is dragged
-      and dropped, there would be some unxepected animations. As a result, except for selecting
-      attractions or optimizing schedule (without drag-and-drop), we have to keep the consistency
-      of items' keys.
+  2. The consistency of items' keys
+    If the draggable list is reconstructed with different items' keys after an item is dragged
+    and dropped, there would be some unxepected animations. As a result, except for selecting
+    attractions or optimizing schedule (without drag-and-drop), we have to keep the consistency
+    of items' keys.
 
-      - Drag-and-drop:
-        1. Update the state of proxy list
-        2. Dispatch changes without changing proxy list again
-      - Adding attractions / Optimizing schedule
-        1. Dispatch changes and reconstruct proxy list
-      - Cancel attractions
-        1. Dispatch changes
-        2. Only removing the canceled attraction and keep all the others
-  */
+    - Drag-and-drop:
+      1. Update the state of proxy list
+      2. Dispatch changes without changing proxy list again
+    - Adding attractions / Optimizing schedule
+      1. Dispatch changes and reconstruct proxy list
+    - Cancel attractions
+      1. Dispatch changes
+      2. Only removing the canceled attraction and keep all the others
+*/
+  const { transportation, departureDay } = useSelector((state: StoreState) => ({
+    transportation: state.attractions.setting.transportation,
+    departureDay: state.attractions.setting.departureDay
+  }))
+  const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.recommendation[index])), shallowEqual)
   const reorderByDragging = useSelector((state: StoreState) => state.attractions.reorderByDragging)
   const canceledIndex = useSelector((state: StoreState) => state.attractions.canceledIndex, shallowEqual)
-  const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.recommendation[index])), shallowEqual)
   const [listItems, setListItems] = useState<ItemInterface[]>(schedule.map((attraction, index) => ({ index, attraction })))
   const dispatch = useDispatch()
 
@@ -86,7 +90,7 @@ const Schedule = (): React.ReactElement => {
         }}
       >
         <Typography>規劃行程</Typography>
-        <Button variant="contained" onClick={() => { void optimizeSchedule(schedule, 0, false, dispatch) }} >Optimize</Button>
+        <Button variant="contained" onClick={() => { void optimizeSchedule(schedule, transportation, departureDay, false, dispatch) }} >Optimize</Button>
       </Toolbar>
       <Box
         sx={{

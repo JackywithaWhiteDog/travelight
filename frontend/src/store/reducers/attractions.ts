@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Location, Region, SelectableAttraction } from '../../types'
+import { Location, Region, SelectableAttraction, Setting } from '../../types'
 
 interface State {
   defaultRegions: Region[]
@@ -8,6 +8,8 @@ interface State {
   recommendationId: string[]
   schedule: number[]
   scheduleIndex: number[]
+  setting: Setting
+  checkedSettingIndices: number[]
   reorderByDragging: boolean
   canceledIndex: number | null
 }
@@ -24,8 +26,20 @@ const initialState: State = {
   recommendationId: [],
   schedule: [],
   scheduleIndex: [],
+  setting: {
+    transportation: 'transit',
+    departureDay: (new Date()).getDay(),
+    minRating: 0,
+    minComments: 0
+  },
+  checkedSettingIndices: [5, 5, (new Date()).getDay(), 2],
   reorderByDragging: false,
   canceledIndex: null
+}
+
+interface SetSettingParams {
+  setting: Setting
+  checkedIndices: number[]
 }
 
 const attractionsSlice = createSlice({
@@ -86,6 +100,10 @@ const attractionsSlice = createSlice({
         state.scheduleIndex[state.schedule[index]] = i
       })
       state.schedule = action.payload.indices.map(index => state.schedule[index])
+    },
+    setSetting: (state, action: PayloadAction<SetSettingParams>) => {
+      state.setting = action.payload.setting
+      state.checkedSettingIndices = action.payload.checkedIndices
     }
   }
 })
@@ -96,7 +114,8 @@ export const {
   addRecommendation,
   selectAttraction,
   cancelAttraction,
-  reorderSchedule
+  reorderSchedule,
+  setSetting
 } = attractionsSlice.actions
 
 export default attractionsSlice.reducer
