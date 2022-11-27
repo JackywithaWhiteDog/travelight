@@ -104,9 +104,30 @@ const TaiwanButton = (): React.ReactElement => {
               outline: 0
             }
           }
-        }
+        },
+        ...Object.fromEntries(
+          Object.keys(defaultAttractions).filter(region => defaultAttractions[region].length > 0).map(region => [
+            '#' + region + ':focus' + ', #' + region + ':hover',
+            { fill: 'url(#pattern_' + region + ')' }
+          ])
+        )
       }}>
-        <SVGMap map={Taiwan} onLocationClick={onClick} onLocationMouseOut={moveOut} onLocationMouseOver={moveOn}
+        <SVGMap
+          map={Taiwan}
+          onLocationClick={onClick}
+          onLocationMouseOut={moveOut}
+          onLocationMouseOver={moveOn}
+          childrenBefore={
+            <defs>
+              {Object.keys(defaultAttractions).map((region, i) => (
+                defaultAttractions[region].length > 0
+                  ? <pattern id={'pattern_' + region} width="1" height="1" key={i}>
+                    <image href={defaultAttractions[region][0].pictureURL} />
+                  </pattern>
+                  : ''
+              ))}
+            </defs>
+          }
         />
       </Box>
       <Box>
