@@ -65,8 +65,9 @@ const SettingBox = ({ checkedIndices, setCheckedIndices, closeSettingBox }: Sett
       options: [...['4.7+', '4.5+', '4.0+', '3.5+', '3.0+'].map((name, i) => <StarLabel name={name} key={i} />), '不限'],
       checkedIndex: checkedIndices[0],
       setCheckedIndex: (index: number): void => {
-        checkedIndices[0] = index
-        setCheckedIndices([...checkedIndices])
+        const newCheckedIndices = [...checkedIndices]
+        newCheckedIndices[0] = index
+        setCheckedIndices(newCheckedIndices)
         setDisabledButton(false)
       }
     },
@@ -75,8 +76,9 @@ const SettingBox = ({ checkedIndices, setCheckedIndices, closeSettingBox }: Sett
       options: ['10,000+', '5,000+', '2,500+', '1,500+', '500+', '不限'],
       checkedIndex: checkedIndices[1],
       setCheckedIndex: (index: number): void => {
-        checkedIndices[1] = index
-        setCheckedIndices([...checkedIndices])
+        const newCheckedIndices = [...checkedIndices]
+        newCheckedIndices[1] = index
+        setCheckedIndices(newCheckedIndices)
         setDisabledButton(false)
       }
     }
@@ -88,8 +90,9 @@ const SettingBox = ({ checkedIndices, setCheckedIndices, closeSettingBox }: Sett
       options: ['週日', '週一', '週二', '週三', '週四', '週五', '週六'],
       checkedIndex: checkedIndices[2],
       setCheckedIndex: (index: number): void => {
-        checkedIndices[2] = index
-        setCheckedIndices([...checkedIndices])
+        const newCheckedIndices = [...checkedIndices]
+        newCheckedIndices[2] = index
+        setCheckedIndices(newCheckedIndices)
         setDisabledButton(false)
       }
     },
@@ -98,8 +101,9 @@ const SettingBox = ({ checkedIndices, setCheckedIndices, closeSettingBox }: Sett
       options: ['汽車', '機車', '大眾運輸', '步行'],
       checkedIndex: checkedIndices[3],
       setCheckedIndex: (index: number): void => {
-        checkedIndices[3] = index
-        setCheckedIndices([...checkedIndices])
+        const newCheckedIndices = [...checkedIndices]
+        newCheckedIndices[3] = index
+        setCheckedIndices(newCheckedIndices)
         setDisabledButton(false)
       }
     }
