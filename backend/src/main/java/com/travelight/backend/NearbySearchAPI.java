@@ -26,15 +26,13 @@ public class NearbySearchAPI extends GoogleMapAPI {
         
         PlacesSearchResult results[] = response.results;
         List<Attraction> attractions = parseResult(results);
-
-        // String s = DetailsAPI.getDetailInfo(results[0].placeId);
         
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String respond = gson.toJson(results);
-        System.out.println(String.format("Lat: %s, Long: %s", latitude, longitude));
-        System.out.println(response);
-        System.out.println(String.format("# of Results: %d", results.length));
-        System.out.println(respond);
+        // Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        // String respond = gson.toJson(results);
+        // System.out.println(String.format("Lat: %s, Long: %s", latitude, longitude));
+        // System.out.println(response);
+        // System.out.println(String.format("# of Results: %d", results.length));
+        // System.out.println(respond);
 
         return attractions;
     }
@@ -44,6 +42,7 @@ public class NearbySearchAPI extends GoogleMapAPI {
         for (PlacesSearchResult result : results) {
             Geometry geo = result.geometry;
             // Constraint constraint = new Constraint(null, null, 0, apiKey);
+            String s = DetailsAPI.getDetailInfo(result.placeId);
             attractions.add(new Attraction(result.placeId, result.formattedAddress, result.rating, new GeoLocation(geo.location), null));
         }
 
