@@ -12,17 +12,25 @@ import com.google.maps.model.PlaceDetails;
 import com.travelight.backend.GoogleMapAPI;
 
 public class DetailsAPI extends GoogleMapAPI {
-    public static String getDetailInfo(String placeID) {
+    public static Attraction getDetailInfo(Attraction attraction) {
+        String placeID = attraction.getPlaceId();
+        placeID = "ChIJJ9z7h9OtQjQR8vwZA7PhkKs";
         PlaceDetailsRequest request = new PlaceDetailsRequest(context);
         PlaceDetails response = request.placeId(placeID).awaitIgnoreError();
 
         OpeningHours opens = response.openingHours;
-        System.out.println(opens);
+        String formattedAddress = response.formattedAddress;
+        // Testing
+        if (opens == null) {
+            System.out.println("No opening hours");
+        } else {
+            for (String dayInfo : opens.weekdayText)
+                System.out.println(dayInfo);
+        }
+        
+        attraction.setAddress(formattedAddress);
+        attraction.setConstraint(new Constraint(null, null, 0, ""));
 
-        // Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        // String respond = gson.toJson(response);
-        // System.out.println(respond);
-
-        return "";
+        return attraction;
     }
 }
