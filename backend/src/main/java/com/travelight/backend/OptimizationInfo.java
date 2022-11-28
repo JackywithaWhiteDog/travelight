@@ -3,6 +3,7 @@ package com.travelight.backend;
 public class OptimizationInfo {
     boolean check;
     int departureDay;
+    String transportation;
     Attraction[] attractions;
 
     public OptimizationInfo(boolean check, int departureDay, Attraction[] attractions) {
@@ -29,6 +30,14 @@ public class OptimizationInfo {
 
     public void setDepartureDay(int departureDay) {
         this.departureDay = departureDay;
+    }
+
+    public String getTransportation() {
+        return this.transportation;
+    }
+
+    public void setTransportation(String transportation) {
+        this.transportation = transportation;
     }
 
     public Attraction[] getAttractions() {

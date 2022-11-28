@@ -26,21 +26,10 @@ public class BackendApplication {
 	@PostMapping("/optimize")
 	public TravelSchedule optimizeTravelSchedule(@RequestBody OptimizationInfo optimizationInfo) {
 		// Logging
-		System.out.println(optimizationInfo);
-		System.out.println(optimizationInfo.getAttractions()[0]);
-		System.out.println(optimizationInfo.getAttractions()[0].getConstraint().getOpeningTimes().length);
-		System.out.println(optimizationInfo.getAttractions()[0].getConstraint().getClosingTimes().length);
+		System.out.println("Request received:\n" + optimizationInfo.toString());
 
 		// Generate travelSchedule
-		boolean performCheck = optimizationInfo.getCheck();
-		Attraction[] attractions = optimizationInfo.getAttractions();
-		int departureDay = optimizationInfo.getDepartureDay();
-		TravelSchedule travelSchedule;
-		if (performCheck) {
-			travelSchedule = RoutePlanner.checkOrder(attractions, departureDay);
-		} else {
-			travelSchedule = RoutePlanner.optimizeOrder(attractions, departureDay);
-		}
+		TravelSchedule travelSchedule = RoutePlanner.planTravelSchedule(optimizationInfo);
 		return travelSchedule;
 	}
 }
