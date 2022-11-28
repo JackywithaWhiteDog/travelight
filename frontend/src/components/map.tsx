@@ -1,10 +1,9 @@
 import {
-  useJsApiLoader,
   GoogleMap,
   DirectionsRenderer
 } from '@react-google-maps/api'
 
-import { Skeleton, Button, Box, Typography } from '@mui/material'
+import { Button, Box, Typography } from '@mui/material'
 import React from 'react'
 
 import { shallowEqual, useSelector } from 'react-redux'
@@ -16,15 +15,6 @@ const Map = (): React.ReactElement => {
   const recommendation = useSelector((state: StoreState) => state.attractions.recommendation, shallowEqual)
   const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.recommendation[index])), shallowEqual)
   const [directionsResponse, setDirectionsResponse] = React.useState<google.maps.DirectionsResult | undefined>()
-  if (process.env.REACT_APP_GOOGLE_MAPS_API_KEY === undefined) {
-    process.env.REACT_APP_GOOGLE_MAPS_API_KEY = ''
-    console.error('No key undefined')
-  }
-
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-    libraries: ['places']
-  })
 
   const [map, setMap] = React.useState<google.maps.Map | null>(/** @type google.maps.Map */(null))
   /** const [directionsResponse, setDirectionsResponse] = React.useState<google.maps.DirectionsResult|null>((null)) */
@@ -67,10 +57,6 @@ const Map = (): React.ReactElement => {
   }
 
   const [center, setCenter] = React.useState<google.maps.LatLng>(new google.maps.LatLng(location.latitude, location.longitude))
-
-  if (!isLoaded) {
-    return <Skeleton />
-  }
 
   return (
     <Box
