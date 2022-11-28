@@ -1,12 +1,10 @@
 import {
   useJsApiLoader,
   GoogleMap,
-  Marker,
-  Autocomplete,
   DirectionsRenderer
 } from '@react-google-maps/api'
 
-import { Input, Skeleton, Button, Box, Typography } from '@mui/material'
+import { Skeleton, Button, Box, Typography } from '@mui/material'
 import React from 'react'
 
 import { shallowEqual, useSelector } from 'react-redux'
@@ -16,6 +14,7 @@ import AttractionPin from './attractionPin'
 const Map = (): React.ReactElement => {
   const location = useSelector((state: StoreState) => state.attractions.location)
   const recommendation = useSelector((state: StoreState) => state.attractions.recommendation, shallowEqual)
+  const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.recommendation[index])), shallowEqual)
   const [directionsResponse, setDirectionsResponse] = React.useState<google.maps.DirectionsResult | undefined>()
   if (process.env.REACT_APP_GOOGLE_MAPS_API_KEY === undefined) {
     process.env.REACT_APP_GOOGLE_MAPS_API_KEY = ''
@@ -31,26 +30,15 @@ const Map = (): React.ReactElement => {
   /** const [directionsResponse, setDirectionsResponse] = React.useState<google.maps.DirectionsResult|null>((null)) */
 
   /** @type React.MutableRefObject<HTMLInputElement> */
-  const originRef = React.useRef<HTMLInputElement>(null)
-  /** @type React.MutableRefObject<HTMLInputElement> */
-  const destinantionRef = React.useRef<HTMLInputElement>(null)
+
   async function calculateRoute (): Promise<void> {
-    var selectedlist = []
-    for (let i = 0; i < recommendation.length; i++) {
-      if (recommendation[i].isSelected) {
-        selectedlist.push(recommendation[i])
-      }
-    }
-    if (selectedlist.length < 2) {
-      return
-    }
-    console.log(selectedlist)
-    var originpoint = new google.maps.LatLng(selectedlist[0].location.latitude, selectedlist[0].location.longitude)
-    var despoint = new google.maps.LatLng(selectedlist[selectedlist.length - 1].location.latitude, selectedlist[selectedlist.length - 1].location.longitude)
+    const selectedlist = schedule
+    const originpoint = new google.maps.LatLng(selectedlist[0].location.latitude, selectedlist[0].location.longitude)
+    const despoint = new google.maps.LatLng(selectedlist[selectedlist.length - 1].location.latitude, selectedlist[selectedlist.length - 1].location.longitude)
     // eslint-disable-next-line no-undefined
     const directionsService = new google.maps.DirectionsService()
+    setCenter(despoint)
     if (selectedlist.length > 2) {
-      console.log('more')
       const waypoint = selectedlist.slice(1, -1).map((rec) => {
         return {
           location: { lat: rec.location.latitude, lng: rec.location.longitude },
@@ -67,7 +55,6 @@ const Map = (): React.ReactElement => {
       })
       setDirectionsResponse(results)
     } else {
-      console.log('2')
       const results = await directionsService.route({
 
         origin: originpoint,
@@ -79,7 +66,7 @@ const Map = (): React.ReactElement => {
     }
   }
 
-  const center = { lat: location.latitude, lng: location.longitude }
+  const [center, setCenter] = React.useState<google.maps.LatLng>(new google.maps.LatLng(location.latitude, location.longitude))
 
   if (!isLoaded) {
     return <Skeleton />
@@ -96,18 +83,6 @@ const Map = (): React.ReactElement => {
       <Typography>location: {location.latitude}, {location.longitude}</Typography>
       {recommendation.map((attraction, i) => <AttractionPin attraction={attraction} index={i} key={i} />)}
       <Box>
-
-          <Autocomplete>
-            <Input type='text' placeholder='Origin' ref={originRef} />
-          </Autocomplete>
-
-          <Autocomplete>
-            <Input
-              type='text'
-              placeholder='Destination'
-              ref={destinantionRef} />
-          </Autocomplete>
-
         <Button
           onClick={() => {
             if (map != null) {
@@ -139,7 +114,7 @@ const Map = (): React.ReactElement => {
         onLoad={map => setMap(map)}
       >
 
-        <Marker position={center} />
+        {/* <Marker position={center} /> */}
         {directionsResponse !== undefined && <DirectionsRenderer directions={directionsResponse} />}
 
       </GoogleMap>
