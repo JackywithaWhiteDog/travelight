@@ -1,8 +1,5 @@
 package com.travelight.backend;
 
-import com.travelight.backend.GeoLocation;
-import com.travelight.backend.Constraint;
-
 public class Attraction {
     String placeId;
     String name;
