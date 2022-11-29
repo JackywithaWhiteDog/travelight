@@ -9,53 +9,43 @@ import com.google.maps.model.TravelMode;
 import com.google.maps.errors.*;
 
 public class DistanceAPI extends GoogleMapAPI {
-    
-    // public static void main(String[] args) {
-    //     String apiKey = GoogleMapAPI.apiKey;
 
-    //     System.out.println(apiKey);
-    // }
-    public static final double secondsPerMinute = 60.0;
-
-    public static long[][] getTimeMatrix(String[] placeIds, String transportation) {
+    public static TimeMatrix getTimeMatrix(String[] placeIds, String transportation) {
+        TimeMatrix timeMatrix = new TimeMatrix(true, new long[1][1]);
         try {
             TravelMode mode = parseTravelMode(transportation);
-            DistanceMatrix matrix = DistanceMatrixApi.getDistanceMatrix(context, placeIds, placeIds).mode(mode).await();
-            System.out.println(gson.toJson(matrix));
+            DistanceMatrix distanceMatrix = DistanceMatrixApi.getDistanceMatrix(context, placeIds, placeIds).mode(mode).await();
+            long[][] timeMatrixData = buildTimeMatrixDataFromDistanceMatrix(distanceMatrix);
+            timeMatrix.setIsEmpty(false);
+            timeMatrix.setData(timeMatrixData);
         } catch(IOException ioe) {
-
+            System.out.print(ioe);
         } catch(ApiException ae) {
-
+            System.out.print(ae);
         } catch(InterruptedException ie) {
-            
+            System.out.print(ie);
         }
-
-        long[][] timeMatrix = {
-            {0, 1, 2},
-            {3, 4, 5},
-            {6, 7, 8}
-        };
         return timeMatrix;
     }
 
-    public static long[][] buildTimeMatrixFromDistanceMatrix(DistanceMatrix distanceMatrix) {
+    public static long[][] buildTimeMatrixDataFromDistanceMatrix(DistanceMatrix distanceMatrix) {
         int l = distanceMatrix.rows.length;
-        long[][] timeMatrix = new long[l][l];
+        long[][] timeMatrixData = new long[l + 1][l + 1]; // + 1 for the dummy row and column
 
-        for (int row = 0; row < l; row++) {
-            for (int col = 0; col < l; col++) {
+        for (int row = 1; row < timeMatrixData.length; row++) {
+            for (int col = 1; col < timeMatrixData[0].length; col++) {
                 long minutes;
                 if (row == col) {
                     minutes = 0;
                 } else {
-                    long seconds = distanceMatrix.rows[row].elements[col].duration.inSeconds;
-                    minutes = Math.round(seconds / secondsPerMinute);
+                    long seconds = distanceMatrix.rows[row - 1].elements[col - 1].duration.inSeconds;
+                    minutes = Math.round(seconds / TimeUtils.secondsPerMinute);
                 }
-                timeMatrix[row][col] = minutes;
+                timeMatrixData[row][col] = minutes;
             }
         }
 
-        return timeMatrix;
+        return timeMatrixData;
     }
 
     public static TravelMode parseTravelMode(String transportation) {

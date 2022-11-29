@@ -8,9 +8,13 @@ import {
 import { Settings } from '@mui/icons-material'
 import SettingBox from './settingBox'
 import logo from '../assets/logo.svg'
+import { useSelector } from 'react-redux'
+import { StoreState } from '../store'
 
 const Header = (): React.ReactElement => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
+  const [checkedIndices, setCheckedIndices] = useState<number[]>([5, 5, (new Date()).getDay(), 2])
+  const prevCheckedIndices = useSelector((state: StoreState) => state.attractions.checkedSettingIndices)
 
   const openSettingBox = (event: React.MouseEvent<HTMLButtonElement>): void => {
     setAnchorEl(event.currentTarget)
@@ -18,6 +22,8 @@ const Header = (): React.ReactElement => {
 
   const closeSettingBox = (): void => {
     setAnchorEl(null)
+    // Reset settings if closing setting box without saving changes
+    setCheckedIndices([...prevCheckedIndices])
   }
 
   const open = Boolean(anchorEl)
@@ -55,7 +61,11 @@ const Header = (): React.ReactElement => {
             horizontal: 'right'
           }}
         >
-          <SettingBox />
+          <SettingBox
+            checkedIndices={checkedIndices}
+            setCheckedIndices={setCheckedIndices}
+            closeSettingBox={closeSettingBox}
+          />
         </Popover>
       </Toolbar>
     </AppBar>
