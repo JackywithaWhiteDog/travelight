@@ -66,10 +66,16 @@ export const mockSelectableAttractionList: SelectableAttraction[] = [
 export const generateMockOrder = (schedule: Attraction[]): Order => {
   const arriveTimes = Array.from(Array(schedule.length).keys()).map(x => 8 + x * 3)
   const leaveTimes = arriveTimes.map(x => x + 1)
+  const transportationTimes = (schedule.length === 0) ? [] : Array(schedule.length - 1).fill(1.5)
+  const idleTimes = (schedule.length === 0) ? [] : Array(schedule.length - 1).fill(0.5)
+  const savedTime = 1
   const order: Order = {
     order: Array.from(Array(schedule.length).keys()).sort(() => Math.random() - 0.5),
     arriveTimes,
     leaveTimes,
+    transportationTimes,
+    idleTimes,
+    savedTime,
     isValid: false
   }
   return order

@@ -31,6 +31,9 @@ export interface Order {
   order: number[]
   arriveTimes: number[]
   leaveTimes: number[]
+  transportationTimes: number[]
+  idleTimes: number[]
+  savedTime: number
   isValid: boolean
 }
 
