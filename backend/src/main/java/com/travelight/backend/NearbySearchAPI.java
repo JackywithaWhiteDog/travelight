@@ -26,26 +26,29 @@ public class NearbySearchAPI extends GoogleMapAPI {
                 .location(new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude))).radius(1500)
                 .awaitIgnoreError();
 
-        List<Attraction> attractions = parseResult(response.results);
+        List<Attraction> attractions = parseResult(response.results, new Filter(Float.valueOf(minRating), Integer.valueOf(minComments)));
 
         return attractions;
     }
 
-    List<Attraction> parseResult(PlacesSearchResult results[]) {
+    List<Attraction> parseResult(PlacesSearchResult results[], Filter filter) {
         List<Attraction> attractions = new ArrayList<>();
 
         for (PlacesSearchResult result : results) {
-            // Generate detail information for each attraction.
-            Geometry geo = result.geometry;
+            // Check if the result satisfy all additional constraints.
+            if (filter.verify(result)) {
+                // Generate detail information for each attraction.
+                Geometry geo = result.geometry;
 
-            Photo photo = result.photos[0];
+                Photo photo = result.photos[0];
 
-            Attraction attraction = new Attraction(result.placeId, result.formattedAddress, result.rating,
-                    new GeoLocation(geo.location), null, photo.photoReference, result.name);
+                Attraction attraction = new Attraction(result.placeId, result.formattedAddress, result.rating,
+                        new GeoLocation(geo.location), null, photo.photoReference, result.name);
 
-            attraction = DetailsAPI.getDetailInfo(attraction);
+                attraction = DetailsAPI.getDetailInfo(attraction);
 
-            attractions.add(attraction);
+                attractions.add(attraction);
+            }
         }
 
         return attractions;
