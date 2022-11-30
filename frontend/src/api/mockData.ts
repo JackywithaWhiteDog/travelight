@@ -76,7 +76,7 @@ export const generateMockOrder = (schedule: Attraction[]): Order => {
     transportationTimes,
     idleTimes,
     savedTime,
-    isValid: false
+    isValid: true
   }
   return order
 }
