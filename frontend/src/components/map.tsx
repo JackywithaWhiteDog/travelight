@@ -1,6 +1,7 @@
 import {
   GoogleMap,
-  DirectionsRenderer
+  DirectionsRenderer,
+  Marker
 } from '@react-google-maps/api'
 
 import { Button, Box, Typography } from '@mui/material'
@@ -99,8 +100,7 @@ const Map = (): React.ReactElement => {
         }}
         onLoad={map => setMap(map)}
       >
-
-        {/* <Marker position={center} /> */}
+        {recommendation.map((rec, i) => <Marker position={ { lat: rec.location.latitude, lng: rec.location.longitude }} icon={ rec.isSelected ? undefined : { url: require('../assets/blue.png'), scaledSize: new google.maps.Size(30, 45) } } key={i} />) }
         {directionsResponse !== undefined && <DirectionsRenderer directions={directionsResponse} />}
 
       </GoogleMap>
