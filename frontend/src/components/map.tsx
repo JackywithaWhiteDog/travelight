@@ -1,17 +1,20 @@
 import {
   GoogleMap,
   DirectionsRenderer,
-  Marker
+  Marker,
+  InfoBox
 } from '@react-google-maps/api'
 
-import { Button, Box, Typography, Popover, Card } from '@mui/material'
+import { Button, Box } from '@mui/material'
 import React from 'react'
 
-import { shallowEqual, useSelector } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { StoreState } from '../store'
-import AttractionPin from './attractionPin'
+import { selectAttraction } from '../store/reducers/attractions'
+import AttractionCard from './attractionCard'
 
 const Map = (): React.ReactElement => {
+  const dispatch = useDispatch()
   const location = useSelector((state: StoreState) => state.attractions.location)
   const recommendation = useSelector((state: StoreState) => state.attractions.recommendation, shallowEqual)
   const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.recommendation[index])), shallowEqual)
@@ -60,20 +63,8 @@ const Map = (): React.ReactElement => {
   }
 
   const [center, setCenter] = React.useState<google.maps.LatLng>(new google.maps.LatLng(location.latitude, location.longitude))
-
-  const [anchorEl, setAnchorEl] = React.useState<Array<HTMLElement | null>>(Array(recommendation.length).fill(null))
-
-  const openAttraction = (i: number, target: HTMLElement | null): void => {
-    anchorEl[i] = target
-    setAnchorEl([...anchorEl])
-  }
-
-  const closeAttraction = (i: number): void => {
-    anchorEl[i] = null
-    setAnchorEl([...anchorEl])
-  }
-
-  const open = anchorEl.map(item => Boolean(item))
+  const [activePin, setActivePin] = React.useState<number | null>(null)
+  const [activeByClick, setActiveByClick] = React.useState<boolean>(false)
 
   const shape = {
     coords: [0, 0, 30, 45],
@@ -86,9 +77,6 @@ const Map = (): React.ReactElement => {
         overflow: 'auto'
       }}
     >
-      <Typography>Map</Typography>
-      <Typography>location: {location.latitude}, {location.longitude}</Typography>
-      {recommendation.map((attraction, i) => <AttractionPin attraction={attraction} index={i} key={i} />)}
       <Box>
         <Button
           onClick={() => {
@@ -116,42 +104,53 @@ const Map = (): React.ReactElement => {
           zoomControl: false,
           streetViewControl: false,
           mapTypeControl: false,
-          fullscreenControl: false
+          fullscreenControl: false,
+          styles: [{
+            featureType: 'poi',
+            stylers: [{
+              visibility: 'off'
+            }]
+          }]
         }}
         onLoad={map => setMap(map)}
+        onClick={() => setActivePin(null)}
       >
 
         {directionsResponse === undefined && recommendation.map((rec, i) => (
-          <Box
+          <Marker
+            shape={shape}
+            position={{ lat: rec.location.latitude, lng: rec.location.longitude }}
+            icon={rec.isSelected ? undefined : { url: require('../assets/blue.png'), scaledSize: new google.maps.Size(30, 45) }}
             key={i}
+            onClick={() => {
+              if (!rec.isSelected) {
+                dispatch(selectAttraction(i))
+              }
+              if (activePin !== i || !activeByClick) {
+                setActivePin(i)
+                setActiveByClick(true)
+              }
+            }}
+            onMouseOver={() => {
+              if (activePin !== i) {
+                setActivePin(i)
+                setActiveByClick(false)
+              }
+            }}
+            onMouseOut={() => {
+              if (activePin === i && !activeByClick) {
+                setActivePin(null)
+              }
+            }}
           >
-            <Marker
-              shape={shape}
-              position={{ lat: rec.location.latitude, lng: rec.location.longitude }}
-              icon={rec.isSelected ? undefined : { url: require('../assets/blue.png'), scaledSize: new google.maps.Size(30, 45) }}
-              onMouseOut={ () => { console.log('out') } }
-              onMouseOver={ () => { console.log('over') } }
-              onClick={(event) => openAttraction(i, event.domEvent.target as HTMLElement)}
-            />
-            <Popover
-              open={open[i]}
-              anchorEl={anchorEl[i]}
-              onClose={() => closeAttraction(i)}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-              transformOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
-              }}
-            >
-              <Card>hi</Card>
-            </Popover>
-          </Box>
+            {i === activePin && (
+              <InfoBox options={{ closeBoxURL: '' }}>
+                <AttractionCard attraction={rec} />
+              </InfoBox>
+            )}
+          </Marker>
         ))}
         {directionsResponse !== undefined && <DirectionsRenderer directions={directionsResponse} />}
-
       </GoogleMap>
     </Box>
   )
