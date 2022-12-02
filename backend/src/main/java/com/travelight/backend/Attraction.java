@@ -9,14 +9,6 @@ public class Attraction {
     GeoLocation geoLocation;
     Constraint constraint;
 
-    public Attraction(String placeId, String address, double rating, GeoLocation geoLocation, Constraint constraint) {
-        this.placeId = placeId;
-        this.address = address;
-        this.rating = rating;
-        this.geoLocation = geoLocation;
-        this.constraint = constraint;
-    }
-
     public Attraction(String placeId, String address, double rating, GeoLocation geoLocation, Constraint constraint, String pictureURL, String name) {
         this.name = name;
         this.rating = rating;
