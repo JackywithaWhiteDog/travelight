@@ -16,12 +16,14 @@ const Map = (): React.ReactElement => {
   const recommendation = useSelector((state: StoreState) => state.attractions.recommendation, shallowEqual)
   const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.recommendation[index])), shallowEqual)
   const [directionsResponse, setDirectionsResponse] = React.useState<google.maps.DirectionsResult | undefined>()
-
   const [map, setMap] = React.useState<google.maps.Map | null>(/** @type google.maps.Map */(null))
   /** const [directionsResponse, setDirectionsResponse] = React.useState<google.maps.DirectionsResult|null>((null)) */
 
   /** @type React.MutableRefObject<HTMLInputElement> */
-
+  /** const [zoomSize, setZoomSize] = React.useState<number>(15) */
+  React.useEffect(() => {
+    setDirectionsResponse(undefined)
+  }, [schedule])
   async function calculateRoute (): Promise<void> {
     const selectedlist = schedule
     const originpoint = new google.maps.LatLng(selectedlist[0].location.latitude, selectedlist[0].location.longitude)
@@ -73,6 +75,10 @@ const Map = (): React.ReactElement => {
 
   const open = anchorEl.map(item => Boolean(item))
 
+  const shape = {
+    coords: [0, 0, 30, 45],
+    type: 'rect'
+  }
   return (
     <Box
       sx={{
@@ -114,13 +120,17 @@ const Map = (): React.ReactElement => {
         }}
         onLoad={map => setMap(map)}
       >
-        {recommendation.map((rec, i) => (
+
+        {directionsResponse === undefined && recommendation.map((rec, i) => (
           <Box
             key={i}
           >
             <Marker
+              shape={shape}
               position={{ lat: rec.location.latitude, lng: rec.location.longitude }}
               icon={rec.isSelected ? undefined : { url: require('../assets/blue.png'), scaledSize: new google.maps.Size(30, 45) }}
+              onMouseOut={ () => { console.log('out') } }
+              onMouseOver={ () => { console.log('over') } }
               onClick={(event) => openAttraction(i, event.domEvent.target as HTMLElement)}
             />
             <Popover
