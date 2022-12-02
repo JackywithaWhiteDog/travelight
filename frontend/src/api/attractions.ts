@@ -17,17 +17,18 @@ export const getRecommendationAPI = async (location: Location, minRating: number
     }
   })
   const rawdata = response.data
-  return rawdata.map(apiFormatToSelectableAttraction)
+  return rawdata.map(async (element: any) => (await apiFormatToSelectableAttraction(element)))
 }
 
 export const getRecommendation = async (location: Location, minRating: number, minComments: number, dispatch: StoreDispatch): Promise<void> => {
   let data: SelectableAttraction[]
-  console.log(API_ROOT)
-  console.log(minRating, minComments)
   if (API_ROOT !== '') {
     data = await getRecommendationAPI(location, minRating, minComments)
   } else {
-    data = mockSelectableAttractionList
+    data = []
+    for (let i = 0; i < mockSelectableAttractionList.length; i++) {
+      data.push(await apiFormatToSelectableAttraction(mockSelectableAttractionList[i]))
+    }
   }
   dispatch(addRecommendation(data))
 }
