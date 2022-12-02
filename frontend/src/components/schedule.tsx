@@ -12,6 +12,7 @@ import { SelectableAttraction } from '../types'
 interface ItemInterface {
   index: number
   attraction: SelectableAttraction
+  arrivalTime: number
 }
 
 interface TemplateProps {
@@ -22,8 +23,19 @@ interface TemplateProps {
 
 class Template extends React.Component<TemplateProps, {}> {
   render (): React.ReactElement {
+    function addLeadingZeros (num: number, totalLength: number): string {
+      return String(num).padStart(totalLength, '0')
+    }
+    const arrivalHour = Math.floor(this.props.item.arrivalTime)
+    const arrivalMin = ((this.props.item.arrivalTime) - Math.floor(this.props.item.arrivalTime)) * 60
     return (
       <div {...this.props.dragHandleProps}>
+        <Box sx={{ display: 'flex', paddingBottom: '2px' }}>
+          <Box sx={{ backgroundColor: '#8ec3b0', borderRadius: '4px', height: '22px', width: '32px', textAlign: 'center', fontSize: '0.9rem' }} >
+            {this.props.item.index}
+          </Box>
+          <Typography sx={{ paddingLeft: '8px', fontSize: '0.9rem', fontWeight: 'bold' }} >抵達時間  - {arrivalHour}:{addLeadingZeros(arrivalMin, 2)}</Typography>
+        </Box>
         <AttractionCard attraction={this.props.item.attraction} />
       </div>
     )
@@ -62,13 +74,14 @@ const Schedule = (): React.ReactElement => {
   const reorderByDragging = useSelector((state: StoreState) => state.attractions.reorderByDragging)
   const canceledIndex = useSelector((state: StoreState) => state.attractions.canceledIndex, shallowEqual)
   // const scheduledOrder = useSelector((state: StoreState) => state.attractions.order)
-  const [listItems, setListItems] = useState<ItemInterface[]>(schedule.map((attraction, index) => ({ index, attraction })))
+  const [listItems, setListItems] = useState<ItemInterface[]>(schedule.map((attraction, index) => ({ index, attraction, arrivalTime: 0 })))
+  const arriveTimes = useSelector((state: StoreState) => (state.attractions.order.arriveTimes))
   const dispatch = useDispatch()
 
   useEffect(() => {
     if (!reorderByDragging) {
       if (canceledIndex === null) {
-        setListItems(schedule.map((attraction, index) => ({ index, attraction })))
+        setListItems(schedule.map((attraction, index) => ({ index, attraction, arrivalTime: arriveTimes[index] })))
       } else {
         listItems.splice(canceledIndex, 1)
         setListItems([...listItems])
