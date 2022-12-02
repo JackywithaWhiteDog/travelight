@@ -19,6 +19,7 @@ public class DetailsAPI extends GoogleMapAPI {
 
         attraction.setAddress(formattedAddress);
 
+        // Add open and close constraint.
         if (response.openingHours == null) {
             double[] openingTimes = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
             double[] closingTimes = new double[] { 24.0, 24.0, 24.0, 24.0, 24.0, 24.0, 24.0 };
