@@ -1,5 +1,5 @@
 import { StoreDispatch } from '../store'
-import { reorderSchedule } from '../store/reducers/attractions'
+import { reorderSchedule, setOrder } from '../store/reducers/attractions'
 import { Attraction, Order, Transportation } from '../types'
 import axios from 'axios'
 import { generateMockOrder } from './mockData'
@@ -26,4 +26,5 @@ export const optimizeSchedule = async (schedule: Attraction[], transportation: T
     order = generateMockOrder(schedule)
   }
   dispatch(reorderSchedule({ indices: order.order, reorderByDragging: false }))
+  dispatch(setOrder(order))
 }
