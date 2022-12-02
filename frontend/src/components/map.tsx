@@ -4,7 +4,7 @@ import {
   Marker
 } from '@react-google-maps/api'
 
-import { Button, Box, Typography } from '@mui/material'
+import { Button, Box, Typography, Popover, Card } from '@mui/material'
 import React from 'react'
 
 import { shallowEqual, useSelector } from 'react-redux'
@@ -59,6 +59,20 @@ const Map = (): React.ReactElement => {
 
   const [center, setCenter] = React.useState<google.maps.LatLng>(new google.maps.LatLng(location.latitude, location.longitude))
 
+  const [anchorEl, setAnchorEl] = React.useState<Array<HTMLElement | null>>(Array(recommendation.length).fill(null))
+
+  const openAttraction = (i: number, target: HTMLElement | null): void => {
+    anchorEl[i] = target
+    setAnchorEl([...anchorEl])
+  }
+
+  const closeAttraction = (i: number): void => {
+    anchorEl[i] = null
+    setAnchorEl([...anchorEl])
+  }
+
+  const open = anchorEl.map(item => Boolean(item))
+
   return (
     <Box
       sx={{
@@ -100,7 +114,32 @@ const Map = (): React.ReactElement => {
         }}
         onLoad={map => setMap(map)}
       >
-        {recommendation.map((rec, i) => <Marker position={ { lat: rec.location.latitude, lng: rec.location.longitude }} icon={ rec.isSelected ? undefined : { url: require('../assets/blue.png'), scaledSize: new google.maps.Size(30, 45) } } key={i} />) }
+        {recommendation.map((rec, i) => (
+          <Box
+            key={i}
+          >
+            <Marker
+              position={{ lat: rec.location.latitude, lng: rec.location.longitude }}
+              icon={rec.isSelected ? undefined : { url: require('../assets/blue.png'), scaledSize: new google.maps.Size(30, 45) }}
+              onClick={(event) => openAttraction(i, event.domEvent.target as HTMLElement)}
+            />
+            <Popover
+              open={open[i]}
+              anchorEl={anchorEl[i]}
+              onClose={() => closeAttraction(i)}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right'
+              }}
+              transformOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left'
+              }}
+            >
+              <Card>hi</Card>
+            </Popover>
+          </Box>
+        ))}
         {directionsResponse !== undefined && <DirectionsRenderer directions={directionsResponse} />}
 
       </GoogleMap>
