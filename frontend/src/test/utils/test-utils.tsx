@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 
 // As a basic setup, import your same slice reducers
 import attractionsReducer from '../../store/reducers/attractions'
+import { StoreType } from '../../store'
 
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
@@ -17,7 +18,7 @@ import attractionsReducer from '../../store/reducers/attractions'
 //   store?: ReturnType<typeof setupStore>
 // }
 
-export const renderWithProviders = (ui: React.ReactElement): any => {
+export const renderWithProviders = (ui: React.ReactElement): StoreType => {
   const store = configureStore({ reducer: { attractions: attractionsReducer } })
   const Wrapper = ({ children }: PropsWithChildren<{}>): JSX.Element => {
     return <Provider store={store}>{children}</Provider>
@@ -34,7 +35,7 @@ export const renderWithProviders = (ui: React.ReactElement): any => {
 //     // Automatically create a store instance if no store was passed in
 //     store = configureStore({ reducer: { attractions: attractionsReducer }, preloadedState }),
 //     ...renderOptions
-//   }: ExtendedRenderOptions = {}): any => {
+//   }: ExtendedRenderOptions = {}) => {
 //   function Wrapper ({ children }: PropsWithChildren<{}>): JSX.Element {
 //     return <Provider store={store}>{children}</Provider>
 //   }
