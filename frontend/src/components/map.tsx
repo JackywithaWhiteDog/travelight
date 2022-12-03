@@ -126,7 +126,7 @@ const Map = (): React.ReactElement => {
         onClick={() => setActivePin(null)}
       >
 
-        {directionsResponse === undefined && recommendation.map((rec, i) => (
+        {recommendation.map((rec, i) => (
           <Marker
             shape={shape}
             position={{ lat: rec.location.latitude, lng: rec.location.longitude }}
@@ -160,7 +160,13 @@ const Map = (): React.ReactElement => {
             )}
           </Marker>
         ))}
-        {directionsResponse !== undefined && <DirectionsRenderer directions={directionsResponse} />}
+        <DirectionsRenderer
+          directions={directionsResponse}
+          options={{
+            preserveViewport: true,
+            suppressMarkers: true
+          }}
+        />
       </GoogleMap>
     </Box>
   )
