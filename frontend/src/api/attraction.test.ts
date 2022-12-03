@@ -17,6 +17,6 @@ const resp = {
 
 test('Test getRecommendationAPI', async () => {
   mockedAxios.get.mockResolvedValue(resp)
-  const data = await getRecommendationAPI(location, 4.5, 500)
+  const data = await getRecommendationAPI(location)
   expect(data).toEqual(mockSelectableAttractionList)
 })
