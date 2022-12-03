@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { Box, Button, Toolbar, Typography } from '@mui/material'
 import TimeToLeaveIcon from '@mui/icons-material/TimeToLeave'
+import TwoWheelerIcon from '@mui/icons-material/TwoWheeler'
+import DirectionsBusIcon from '@mui/icons-material/DirectionsBus'
+import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk'
 import DraggableList from 'react-draggable-list'
 
 import AttractionCard from './attractionCard'
@@ -13,7 +16,6 @@ import { SelectableAttraction } from '../types'
 interface ItemInterface {
   index: number
   attraction: SelectableAttraction
-  scheduledOrder: number
 }
 
 interface TemplateProps {
@@ -40,15 +42,42 @@ class Template extends React.Component<TemplateProps, {}> {
     )
   }
 
+  TransportationTime = (): React.ReactElement => {
+    const transportationTime = useSelector((state: StoreState) => state.attractions.order.transportationTimes[this.props.item.index])
+    const idleTime = useSelector((state: StoreState) => state.attractions.order.idleTimes[this.props.item.index])
+    const transportationMethod = useSelector((state: StoreState) => state.attractions.setting.transportation)
+
+    // const addLeadingZeros = (num: number, totalLength: number): string => String(num).padStart(totalLength, '0')
+    const transportationMin = transportationTime * 60
+    const idleMin = idleTime * 60
+
+    return (
+      <Box sx={{ display: transportationTime === undefined ? 'none' : 'flex', marginTop: '10px' }}>
+        <Box sx={{ borderLeft: '2px dashed rgba(0, 0, 0, 0.5)', marginLeft: '15px', marginRight: '10px' }} />
+        <Box sx={{ display: transportationMethod === 'driving' ? 'flex' : 'none', paddingTop: '7px', paddingBottom: '5px' }}>
+          <TimeToLeaveIcon fontSize="large" color="action" />
+        </Box>
+        <Box sx={{ display: transportationMethod === 'bicycling' ? 'flex' : 'none', paddingTop: '7px', paddingBottom: '5px' }}>
+          <TwoWheelerIcon fontSize="large" color="action" />
+        </Box>
+        <Box sx={{ display: transportationMethod === 'transit' ? 'flex' : 'none', paddingTop: '7px', paddingBottom: '5px' }}>
+          <DirectionsBusIcon fontSize="large" color="action" />
+        </Box>
+        <Box sx={{ display: transportationMethod === 'walking' ? 'flex' : 'none', paddingTop: '7px', paddingBottom: '5px' }}>
+          <DirectionsWalkIcon fontSize="large" color="action" />
+        </Box>
+        <Typography variant="body1" color="text.secondary" sx={{ paddingLeft: '8px', paddingTop: '14px' }} >{transportationMin} 分鐘</Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ paddingLeft: '15px', paddingTop: '15px' }} >(空閒時間 {idleMin}分鐘)</Typography>
+      </Box>
+    )
+  }
+
   render (): React.ReactElement {
     return (
       <div {...this.props.dragHandleProps}>
         <this.ArrivalTime />
         <AttractionCard attraction={this.props.item.attraction} />
-        <TimeToLeaveIcon fontSize="large" color="action" />
-        <Typography variant="body1" color="text.secondary" component="div">
-              {this.props.item.scheduledOrder} 分鐘
-        </Typography>
+        <this.TransportationTime />
       </div>
     )
   }
@@ -85,12 +114,10 @@ const Schedule = (): React.ReactElement => {
   const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.attractions[index])), shallowEqual)
   const reorderByDragging = useSelector((state: StoreState) => state.attractions.reorderByDragging)
   const canceledIndex = useSelector((state: StoreState) => state.attractions.canceledIndex, shallowEqual)
-  const scheduledOrder = useSelector((state: StoreState) => state.attractions.order)
   const [listItems, setListItems] = useState<ItemInterface[]>(schedule.map((attraction, index) => {
     return {
       attraction: attraction,
-      index: index,
-      scheduledOrder: scheduledOrder.transportationTimes[index]
+      index: index
     }
   }))
   const dispatch = useDispatch()
@@ -98,13 +125,10 @@ const Schedule = (): React.ReactElement => {
   useEffect(() => {
     if (!reorderByDragging) {
       if (canceledIndex === null) {
-        console.log(schedule)
-        console.log(scheduledOrder)
         setListItems(schedule.map((attraction, index) => {
           return {
             attraction: attraction,
-            index: index,
-            scheduledOrder: scheduledOrder.transportationTimes[index]
+            index: index
           }
         }))
       } else {
