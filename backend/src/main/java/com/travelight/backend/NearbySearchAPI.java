@@ -43,7 +43,7 @@ public class NearbySearchAPI extends GoogleMapAPI {
                 Photo photo = result.photos[0];
 
                 Attraction attraction = new Attraction(result.placeId, result.formattedAddress, result.rating,
-                        new GeoLocation(geo.location), null, photo.photoReference, result.name);
+                        new GeoLocation(geo.location), null, photo.photoReference, result.name, result.userRatingsTotal);
 
                 attraction = DetailsAPI.getDetailInfo(attraction);
 
