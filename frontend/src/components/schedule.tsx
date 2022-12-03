@@ -52,22 +52,24 @@ class Template extends React.Component<TemplateProps, {}> {
     const idleMin = idleTime * 60
 
     return (
-      <Box sx={{ display: transportationTime === undefined ? 'none' : 'flex', marginTop: '10px' }}>
+      <Box sx={{ display: transportationTime === undefined ? 'none' : 'flex', marginTop: '8px' }}>
         <Box sx={{ borderLeft: '2px dashed rgba(0, 0, 0, 0.5)', marginLeft: '15px', marginRight: '10px' }} />
-        <Box sx={{ display: transportationMethod === 'driving' ? 'flex' : 'none', paddingTop: '7px', paddingBottom: '5px' }}>
-          <TimeToLeaveIcon fontSize="large" color="action" />
+        <Box sx={{ display: transportationMethod === 'driving' ? 'flex' : 'none', paddingTop: '5px', paddingBottom: '5px' }}>
+          <TimeToLeaveIcon fontSize="medium" color="action" />
         </Box>
-        <Box sx={{ display: transportationMethod === 'bicycling' ? 'flex' : 'none', paddingTop: '7px', paddingBottom: '5px' }}>
-          <TwoWheelerIcon fontSize="large" color="action" />
+        <Box sx={{ display: transportationMethod === 'bicycling' ? 'flex' : 'none', paddingTop: '5px', paddingBottom: '5px' }}>
+          <TwoWheelerIcon fontSize="medium" color="action" />
         </Box>
-        <Box sx={{ display: transportationMethod === 'transit' ? 'flex' : 'none', paddingTop: '7px', paddingBottom: '5px' }}>
-          <DirectionsBusIcon fontSize="large" color="action" />
+        <Box sx={{ display: transportationMethod === 'transit' ? 'flex' : 'none', paddingTop: '5px', paddingBottom: '5px' }}>
+          <DirectionsBusIcon fontSize="medium" color="action" />
         </Box>
-        <Box sx={{ display: transportationMethod === 'walking' ? 'flex' : 'none', paddingTop: '7px', paddingBottom: '5px' }}>
-          <DirectionsWalkIcon fontSize="large" color="action" />
+        <Box sx={{ display: transportationMethod === 'walking' ? 'flex' : 'none', paddingTop: '5px', paddingBottom: '5px' }}>
+          <DirectionsWalkIcon fontSize="medium" color="action" />
         </Box>
-        <Typography variant="body1" color="text.secondary" sx={{ paddingLeft: '8px', paddingTop: '14px' }} >{transportationMin} 分鐘</Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ paddingLeft: '15px', paddingTop: '15px' }} >(空閒時間 {idleMin}分鐘)</Typography>
+        <Typography sx={{ fontSize: '0.9rem', color: '#6B6B6B', fontWeight: 'bold', paddingLeft: '8px', paddingTop: '7px' }} >{transportationMin} 分鐘</Typography>
+        <Typography sx={{ display: idleMin > 0 ? 'flex' : 'none', fontSize: '0.6rem', color: '#6B6B6B', paddingLeft: '15px', paddingTop: '9px' }} >
+            (空閒時間 {idleMin}分鐘)
+        </Typography>
       </Box>
     )
   }
@@ -147,13 +149,17 @@ const Schedule = (): React.ReactElement => {
       }}
     >
       <Toolbar
+        variant = 'dense'
         sx={{
           backgroundColor: 'primary.main',
           justifyContent: 'space-between'
         }}
       >
-        <Typography>規劃行程</Typography>
-        <Button variant="contained" onClick={() => { void optimizeSchedule(schedule, transportation, departureDay, false, dispatch) }} >Optimize</Button>
+        <Typography sx={{ fontWeight: 'bold' }}>您的行程</Typography>
+        <Box>
+          <Button size='small' variant="contained" onClick={() => { void optimizeSchedule(schedule, transportation, departureDay, true, dispatch) }} sx={{ margin: '5px' }} color= 'primary'>檢查</Button>
+          <Button size='small' variant="contained" onClick={() => { void optimizeSchedule(schedule, transportation, departureDay, false, dispatch) }} sx={{ margin: '5px' }}>規劃</Button>
+        </Box>
       </Toolbar>
       <Box
         sx={{
