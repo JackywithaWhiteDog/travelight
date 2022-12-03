@@ -1,5 +1,16 @@
 import { Attraction, SelectableAttraction, Location, Constraint } from '../types'
 
+const photoReferenceToUrl = (pictureReference: string): string => {
+  const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+  let url
+  if (API_KEY !== undefined) {
+    url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=${pictureReference}&key=${API_KEY}`
+  } else {
+    url = pictureReference
+  }
+  return url
+}
+
 export const attractionToApiFormat = (attraction: Attraction): any => {
   return (({
     placeId, rating, name, location, constraint, address, pictureURL
@@ -8,7 +19,7 @@ export const attractionToApiFormat = (attraction: Attraction): any => {
   }))(attraction)
 }
 
-export const apiFormatToSelectableAttraction = async (data: any): Promise<SelectableAttraction> => {
+export const apiFormatToSelectableAttraction = (data: any): SelectableAttraction => {
   return (({
     placeId, rating, name, constraint, address, pictureURL, geoLocation
   }) => ({
@@ -18,9 +29,7 @@ export const apiFormatToSelectableAttraction = async (data: any): Promise<Select
     constraint: constraint as Constraint,
     location: geoLocation as Location,
     address: address as string,
-    pictureURL: (process.env.REACT_APP_GOOGLE_MAPS_API_KEY === undefined)
-      ? pictureURL
-      : getPicture('Aap_uEA7vb0DDYVJWEaX3O-AtYp77AaswQKSGtDaimt3gt7QCNpdjp1BkdM6acJ96xTec3tsV_ZJNL_JP-lqsVxydG3nh739RE_hepOOL05tfJh2_ranjMadb3VoBYFvF0ma6S24qZ6QJUuV6sSRrhCskSBP5C1myCzsebztMfGvm7ij3gZT'),
+    pictureURL: photoReferenceToUrl(pictureURL),
     isSelected: false
   }))(data) as SelectableAttraction
 }
