@@ -76,7 +76,7 @@ const Schedule = (): React.ReactElement => {
     transportation: state.attractions.setting.transportation,
     departureDay: state.attractions.setting.departureDay
   }))
-  const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.recommendation[index])), shallowEqual)
+  const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.attractions[index])), shallowEqual)
   const reorderByDragging = useSelector((state: StoreState) => state.attractions.reorderByDragging)
   const canceledIndex = useSelector((state: StoreState) => state.attractions.canceledIndex, shallowEqual)
   // const scheduledOrder = useSelector((state: StoreState) => state.attractions.order)
