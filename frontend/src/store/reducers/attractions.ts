@@ -108,7 +108,6 @@ const attractionsSlice = createSlice({
         - Indices of selected indices: number[]
         - Reorder by dragging: boolean
       */
-      console.log('reorder')
       state.reorderByDragging = action.payload.reorderByDragging
       state.canceledIndex = null
       action.payload.indices.forEach((index, i) => {
@@ -117,7 +116,6 @@ const attractionsSlice = createSlice({
       state.schedule = action.payload.indices.map(index => state.schedule[index])
       if (action.payload.reorderByDragging) {
         state.order = emptyOrder
-        console.log(state.order)
       }
     },
     setSetting: (state, action: PayloadAction<SetSettingParams>) => {
@@ -125,7 +123,6 @@ const attractionsSlice = createSlice({
       state.checkedSettingIndices = action.payload.checkedIndices
     },
     setOrder: (state, action: PayloadAction<Order>) => {
-      console.log('setOrder')
       state.order = action.payload
     }
   }
