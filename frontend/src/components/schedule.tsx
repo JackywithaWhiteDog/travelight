@@ -80,7 +80,7 @@ const Schedule = (): React.ReactElement => {
   const reorderByDragging = useSelector((state: StoreState) => state.attractions.reorderByDragging)
   const canceledIndex = useSelector((state: StoreState) => state.attractions.canceledIndex, shallowEqual)
   // const scheduledOrder = useSelector((state: StoreState) => state.attractions.order)
-  const [listItems, setListItems] = useState<ItemInterface[]>(schedule.map((attraction, index) => ({ index, attraction, arrivalTime: 0 })))
+  const [listItems, setListItems] = useState<ItemInterface[]>(schedule.map((attraction, index) => ({ index, attraction })))
   const dispatch = useDispatch()
 
   useEffect(() => {
