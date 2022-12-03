@@ -105,12 +105,22 @@ const Map = (): React.ReactElement => {
           streetViewControl: false,
           mapTypeControl: false,
           fullscreenControl: false,
-          styles: [{
-            featureType: 'poi',
-            stylers: [{
-              visibility: 'off'
-            }]
-          }]
+          clickableIcons: false,
+          styles: [
+            {
+              featureType: 'poi',
+              stylers: [{
+                visibility: 'off'
+              }]
+            },
+            {
+              featureType: 'landscape',
+              elementType: 'labels.text',
+              stylers: [{
+                visibility: 'off'
+              }]
+            }
+          ]
         }}
         onLoad={map => setMap(map)}
         onClick={() => setActivePin(null)}
