@@ -14,6 +14,7 @@ interface State {
   reorderByDragging: boolean
   canceledIndex: number | null
   order: Order
+  redirect: boolean
 }
 
 interface reorderSchedulePayload {
@@ -48,7 +49,8 @@ const initialState: State = {
   checkedSettingIndices: [5, 5, (new Date()).getDay(), 2],
   reorderByDragging: false,
   canceledIndex: null,
-  order: emptyOrder
+  order: emptyOrder,
+  redirect: true
 }
 
 interface SetSettingParams {
@@ -93,6 +95,7 @@ const attractionsSlice = createSlice({
       state.scheduleIndex[action.payload] = state.schedule.length
       state.schedule.push(action.payload)
       state.order = emptyOrder
+      state.redirect = true
     },
     cancelAttraction: (state, action: PayloadAction<string>) => {
       /*
@@ -110,6 +113,7 @@ const attractionsSlice = createSlice({
         const recommendedIndex = state.recommendation.indexOf(index)
         state.recommendation.splice(recommendedIndex, 1)
       }
+      state.redirect = true
     },
     reorderSchedule: (state, action: PayloadAction<reorderSchedulePayload>) => {
       /*
@@ -126,6 +130,7 @@ const attractionsSlice = createSlice({
       if (action.payload.reorderByDragging) {
         state.order = emptyOrder
       }
+      state.redirect = true
     },
     setSetting: (state, action: PayloadAction<SetSettingParams>) => {
       state.setting = action.payload.setting
@@ -133,9 +138,13 @@ const attractionsSlice = createSlice({
       state.recommendation = Array.from(Array(state.attractions.length).keys()).filter(index => (
         state.attractions[index].rating >= state.setting.minRating || state.schedule.includes(index)
       ))
+      state.redirect = true
     },
     setOrder: (state, action: PayloadAction<Order>) => {
       state.order = action.payload
+    },
+    setRedirt: (state, action: PayloadAction<boolean>) => {
+      state.redirect = action.payload
     }
   }
 })
@@ -148,7 +157,8 @@ export const {
   cancelAttraction,
   reorderSchedule,
   setSetting,
-  setOrder
+  setOrder,
+  setRedirt
 } = attractionsSlice.actions
 
 export default attractionsSlice.reducer
