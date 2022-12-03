@@ -74,7 +74,7 @@ const attractionsSlice = createSlice({
       */
       action.payload.forEach(attraction => {
         if (!state.attractionId.includes(attraction.placeId)) {
-          if (attraction.rating >= state.setting.minRating) {
+          if (attraction.rating >= state.setting.minRating && attraction.comments >= state.setting.minComments) {
             state.recommendation.push(state.attractions.length)
           }
           state.attractions.push(attraction)
@@ -106,7 +106,7 @@ const attractionsSlice = createSlice({
       state.attractions[index].isSelected = false
       state.scheduleIndex[scheduleIndex] = -1
       state.order = emptyOrder
-      if (state.attractions[index].rating < state.setting.minRating) {
+      if (state.attractions[index].rating < state.setting.minRating || state.attractions[index].comments < state.setting.minComments) {
         const recommendedIndex = state.recommendation.indexOf(index)
         state.recommendation.splice(recommendedIndex, 1)
       }
@@ -131,7 +131,10 @@ const attractionsSlice = createSlice({
       state.setting = action.payload.setting
       state.checkedSettingIndices = action.payload.checkedIndices
       state.recommendation = Array.from(Array(state.attractions.length).keys()).filter(index => (
-        state.attractions[index].rating >= state.setting.minRating || state.schedule.includes(index)
+        (
+          state.attractions[index].rating >= state.setting.minRating &&
+          state.attractions[index].comments >= state.setting.minComments
+        ) || state.schedule.includes(index)
       ))
     },
     setOrder: (state, action: PayloadAction<Order>) => {
