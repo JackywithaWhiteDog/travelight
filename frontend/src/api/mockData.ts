@@ -25,7 +25,8 @@ export const mockSelectableAttractionList: SelectableAttraction[] = [
     isSelected: false,
     constraint,
     address: '100台北市中正區',
-    pictureURL
+    pictureURL,
+    comments: 100
   },
   {
     name: '華山1914文化創意產業園區',
@@ -35,7 +36,8 @@ export const mockSelectableAttractionList: SelectableAttraction[] = [
     isSelected: false,
     constraint,
     address: '100台北市中正區八德路一段1號',
-    pictureURL
+    pictureURL,
+    comments: 200
   },
   {
     name: '國家音樂廳',
@@ -45,7 +47,8 @@ export const mockSelectableAttractionList: SelectableAttraction[] = [
     isSelected: false,
     constraint,
     address: '100台北市中正區中山南路21-1號',
-    pictureURL
+    pictureURL,
+    comments: 300
   },
   {
     name: '龍門客棧餃子館 (林森店)',
@@ -55,7 +58,8 @@ export const mockSelectableAttractionList: SelectableAttraction[] = [
     isSelected: false,
     constraint,
     address: '100台北市中正區林森南路61巷19號',
-    pictureURL
+    pictureURL,
+    comments: 400
   },
   {
     name: '興波咖啡旗艦店',
@@ -65,7 +69,8 @@ export const mockSelectableAttractionList: SelectableAttraction[] = [
     isSelected: false,
     constraint,
     address: '100台北市中正區忠孝東路二段27號',
-    pictureURL
+    pictureURL,
+    comments: 500
   },
   {
     name: 'Cafe de Gear',
@@ -75,7 +80,8 @@ export const mockSelectableAttractionList: SelectableAttraction[] = [
     isSelected: false,
     constraint,
     address: '100台北市中正區寧波東街3-3號',
-    pictureURL
+    pictureURL,
+    comments: 10
   }
 ]
 
