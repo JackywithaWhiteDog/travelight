@@ -21,6 +21,7 @@ export interface Attraction extends Region {
   rating: number
   address: string
   pictureURL: string
+  comments: number
 }
 
 export interface SelectableAttraction extends Attraction {
