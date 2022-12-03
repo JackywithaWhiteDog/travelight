@@ -103,13 +103,17 @@ const Schedule = (): React.ReactElement => {
       }}
     >
       <Toolbar
+        variant = 'dense'
         sx={{
           backgroundColor: 'primary.main',
           justifyContent: 'space-between'
         }}
       >
-        <Typography>規劃行程</Typography>
-        <Button variant="contained" onClick={() => { void optimizeSchedule(schedule, transportation, departureDay, false, dispatch) }} >Optimize</Button>
+        <Typography sx={{ fontWeight: 'bold' }}>您的行程</Typography>
+        <Box>
+          <Button size='small' variant="contained" onClick={() => { void optimizeSchedule(schedule, transportation, departureDay, true, dispatch) }} sx={{ margin: '5px' }} color= 'primary'>檢查</Button>
+          <Button size='small' variant="contained" onClick={() => { void optimizeSchedule(schedule, transportation, departureDay, false, dispatch) }} sx={{ margin: '5px' }}>規劃</Button>
+        </Box>
       </Toolbar>
       <Box
         sx={{
