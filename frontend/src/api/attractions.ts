@@ -22,8 +22,8 @@ export const getRecommendationAPI = async (location: Location, minRating: number
 
 export const getRecommendation = async (location: Location, minRating: number, minComments: number, dispatch: StoreDispatch): Promise<void> => {
   let data: SelectableAttraction[]
-  console.log(API_ROOT)
-  console.log(minRating, minComments)
+  // console.log(API_ROOT)
+  // console.log(minRating, minComments)
   if (API_ROOT !== '') {
     data = await getRecommendationAPI(location, minRating, minComments)
   } else {
