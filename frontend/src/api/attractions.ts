@@ -1,5 +1,5 @@
 import { StoreDispatch } from '../store'
-import { addRecommendation } from '../store/reducers/attractions'
+import { addAttractions } from '../store/reducers/attractions'
 import { Location, SelectableAttraction } from '../types'
 import axios from 'axios'
 import { mockSelectableAttractionList } from './mockData'
@@ -29,5 +29,5 @@ export const getRecommendation = async (location: Location, minRating: number, m
   } else {
     data = mockSelectableAttractionList
   }
-  dispatch(addRecommendation(data))
+  dispatch(addAttractions(data))
 }

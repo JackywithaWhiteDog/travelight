@@ -32,31 +32,31 @@ const AttractionCard = (props: { attraction: SelectableAttraction, visibility: b
         justifyContent: 'space-between',
         borderRadius: '16px'
       }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: '170px' }}>
           <CardContent sx={{ padding: 1, '&:last-child': { paddingBottom: 1 }, paddingLeft: 2 }}>
-            <Typography component="div" variant="h6" sx={{ fontWeight: 'bold', lineHeight: 1.4 }}>
+            <Typography component="div" variant="h6" sx={{ fontWeight: 'bold', lineHeight: 1.4, fontSize: '1rem' }}>
               {props.attraction.name}
             </Typography>
             <Box sx={{ display: 'inline-flex' }}>
-              <Typography variant="body2" color="text.secondary" component="div" sx={{ paddingLeft: 0.25, paddingRight: 0.2 }}>
+              <Typography variant="body2" color="text.secondary" component="div" sx={{ paddingLeft: 0.25, paddingRight: 0.2, fontSize: '0.8rem' }}>
                 {props.attraction.rating}
               </Typography>
               <Rating value={props.attraction.rating} readOnly precision={0.1} size="small" />
             </Box>
-            <Typography variant="body2" color="text.secondary" component="div">
+            <Typography variant="body2" color="text.secondary" component="div" sx={{ fontSize: '0.8rem' }}>
               {props.attraction.address}
             </Typography>
-            <Typography variant="body2" color="text.secondary" component="div">
+            <Typography variant="body2" color="text.secondary" component="div" sx={{ fontSize: '0.8rem' }}>
               {openingTimeHour}:{addLeadingZeros(openingTimeMin, 2)} - {closingTimeHour}:{addLeadingZeros(closingTimeMin, 2)}
             </Typography>
-            <Typography variant="body2" color="text.secondary" component="div">
+            <Typography variant="body2" color="text.secondary" component="div" sx={{ fontSize: '0.8rem' }}>
               停留時間：{props.attraction.constraint.stayTime} 小時
             </Typography>
           </CardContent>
         </Box>
         <CardMedia
           component="img"
-          sx={{ maxWidth: 180 }}
+          sx={{ maxWidth: '50% !important' }}
           image={props.attraction.pictureURL}
         />
       </Card>
