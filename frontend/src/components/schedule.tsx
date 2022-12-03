@@ -14,7 +14,6 @@ interface ItemInterface {
   index: number
   attraction: SelectableAttraction
   scheduledOrder: number
-  arriveTime: number
 }
 
 interface TemplateProps {
@@ -27,8 +26,6 @@ class Template extends React.Component<TemplateProps, {}> {
   render (): React.ReactElement {
     return (
       <div {...this.props.dragHandleProps}>
-        {this.props.item.index}
-            抵達時間 {this.props.item.arriveTime}
         <AttractionCard attraction={this.props.item.attraction} />
         <TimeToLeaveIcon fontSize="large" color="action" />
         <Typography variant="body1" color="text.secondary" component="div">
@@ -75,8 +72,7 @@ const Schedule = (): React.ReactElement => {
     return {
       attraction: attraction,
       index: index,
-      scheduledOrder: scheduledOrder.transportationTimes[index],
-      arriveTime: scheduledOrder.arriveTimes[index]
+      scheduledOrder: scheduledOrder.transportationTimes[index]
     }
   }))
   const dispatch = useDispatch()
@@ -90,8 +86,7 @@ const Schedule = (): React.ReactElement => {
           return {
             attraction: attraction,
             index: index,
-            scheduledOrder: scheduledOrder.transportationTimes[index],
-            arriveTime: scheduledOrder.arriveTimes[index]
+            scheduledOrder: scheduledOrder.transportationTimes[index]
           }
         }))
       } else {
