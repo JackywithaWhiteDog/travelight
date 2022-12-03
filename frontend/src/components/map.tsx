@@ -16,8 +16,8 @@ import AttractionCard from './attractionCard'
 const Map = (): React.ReactElement => {
   const dispatch = useDispatch()
   const location = useSelector((state: StoreState) => state.attractions.location)
-  const recommendation = useSelector((state: StoreState) => state.attractions.recommendation, shallowEqual)
-  const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.recommendation[index])), shallowEqual)
+  const recommendation = useSelector((state: StoreState) => (state.attractions.recommendation.map(index => state.attractions.attractions[index])), shallowEqual)
+  const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.attractions[index])), shallowEqual)
   const [directionsResponse, setDirectionsResponse] = React.useState<google.maps.DirectionsResult | undefined>()
   const [map, setMap] = React.useState<google.maps.Map | null>(/** @type google.maps.Map */(null))
   /** const [directionsResponse, setDirectionsResponse] = React.useState<google.maps.DirectionsResult|null>((null)) */
