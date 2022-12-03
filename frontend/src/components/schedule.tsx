@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { Box, Button, Toolbar, Typography } from '@mui/material'
+import TimeToLeaveIcon from '@mui/icons-material/TimeToLeave'
 import DraggableList from 'react-draggable-list'
 
 import AttractionCard from './attractionCard'
@@ -12,6 +13,8 @@ import { SelectableAttraction } from '../types'
 interface ItemInterface {
   index: number
   attraction: SelectableAttraction
+  scheduledOrder: number
+  arriveTime: number
 }
 
 interface TemplateProps {
@@ -24,7 +27,13 @@ class Template extends React.Component<TemplateProps, {}> {
   render (): React.ReactElement {
     return (
       <div {...this.props.dragHandleProps}>
+        {this.props.item.index}
+            抵達時間 {this.props.item.arriveTime}
         <AttractionCard attraction={this.props.item.attraction} />
+        <TimeToLeaveIcon fontSize="large" color="action" />
+        <Typography variant="body1" color="text.secondary" component="div">
+              {this.props.item.scheduledOrder} 分鐘
+        </Typography>
       </div>
     )
   }
@@ -61,14 +70,30 @@ const Schedule = (): React.ReactElement => {
   const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.recommendation[index])), shallowEqual)
   const reorderByDragging = useSelector((state: StoreState) => state.attractions.reorderByDragging)
   const canceledIndex = useSelector((state: StoreState) => state.attractions.canceledIndex, shallowEqual)
-  // const scheduledOrder = useSelector((state: StoreState) => state.attractions.order)
-  const [listItems, setListItems] = useState<ItemInterface[]>(schedule.map((attraction, index) => ({ index, attraction })))
+  const scheduledOrder = useSelector((state: StoreState) => state.attractions.order)
+  const [listItems, setListItems] = useState<ItemInterface[]>(schedule.map((attraction, index) => {
+    return {
+      attraction: attraction,
+      index: index,
+      scheduledOrder: scheduledOrder.transportationTimes[index],
+      arriveTime: scheduledOrder.arriveTimes[index]
+    }
+  }))
   const dispatch = useDispatch()
 
   useEffect(() => {
     if (!reorderByDragging) {
       if (canceledIndex === null) {
-        setListItems(schedule.map((attraction, index) => ({ index, attraction })))
+        console.log(schedule)
+        console.log(scheduledOrder)
+        setListItems(schedule.map((attraction, index) => {
+          return {
+            attraction: attraction,
+            index: index,
+            scheduledOrder: scheduledOrder.transportationTimes[index],
+            arriveTime: scheduledOrder.arriveTimes[index]
+          }
+        }))
       } else {
         listItems.splice(canceledIndex, 1)
         setListItems([...listItems])
