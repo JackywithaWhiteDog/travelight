@@ -80,7 +80,7 @@ const Map = (): React.ReactElement => {
       <Box>
         <Button
           onClick={() => {
-            if (map != null) {
+            if (map !== null) {
               map.panTo(center)
               map.setZoom(15)
             }
