@@ -7,6 +7,8 @@ import Map from '../components/map'
 import Schedule from '../components/schedule'
 import { StoreState } from '../store'
 
+const libraries: Array<'places' | 'drawing' | 'geometry' | 'localContext' | 'visualization'> = ['places']
+
 const App = (): React.ReactElement => {
   const dispatch = useDispatch()
   const location = useSelector((state: StoreState) => state.attractions.location)
@@ -26,7 +28,7 @@ const App = (): React.ReactElement => {
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-    libraries: ['places']
+    libraries
   })
 
   return (
