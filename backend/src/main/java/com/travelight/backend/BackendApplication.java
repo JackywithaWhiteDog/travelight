@@ -17,30 +17,13 @@ public class BackendApplication {
 		SpringApplication.run(BackendApplication.class, args);
 	}
 
-	@GetMapping("/nearbyAttractions")
-	public GeoLocation getNearbyAttractions(@RequestParam String latitude, @RequestParam String longitude) {
-		System.out.println(String.format("Lat: %s, Long: %s", latitude, longitude));
-		return new GeoLocation(Double.parseDouble(latitude), Double.parseDouble(longitude));
-	}
-
 	@PostMapping("/optimize")
 	public TravelSchedule optimizeTravelSchedule(@RequestBody OptimizationInfo optimizationInfo) {
 		// Logging
-		System.out.println(optimizationInfo);
-		System.out.println(optimizationInfo.getAttractions()[0]);
-		System.out.println(optimizationInfo.getAttractions()[0].getConstraint().getOpeningTimes().length);
-		System.out.println(optimizationInfo.getAttractions()[0].getConstraint().getClosingTimes().length);
+		System.out.println("Request received:\n" + optimizationInfo.toString());
 
 		// Generate travelSchedule
-		boolean performCheck = optimizationInfo.getCheck();
-		Attraction[] attractions = optimizationInfo.getAttractions();
-		int departureDay = optimizationInfo.getDepartureDay();
-		TravelSchedule travelSchedule;
-		if (performCheck) {
-			travelSchedule = RoutePlanner.checkOrder(attractions, departureDay);
-		} else {
-			travelSchedule = RoutePlanner.optimizeOrder(attractions, departureDay);
-		}
+		TravelSchedule travelSchedule = RoutePlanner.planTravelSchedule(optimizationInfo);
 		return travelSchedule;
 	}
 }

@@ -5,6 +5,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Testing environment ###
+test.sh
+
 ### STS ###
 .apt_generated
 .classpath

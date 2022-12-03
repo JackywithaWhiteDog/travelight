@@ -61,15 +61,22 @@
             <version>1.7.25</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.ortools</groupId>
+            <artifactId>ortools-java</artifactId>
+            <version>9.0.9048</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.ortools</groupId>
+            <artifactId>ortools-darwin-x86-64</artifactId>
+            <version>9.0.9048</version>
+        </dependency>	
+
 		<dependency>
-			<groupId>com.panavis.open-source</groupId>
-			<artifactId>google-ortools-java</artifactId>
-			<version>7.8.7961</version>
-		</dependency>
-		<dependency>
-			<groupId>com.panavis.open-source</groupId>
-			<artifactId>ortools-linux-x86-64</artifactId>
-			<version>7.8.7959</version>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>30.1.1-jre</version>
 		</dependency>
 	</dependencies>
 

@@ -1,8 +1,7 @@
 import axios from 'axios'
 import { getRecommendationAPI } from './attractions'
 import { Location } from '../types'
-import { mockSelectableAttractionList } from './mockData'
-import { attractionToApiFormat } from './converter'
+import { mockSelectableAttractionList, mockResponse } from './mockData'
 
 jest.mock('axios')
 const mockedAxios = axios as jest.Mocked<typeof axios>
@@ -13,7 +12,7 @@ const location: Location = {
 }
 
 const resp = {
-  data: mockSelectableAttractionList.map(attractionToApiFormat)
+  data: mockResponse
 }
 
 test('Test getRecommendationAPI', async () => {

@@ -1,13 +1,98 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { Box, Button, Toolbar, Typography } from '@mui/material'
-import { StoreState } from '../store'
+import DraggableList from 'react-draggable-list'
+
 import AttractionCard from './attractionCard'
 import { optimizeSchedule } from '../api/schedule'
+import { StoreState } from '../store'
+import { reorderSchedule } from '../store/reducers/attractions'
+import { SelectableAttraction } from '../types'
+
+interface ItemInterface {
+  index: number
+  attraction: SelectableAttraction
+}
+
+interface TemplateProps {
+  item: ItemInterface
+  itemSelected: number
+  dragHandleProps: object
+}
+
+class Template extends React.Component<TemplateProps, {}> {
+  ArrivalTime = (): React.ReactElement => {
+    const arrivalTime = useSelector((state: StoreState) => state.attractions.order.arriveTimes[this.props.item.index])
+
+    const addLeadingZeros = (num: number, totalLength: number): string => String(num).padStart(totalLength, '0')
+    const arrivalHour = Math.floor(arrivalTime)
+    const arrivalMin = (arrivalTime - arrivalHour) * 60
+
+    return (
+      <Box sx={{ display: arrivalTime === undefined ? 'none' : 'flex', paddingBottom: '2px' }}>
+        <Box sx={{ backgroundColor: '#8ec3b0', borderRadius: '4px', height: '22px', width: '32px', textAlign: 'center', fontSize: '0.9rem' }} >
+          {this.props.item.index}
+        </Box>
+        <Typography sx={{ paddingLeft: '8px', fontSize: '0.9rem', fontWeight: 'bold' }} >抵達時間  - {arrivalHour}:{addLeadingZeros(arrivalMin, 2)}</Typography>
+      </Box>
+    )
+  }
+
+  render (): React.ReactElement {
+    return (
+      <div {...this.props.dragHandleProps}>
+        <this.ArrivalTime />
+        <AttractionCard attraction={this.props.item.attraction} />
+      </div>
+    )
+  }
+}
 
 const Schedule = (): React.ReactElement => {
-  const schedule = useSelector((state: StoreState) => state.attractions.schedule.map(index => state.attractions.recommendation[index]))
+  /*
+    CRITICAL ISSUES:
+
+    1. Using react-draggable-list with redux
+      When using both react-draggable-list and redux, there are bugs in the animations since
+      the dispatch would update slightly slower. As a result, we have to use the proxy lists
+      `listItems` to avoid the problems.
+
+    2. The consistency of items' keys
+      If the draggable list is reconstructed with different items' keys after an item is dragged
+      and dropped, there would be some unxepected animations. As a result, except for selecting
+      attractions or optimizing schedule (without drag-and-drop), we have to keep the consistency
+      of items' keys.
+
+      - Drag-and-drop:
+        1. Update the state of proxy list
+        2. Dispatch changes without changing proxy list again
+      - Adding attractions / Optimizing schedule
+        1. Dispatch changes and reconstruct proxy list
+      - Cancel attractions
+        1. Dispatch changes
+        2. Only removing the canceled attraction and keep all the others
+  */
+  const { transportation, departureDay } = useSelector((state: StoreState) => ({
+    transportation: state.attractions.setting.transportation,
+    departureDay: state.attractions.setting.departureDay
+  }))
+  const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.attractions[index])), shallowEqual)
+  const reorderByDragging = useSelector((state: StoreState) => state.attractions.reorderByDragging)
+  const canceledIndex = useSelector((state: StoreState) => state.attractions.canceledIndex, shallowEqual)
+  // const scheduledOrder = useSelector((state: StoreState) => state.attractions.order)
+  const [listItems, setListItems] = useState<ItemInterface[]>(schedule.map((attraction, index) => ({ index, attraction })))
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (!reorderByDragging) {
+      if (canceledIndex === null) {
+        setListItems(schedule.map((attraction, index) => ({ index, attraction })))
+      } else {
+        listItems.splice(canceledIndex, 1)
+        setListItems([...listItems])
+      }
+    }
+  }, [schedule])
 
   return (
     <Box
@@ -18,23 +103,37 @@ const Schedule = (): React.ReactElement => {
       }}
     >
       <Toolbar
+        variant = 'dense'
         sx={{
           backgroundColor: 'primary.main',
           justifyContent: 'space-between'
         }}
       >
-        <Typography>規劃行程</Typography>
-        <Button variant="contained" onClick={() => { void optimizeSchedule(schedule, 0, false, dispatch) }} >Optimize</Button>
+        <Typography sx={{ fontWeight: 'bold' }}>您的行程</Typography>
+        <Box>
+          <Button size='small' variant="contained" onClick={() => { void optimizeSchedule(schedule, transportation, departureDay, true, dispatch) }} sx={{ margin: '5px' }} color= 'primary'>檢查</Button>
+          <Button size='small' variant="contained" onClick={() => { void optimizeSchedule(schedule, transportation, departureDay, false, dispatch) }} sx={{ margin: '5px' }}>規劃</Button>
+        </Box>
       </Toolbar>
       <Box
         sx={{
-          margin: '10px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px'
+          margin: '10px'
         }}
       >
-        {schedule.map((attraction, i) => <AttractionCard attraction={attraction} index={i} key={i} />)}
+        <DraggableList<any, void, Template>
+          itemKey="index"
+          template={Template}
+          list={listItems}
+          onMoveEnd={(newList, movedItem, oldIndex, newIndex) => {
+            const indices = Array.from(Array(listItems.length).keys())
+            const left = indices.slice(0, Math.min(oldIndex, newIndex))
+            const right = indices.slice(Math.max(oldIndex, newIndex) + 1)
+            const mid = newIndex > oldIndex ? [...indices.slice(oldIndex + 1, newIndex + 1), oldIndex] : [oldIndex, ...indices.slice(newIndex, oldIndex)]
+            const newIndices = [...left, ...mid, ...right]
+            setListItems(newList.map(item => item as ItemInterface))
+            dispatch(reorderSchedule({ indices: newIndices, reorderByDragging: true }))
+          }}
+        />
       </Box>
     </Box>
   )
