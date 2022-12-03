@@ -4,8 +4,9 @@ import { Location, Region, SelectableAttraction, Setting, Order } from '../../ty
 interface State {
   defaultRegions: Region[]
   location: Location
-  recommendation: SelectableAttraction[]
-  recommendationId: string[]
+  attractions: SelectableAttraction[]
+  attractionId: string[]
+  recommendation: number[]
   schedule: number[]
   scheduleIndex: number[]
   setting: Setting
@@ -20,11 +21,22 @@ interface reorderSchedulePayload {
   reorderByDragging: boolean
 }
 
+const emptyOrder = {
+  order: [],
+  arriveTimes: [],
+  leaveTimes: [],
+  transportationTimes: [],
+  idleTimes: [],
+  savedTime: 0,
+  isValid: false
+}
+
 const initialState: State = {
   defaultRegions: [],
   location: { longitude: 121.421072, latitude: 25.085651 },
+  attractions: [],
+  attractionId: [],
   recommendation: [],
-  recommendationId: [],
   schedule: [],
   scheduleIndex: [],
   setting: {
@@ -36,15 +48,7 @@ const initialState: State = {
   checkedSettingIndices: [5, 5, (new Date()).getDay(), 2],
   reorderByDragging: false,
   canceledIndex: null,
-  order: {
-    order: [],
-    arriveTimes: [],
-    leaveTimes: [],
-    transportationTimes: [],
-    idleTimes: [],
-    savedTime: 0,
-    isValid: false
-  }
+  order: emptyOrder
 }
 
 interface SetSettingParams {
@@ -62,16 +66,19 @@ const attractionsSlice = createSlice({
     setLocation: (state, action: PayloadAction<Location>) => {
       state.location = action.payload
     },
-    addRecommendation: (state, action: PayloadAction<SelectableAttraction[]>) => {
+    addAttractions: (state, action: PayloadAction<SelectableAttraction[]>) => {
       /*
       @TODO: Need to be optimized
       - Currently time complexity: O(N)
       - Redux doesn't support non-serializable class (e.g., Set)
       */
       action.payload.forEach(attraction => {
-        if (!state.recommendationId.includes(attraction.placeId)) {
-          state.recommendation.push(attraction)
-          state.recommendationId.push(attraction.placeId)
+        if (!state.attractionId.includes(attraction.placeId)) {
+          if (attraction.rating >= state.setting.minRating) {
+            state.recommendation.push(state.attractions.length)
+          }
+          state.attractions.push(attraction)
+          state.attractionId.push(attraction.placeId)
         }
       })
     },
@@ -82,9 +89,10 @@ const attractionsSlice = createSlice({
       */
       state.reorderByDragging = false
       state.canceledIndex = null
-      state.recommendation[action.payload].isSelected = true
+      state.attractions[action.payload].isSelected = true
       state.scheduleIndex[action.payload] = state.schedule.length
       state.schedule.push(action.payload)
+      state.order = emptyOrder
     },
     cancelAttraction: (state, action: PayloadAction<string>) => {
       /*
@@ -92,11 +100,16 @@ const attractionsSlice = createSlice({
         - PlaceId of selected indices: string
       */
       state.reorderByDragging = false
-      const scheduleIndex = state.schedule.map(index => state.recommendationId[index]).indexOf(action.payload)
+      const scheduleIndex = state.schedule.map(index => state.attractionId[index]).indexOf(action.payload)
       state.canceledIndex = scheduleIndex
       const index = state.schedule.splice(scheduleIndex, 1)[0]
-      state.recommendation[index].isSelected = false
+      state.attractions[index].isSelected = false
       state.scheduleIndex[scheduleIndex] = -1
+      state.order = emptyOrder
+      if (state.attractions[index].rating < state.setting.minRating) {
+        const recommendedIndex = state.recommendation.indexOf(index)
+        state.recommendation.splice(recommendedIndex, 1)
+      }
     },
     reorderSchedule: (state, action: PayloadAction<reorderSchedulePayload>) => {
       /*
@@ -110,10 +123,16 @@ const attractionsSlice = createSlice({
         state.scheduleIndex[state.schedule[index]] = i
       })
       state.schedule = action.payload.indices.map(index => state.schedule[index])
+      if (action.payload.reorderByDragging) {
+        state.order = emptyOrder
+      }
     },
     setSetting: (state, action: PayloadAction<SetSettingParams>) => {
       state.setting = action.payload.setting
       state.checkedSettingIndices = action.payload.checkedIndices
+      state.recommendation = Array.from(Array(state.attractions.length).keys()).filter(index => (
+        state.attractions[index].rating >= state.setting.minRating || state.schedule.includes(index)
+      ))
     },
     setOrder: (state, action: PayloadAction<Order>) => {
       state.order = action.payload
@@ -124,7 +143,7 @@ const attractionsSlice = createSlice({
 export const {
   setDefaultRegions,
   setLocation,
-  addRecommendation,
+  addAttractions,
   selectAttraction,
   cancelAttraction,
   reorderSchedule,

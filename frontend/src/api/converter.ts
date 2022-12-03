@@ -1,6 +1,6 @@
 import { Attraction, SelectableAttraction, Location, Constraint } from '../types'
 
-const photoReferenceToUrl = (pictureReference: string): string => {
+export const photoReferenceToUrl = (pictureReference: string): string => {
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   let url
   if (API_KEY !== undefined) {
