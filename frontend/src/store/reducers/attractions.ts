@@ -106,6 +106,10 @@ const attractionsSlice = createSlice({
       state.attractions[index].isSelected = false
       state.scheduleIndex[scheduleIndex] = -1
       state.order = emptyOrder
+      if (state.attractions[index].rating < state.setting.minRating) {
+        const recommendedIndex = state.recommendation.indexOf(index)
+        state.recommendation.splice(recommendedIndex, 1)
+      }
     },
     reorderSchedule: (state, action: PayloadAction<reorderSchedulePayload>) => {
       /*
