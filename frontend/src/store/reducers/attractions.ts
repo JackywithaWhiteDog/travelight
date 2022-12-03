@@ -20,6 +20,16 @@ interface reorderSchedulePayload {
   reorderByDragging: boolean
 }
 
+const emptyOrder = {
+  order: [],
+  arriveTimes: [],
+  leaveTimes: [],
+  transportationTimes: [],
+  idleTimes: [],
+  savedTime: 0,
+  isValid: false
+}
+
 const initialState: State = {
   defaultRegions: [],
   location: { longitude: 121.421072, latitude: 25.085651 },
@@ -36,15 +46,7 @@ const initialState: State = {
   checkedSettingIndices: [5, 5, (new Date()).getDay(), 2],
   reorderByDragging: false,
   canceledIndex: null,
-  order: {
-    order: [],
-    arriveTimes: [],
-    leaveTimes: [],
-    transportationTimes: [],
-    idleTimes: [],
-    savedTime: 0,
-    isValid: false
-  }
+  order: emptyOrder
 }
 
 interface SetSettingParams {
@@ -85,6 +87,7 @@ const attractionsSlice = createSlice({
       state.recommendation[action.payload].isSelected = true
       state.scheduleIndex[action.payload] = state.schedule.length
       state.schedule.push(action.payload)
+      state.order = emptyOrder
     },
     cancelAttraction: (state, action: PayloadAction<string>) => {
       /*
@@ -97,6 +100,7 @@ const attractionsSlice = createSlice({
       const index = state.schedule.splice(scheduleIndex, 1)[0]
       state.recommendation[index].isSelected = false
       state.scheduleIndex[scheduleIndex] = -1
+      state.order = emptyOrder
     },
     reorderSchedule: (state, action: PayloadAction<reorderSchedulePayload>) => {
       /*
@@ -110,6 +114,9 @@ const attractionsSlice = createSlice({
         state.scheduleIndex[state.schedule[index]] = i
       })
       state.schedule = action.payload.indices.map(index => state.schedule[index])
+      if (action.payload.reorderByDragging) {
+        state.order = emptyOrder
+      }
     },
     setSetting: (state, action: PayloadAction<SetSettingParams>) => {
       state.setting = action.payload.setting
