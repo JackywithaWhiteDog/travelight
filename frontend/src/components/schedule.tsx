@@ -35,7 +35,7 @@ class Template extends React.Component<TemplateProps, {}> {
     return (
       <Box sx={{ display: arrivalTime === undefined ? 'none' : 'flex', paddingBottom: '2px' }}>
         <Box sx={{ backgroundColor: '#8ec3b0', borderRadius: '4px', height: '22px', width: '32px', textAlign: 'center', fontSize: '0.9rem' }} >
-          {this.props.item.index}
+          {this.props.item.index + 1}
         </Box>
         <Typography sx={{ paddingLeft: '8px', fontSize: '0.9rem', fontWeight: 'bold' }} >抵達時間  - {arrivalHour}:{addLeadingZeros(arrivalMin, 2)}</Typography>
       </Box>
@@ -68,7 +68,7 @@ class Template extends React.Component<TemplateProps, {}> {
         </Box>
         <Typography sx={{ fontSize: '0.9rem', color: '#6B6B6B', fontWeight: 'bold', paddingLeft: '8px', paddingTop: '7px' }} >{transportationMin} 分鐘</Typography>
         <Typography sx={{ display: idleMin > 0 ? 'flex' : 'none', fontSize: '0.6rem', color: '#6B6B6B', paddingLeft: '15px', paddingTop: '9px' }} >
-            (空閒時間 {idleMin}分鐘)
+          (空閒時間 {idleMin}分鐘)
         </Typography>
       </Box>
     )
@@ -149,7 +149,7 @@ const Schedule = (): React.ReactElement => {
       }}
     >
       <Toolbar
-        variant = 'dense'
+        variant='dense'
         sx={{
           backgroundColor: 'primary.main',
           justifyContent: 'space-between'
@@ -157,7 +157,7 @@ const Schedule = (): React.ReactElement => {
       >
         <Typography sx={{ fontWeight: 'bold' }}>您的行程</Typography>
         <Box>
-          <Button size='small' variant="contained" onClick={() => { void optimizeSchedule(schedule, transportation, departureDay, true, dispatch) }} sx={{ margin: '5px' }} color= 'primary'>檢查</Button>
+          <Button size='small' variant="contained" onClick={() => { void optimizeSchedule(schedule, transportation, departureDay, true, dispatch) }} sx={{ margin: '5px' }} color='primary'>檢查</Button>
           <Button size='small' variant="contained" onClick={() => { void optimizeSchedule(schedule, transportation, departureDay, false, dispatch) }} sx={{ margin: '5px' }}>規劃</Button>
         </Box>
       </Toolbar>
