@@ -128,6 +128,12 @@ const attractionsSlice = createSlice({
       }
     },
     setSetting: (state, action: PayloadAction<SetSettingParams>) => {
+      if (
+        action.payload.setting.departureDay !== state.setting.departureDay ||
+        action.payload.setting.transportation !== state.setting.transportation
+      ) {
+        state.order = emptyOrder
+      }
       state.setting = action.payload.setting
       state.checkedSettingIndices = action.payload.checkedIndices
       state.recommendation = Array.from(Array(state.attractions.length).keys()).filter(index => (
