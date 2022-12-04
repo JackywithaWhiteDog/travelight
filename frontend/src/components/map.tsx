@@ -147,7 +147,8 @@ const Map = (): React.ReactElement => {
             <InfoBox
               options={{
                 closeBoxURL: '',
-                isHidden: i !== activePin
+                isHidden: i !== activePin,
+                boxStyle: {}
               }}
             >
               <AttractionCard attraction={rec} />
