@@ -19,7 +19,6 @@ export const optimizeScheduleAPI = async (schedule: Attraction[], transportation
 
 export const optimizeSchedule = async (schedule: Attraction[], transportation: Transportation, departureDay: number, check: boolean, dispatch: StoreDispatch): Promise<void> => {
   let order: Order
-  console.log(transportation, departureDay)
   if (API_ROOT !== '') {
     order = await optimizeScheduleAPI(schedule, transportation, departureDay, check)
   } else {
