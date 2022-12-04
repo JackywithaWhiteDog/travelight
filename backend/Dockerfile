@@ -4,6 +4,14 @@ WORKDIR /root
 
 COPY . .
 
+ARG SECRET_PASSPHRASE
+
+ENV SECRET_PASSPHRASE=$SECRET_PASSPHRASE
+
+RUN apt-get update && apt-get -y install gnupg2
+
+RUN /root/src/main/resources/decrypt_secret.sh
+
 RUN mvn clean install
 
 FROM openjdk:11
