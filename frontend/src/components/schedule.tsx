@@ -118,8 +118,8 @@ const Schedule = (): React.ReactElement => {
   const canceledIndex = useSelector((state: StoreState) => state.attractions.canceledIndex, shallowEqual)
   const [listItems, setListItems] = useState<ItemInterface[]>(schedule.map((attraction, index) => {
     return {
-      attraction: attraction,
-      index: index
+      attraction,
+      index
     }
   }))
   const dispatch = useDispatch()
@@ -129,8 +129,8 @@ const Schedule = (): React.ReactElement => {
       if (canceledIndex === null) {
         setListItems(schedule.map((attraction, index) => {
           return {
-            attraction: attraction,
-            index: index
+            attraction,
+            index
           }
         }))
       } else {
