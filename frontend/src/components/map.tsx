@@ -2,74 +2,73 @@ import {
   GoogleMap,
   DirectionsRenderer,
   Marker,
-  InfoBox
+  InfoBox,
+  DirectionsService
 } from '@react-google-maps/api'
 
-import { Button, Box } from '@mui/material'
+import { Box } from '@mui/material'
 import React from 'react'
 
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { StoreState } from '../store'
-import { selectAttraction } from '../store/reducers/attractions'
+import { selectAttraction, setLocation, setRedirt } from '../store/reducers/attractions'
 import AttractionCard from './attractionCard'
 
+const shape = {
+  coords: [0, 0, 30, 45],
+  type: 'rect'
+}
+
 const Map = (): React.ReactElement => {
+  const travelModeMap = {
+    driving: google.maps.TravelMode.DRIVING,
+    bicycling: google.maps.TravelMode.BICYCLING,
+    transit: google.maps.TravelMode.TRANSIT,
+    walking: google.maps.TravelMode.WALKING
+  }
+
   const dispatch = useDispatch()
   const location = useSelector((state: StoreState) => state.attractions.location)
   const recommendation = useSelector((state: StoreState) => (state.attractions.recommendation.map(index => state.attractions.attractions[index])), shallowEqual)
   const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.attractions[index])), shallowEqual)
+  const travelMode = useSelector((state: StoreState) => travelModeMap[state.attractions.setting.transportation])
+  const redirect = useSelector((state: StoreState) => state.attractions.redirect)
+
   const [directionsResponse, setDirectionsResponse] = React.useState<google.maps.DirectionsResult | undefined>()
-  const [map, setMap] = React.useState<google.maps.Map | null>(/** @type google.maps.Map */(null))
-  /** const [directionsResponse, setDirectionsResponse] = React.useState<google.maps.DirectionsResult|null>((null)) */
 
-  /** @type React.MutableRefObject<HTMLInputElement> */
-  /** const [zoomSize, setZoomSize] = React.useState<number>(15) */
-  React.useEffect(() => {
-    setDirectionsResponse(undefined)
-  }, [schedule])
-  async function calculateRoute (): Promise<void> {
-    const selectedlist = schedule
-    const originpoint = new google.maps.LatLng(selectedlist[0].location.latitude, selectedlist[0].location.longitude)
-    const despoint = new google.maps.LatLng(selectedlist[selectedlist.length - 1].location.latitude, selectedlist[selectedlist.length - 1].location.longitude)
-    // eslint-disable-next-line no-undefined
-    const directionsService = new google.maps.DirectionsService()
-    setCenter(despoint)
-    if (selectedlist.length > 2) {
-      const waypoint = selectedlist.slice(1, -1).map((rec) => {
-        return {
-          location: { lat: rec.location.latitude, lng: rec.location.longitude },
-          stopover: true
-        }
-      })
-      const results = await directionsService.route({
-
-        origin: originpoint,
-        destination: despoint,
-        waypoints: waypoint,
-        // eslint-disable-next-line no-undef
-        travelMode: google.maps.TravelMode.DRIVING
-      })
-      setDirectionsResponse(results)
-    } else {
-      const results = await directionsService.route({
-
-        origin: originpoint,
-        destination: despoint,
-        // eslint-disable-next-line no-undef
-        travelMode: google.maps.TravelMode.DRIVING
-      })
-      setDirectionsResponse(results)
-    }
-  }
-
-  const [center, setCenter] = React.useState<google.maps.LatLng>(new google.maps.LatLng(location.latitude, location.longitude))
   const [activePin, setActivePin] = React.useState<number | null>(null)
   const [activeByClick, setActiveByClick] = React.useState<boolean>(false)
 
-  const shape = {
-    coords: [0, 0, 30, 45],
-    type: 'rect'
+  const [map, setMap] = React.useState<google.maps.Map | null>(/** @type google.maps.Map */(null))
+
+  const center = new google.maps.LatLng(location.latitude, location.longitude)
+
+  let origin = null
+  let destination = null
+  let waypoints: google.maps.DirectionsWaypoint[] | undefined
+  if (schedule.length > 1) {
+    origin = { lat: schedule[0].location.latitude, lng: schedule[0].location.longitude }
+    destination = { lat: schedule[schedule.length - 1].location.latitude, lng: schedule[schedule.length - 1].location.longitude }
+    if (schedule.length > 2) {
+      waypoints = schedule.slice(1, -1).map(attraction => ({
+        location: { lat: attraction.location.latitude, lng: attraction.location.longitude },
+        stopover: true
+      }))
+    }
   }
+
+  let proxyTravelMode = travelMode
+  if (waypoints !== undefined && travelMode === google.maps.TravelMode.TRANSIT) {
+    proxyTravelMode = google.maps.TravelMode.DRIVING
+  }
+
+  const directionsCallback = (result: google.maps.DirectionsResult | null, status: google.maps.DirectionsStatus): void => {
+    if (result !== null && status === 'OK') {
+      setDirectionsResponse(result)
+    }
+    dispatch(setRedirt(false))
+  }
+
   return (
     <Box
       sx={{
@@ -77,25 +76,6 @@ const Map = (): React.ReactElement => {
         overflow: 'auto'
       }}
     >
-      <Box>
-        <Button
-          onClick={() => {
-            if (map != null) {
-              map.panTo(center)
-              map.setZoom(15)
-            }
-          }}
-        >
-          center back
-        </Button>
-        <Button
-          onClick={() => {
-            void (calculateRoute())
-          }}
-        >
-          route
-        </Button>
-      </Box>
       <GoogleMap
         center={center}
         zoom={15}
@@ -105,18 +85,39 @@ const Map = (): React.ReactElement => {
           streetViewControl: false,
           mapTypeControl: false,
           fullscreenControl: false,
-          styles: [{
-            featureType: 'poi',
-            stylers: [{
-              visibility: 'off'
-            }]
-          }]
+          clickableIcons: false,
+          styles: [
+            {
+              featureType: 'poi',
+              stylers: [{
+                visibility: 'off'
+              }]
+            },
+            {
+              featureType: 'landscape',
+              elementType: 'labels.text',
+              stylers: [{
+                visibility: 'off'
+              }]
+            }
+          ]
         }}
         onLoad={map => setMap(map)}
         onClick={() => setActivePin(null)}
+        onDragEnd={() => {
+          if (map !== null) {
+            const curCenter = map.getCenter()
+            if (curCenter !== undefined) {
+              dispatch(setLocation({
+                latitude: curCenter.lat(),
+                longitude: curCenter.lng()
+              }))
+            }
+          }
+        }}
       >
 
-        {directionsResponse === undefined && recommendation.map((rec, i) => (
+        {recommendation.map((rec, i) => (
           <Marker
             shape={shape}
             position={{ lat: rec.location.latitude, lng: rec.location.longitude }}
@@ -143,14 +144,35 @@ const Map = (): React.ReactElement => {
               }
             }}
           >
-            {i === activePin && (
-              <InfoBox options={{ closeBoxURL: '' }}>
-                <AttractionCard attraction={rec} />
-              </InfoBox>
-            )}
+            <InfoBox
+              options={{
+                closeBoxURL: '',
+                isHidden: i !== activePin,
+                boxStyle: {}
+              }}
+            >
+              <AttractionCard attraction={rec} />
+            </InfoBox>
           </Marker>
         ))}
-        {directionsResponse !== undefined && <DirectionsRenderer directions={directionsResponse} />}
+        {redirect && origin !== null && destination !== null &&
+          <DirectionsService
+            options={{
+              origin,
+              destination,
+              travelMode: proxyTravelMode,
+              waypoints
+            }}
+            callback={directionsCallback}
+          />
+        }
+        <DirectionsRenderer
+          directions={directionsResponse}
+          options={{
+            preserveViewport: true,
+            suppressMarkers: true
+          }}
+        />
       </GoogleMap>
     </Box>
   )
