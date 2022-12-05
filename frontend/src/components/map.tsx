@@ -11,7 +11,7 @@ import React from 'react'
 
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { StoreState } from '../store'
-import { selectAttraction, setLocation, setRedirt } from '../store/reducers/attractions'
+import { selectAttraction, setLocation, setRedirect } from '../store/reducers/attractions'
 import AttractionCard from './attractionCard'
 
 const shape = {
@@ -66,7 +66,7 @@ const Map = (): React.ReactElement => {
     if (result !== null && status === 'OK') {
       setDirectionsResponse(result)
     }
-    dispatch(setRedirt(false))
+    dispatch(setRedirect(false))
   }
 
   return (

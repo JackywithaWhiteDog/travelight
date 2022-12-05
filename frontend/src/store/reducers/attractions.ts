@@ -152,7 +152,7 @@ const attractionsSlice = createSlice({
     setOrder: (state, action: PayloadAction<Order>) => {
       state.order = action.payload
     },
-    setRedirt: (state, action: PayloadAction<boolean>) => {
+    setRedirect: (state, action: PayloadAction<boolean>) => {
       state.redirect = action.payload
     }
   }
@@ -167,7 +167,7 @@ export const {
   reorderSchedule,
   setSetting,
   setOrder,
-  setRedirt
+  setRedirect
 } = attractionsSlice.actions
 
 export default attractionsSlice.reducer
