@@ -137,8 +137,8 @@ const defaultRegions: ({ [key: string]: { name: string, location: Location } }) 
   'yunlin-county': {
     name: '雲林縣',
     location: {
-      longitude: 120.1475039,
-      latitude: 23.7092033
+      longitude: 120.2945078,
+      latitude: 23.6745746
     }
   }
 }
