@@ -103,14 +103,6 @@ const Map = (): React.ReactElement => {
           ]
         }}
         onLoad={setMap}
-        onIdle={() => {
-          if (map !== null) {
-            const curCenter = map.getCenter()
-            if (curCenter !== undefined && (curCenter.lat() !== center.lat() || curCenter.lng() !== center.lng())) {
-              map.panTo(center)
-            }
-          }
-        }}
         onClick={() => setActivePin(null)}
         onDragEnd={() => {
           if (map !== null) {
@@ -151,15 +143,18 @@ const Map = (): React.ReactElement => {
               }
             }}
           >
-            <InfoBox
-              options={{
-                closeBoxURL: '',
-                isHidden: i !== activePin,
-                boxStyle: {}
-              }}
-            >
-              <AttractionCard attraction={rec} />
-            </InfoBox>
+            {
+              i === activePin && (
+                <InfoBox
+                  options={{
+                    closeBoxURL: '',
+                    boxStyle: {}
+                  }}
+                >
+                  <AttractionCard attraction={rec} />
+                </InfoBox>
+              )
+            }
           </Marker>
         ))}
         {redirect && origin !== null && destination !== null &&
