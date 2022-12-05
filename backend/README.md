@@ -2,7 +2,7 @@
 ## Usage
 1. Build image
 ```
-docker build -t springio/gs-spring-boot-docker .
+docker build -t springio/gs-spring-boot-docker . --build-arg SECRET_PASSPHRASE=[our secret passphrase]
 ```
 2. Depoly our app
 ```
