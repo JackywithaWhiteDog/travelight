@@ -60,6 +60,7 @@ const TaiwanButton = (): React.ReactElement => {
   const onClick = (event: SyntheticEvent): void => {
     const clickedRegion: string = (event.target as any).id
     console.log(clickedRegion)
+    console.log(defaultRegions[clickedRegion].location)
     if (clickedRegion in defaultRegions) {
       console.log(defaultRegions[clickedRegion].location)
       dispatch(setLocation(defaultRegions[clickedRegion].location))
@@ -131,7 +132,11 @@ const TaiwanButton = (): React.ReactElement => {
         />
       </Box>
       <Box>
-        <p>{hoveredRegion}</p>
+        {
+          hoveredRegion === ''
+            ? null
+            : <p>{defaultRegions[hoveredRegion].name}</p>
+        }
         <Box sx={{
           display: 'grid',
           gridGap: '10px',
