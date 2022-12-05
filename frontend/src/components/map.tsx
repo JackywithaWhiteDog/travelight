@@ -39,7 +39,7 @@ const Map = (): React.ReactElement => {
   const [activePin, setActivePin] = React.useState<number | null>(null)
   const [activeByClick, setActiveByClick] = React.useState<boolean>(false)
 
-  const [map, setMap] = React.useState<google.maps.Map | null>(/** @type google.maps.Map */(null))
+  const [map, setMap] = React.useState<google.maps.Map | null>(null)
 
   const center = new google.maps.LatLng(location.latitude, location.longitude)
 
@@ -102,12 +102,20 @@ const Map = (): React.ReactElement => {
             }
           ]
         }}
-        onLoad={map => setMap(map)}
+        onLoad={setMap}
+        onIdle={() => {
+          if (map !== null) {
+            const curCenter = map.getCenter()
+            if (curCenter !== undefined && (curCenter.lat() !== center.lat() || curCenter.lng() !== center.lng())) {
+              map.panTo(center)
+            }
+          }
+        }}
         onClick={() => setActivePin(null)}
         onDragEnd={() => {
           if (map !== null) {
             const curCenter = map.getCenter()
-            if (curCenter !== undefined) {
+            if (curCenter !== undefined && (curCenter.lat() !== center.lat() || curCenter.lng() !== center.lng())) {
               dispatch(setLocation({
                 latitude: curCenter.lat(),
                 longitude: curCenter.lng()
@@ -116,7 +124,6 @@ const Map = (): React.ReactElement => {
           }
         }}
       >
-
         {recommendation.map((rec, i) => (
           <Marker
             shape={shape}
