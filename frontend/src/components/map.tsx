@@ -148,7 +148,8 @@ const Map = (): React.ReactElement => {
                 <InfoBox
                   options={{
                     closeBoxURL: '',
-                    boxStyle: {}
+                    boxStyle: {},
+                    disableAutoPan: true
                   }}
                 >
                   <AttractionCard attraction={rec} />
