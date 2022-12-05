@@ -2,6 +2,8 @@ package com.travelight.backend;
 
 import java.util.*;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,21 +35,38 @@ public class NearbySearchAPI extends GoogleMapAPI {
 
     List<Attraction> parseResult(PlacesSearchResult results[], Filter filter) {
         List<Attraction> attractions = new ArrayList<>();
+        
+        Thread[] threads = new Thread[results.length];
 
-        for (PlacesSearchResult result : results) {
+        DetailsAPI[] details = new DetailsAPI[results.length];
+
+        for (int t = 0; t < results.length; t++) {
+            PlacesSearchResult result = results[t];
             // Check if the result satisfy all additional constraints.
             if (filter.verify(result)) {
                 // Generate detail information for each attraction.
                 Geometry geo = result.geometry;
-
+                
                 Photo photo = result.photos[0];
-
+                
                 Attraction attraction = new Attraction(result.placeId, result.formattedAddress, result.rating,
                         new GeoLocation(geo.location), null, photo.photoReference, result.name, result.userRatingsTotal);
+                // Async
+                details[t] = new DetailsAPI(attraction);
+                threads[t] = new Thread(details[t]);
+                threads[t].start();
+            }
+        }
 
-                attraction = DetailsAPI.getDetailInfo(attraction);
-
-                attractions.add(attraction);
+        for (int t = 0; t < results.length; t++) {
+            if (filter.verify(results[t])) {
+                try {
+                    // Wait for job done
+                    threads[t].join();
+                    attractions.add(details[t].getAttraction());
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
 

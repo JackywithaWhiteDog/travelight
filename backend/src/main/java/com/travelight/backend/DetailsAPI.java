@@ -6,7 +6,28 @@ import com.google.maps.PlaceDetailsRequest;
 import com.google.maps.model.PlaceDetails;
 import com.google.maps.model.OpeningHours.Period;
 
-public class DetailsAPI extends GoogleMapAPI {
+public class DetailsAPI extends GoogleMapAPI implements Runnable {
+    private Attraction attraction;
+    public DetailsAPI(Attraction attraction) {
+        this.attraction = attraction;
+    }
+
+    @Override
+    public void run() {
+        synchronized(this) {
+            this.attraction = getDetailInfo(this.attraction);
+            notify();
+        }
+    }
+
+    public void setAttraction(Attraction attraction) {
+        this.attraction = attraction;
+    }
+
+    public Attraction getAttraction() {
+        return this.attraction;
+    }
+    
     public static Attraction getDetailInfo(Attraction attraction) {
         String placeID = attraction.getPlaceId();
         // Testing examples
