@@ -1,4 +1,4 @@
-# Software Engineering Toy Project
+# Software Engineering - Travelight
 
 ## Contribution
 
