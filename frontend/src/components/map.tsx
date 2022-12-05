@@ -46,14 +46,19 @@ const Map = (): React.ReactElement => {
   let origin = null
   let destination = null
   let waypoints: google.maps.DirectionsWaypoint[] | undefined
-  if (schedule.length > 1) {
-    origin = { lat: schedule[0].location.latitude, lng: schedule[0].location.longitude }
-    destination = { lat: schedule[schedule.length - 1].location.latitude, lng: schedule[schedule.length - 1].location.longitude }
-    if (schedule.length > 2) {
-      waypoints = schedule.slice(1, -1).map(attraction => ({
-        location: { lat: attraction.location.latitude, lng: attraction.location.longitude },
-        stopover: true
-      }))
+  if (redirect) {
+    if (schedule.length > 1) {
+      origin = { lat: schedule[0].location.latitude, lng: schedule[0].location.longitude }
+      destination = { lat: schedule[schedule.length - 1].location.latitude, lng: schedule[schedule.length - 1].location.longitude }
+      if (schedule.length > 2) {
+        waypoints = schedule.slice(1, -1).map(attraction => ({
+          location: { lat: attraction.location.latitude, lng: attraction.location.longitude },
+          stopover: true
+        }))
+      }
+    } else {
+      setDirectionsResponse(undefined)
+      dispatch(setRedirect(false))
     }
   }
 
@@ -169,13 +174,17 @@ const Map = (): React.ReactElement => {
             callback={directionsCallback}
           />
         }
-        <DirectionsRenderer
-          directions={directionsResponse}
-          options={{
-            preserveViewport: true,
-            suppressMarkers: true
-          }}
-        />
+        {
+          directionsResponse !== undefined && (
+            <DirectionsRenderer
+              directions={directionsResponse}
+              options={{
+                preserveViewport: true,
+                suppressMarkers: true
+              }}
+            />
+          )
+        }
       </GoogleMap>
     </Box>
   )
