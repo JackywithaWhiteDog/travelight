@@ -48,7 +48,7 @@ const initialState: State = {
     minComments: 0
   },
   checkedSettingIndices: [5, 5, (new Date()).getDay(), 2],
-  reorderByDragging: false,
+  reorderByDragging: true,
   canceledIndex: null,
   order: emptyOrder,
   redirect: true
