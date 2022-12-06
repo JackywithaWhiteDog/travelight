@@ -12,11 +12,6 @@ const libraries: Array<'places' | 'drawing' | 'geometry' | 'localContext' | 'vis
 const App = (): React.ReactElement => {
   const dispatch = useDispatch()
   const location = useSelector((state: StoreState) => state.attractions.location)
-  // TODO: filter
-  // const { minRating, minComments } = useSelector((state: StoreState) => ({
-  //   minRating: state.attractions.setting.minRating,
-  //   minComments: state.attractions.setting.minComments
-  // }))
 
   useEffect(() => {
     void getRecommendation(location, dispatch)
