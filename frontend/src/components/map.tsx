@@ -15,6 +15,17 @@ import { StoreState } from '../store'
 import { selectAttraction, setLocation, setRedirect } from '../store/reducers/attractions'
 import AttractionCard from './attractionCard'
 import { MAX_SCHEDULE_LENGTH } from '../constants'
+import recPin from '../assets/attraction_pin/recPin.svg'
+import selPin1 from '../assets/attraction_pin/selPin1.svg'
+import selPin2 from '../assets/attraction_pin/selPin2.svg'
+import selPin3 from '../assets/attraction_pin/selPin3.svg'
+import selPin4 from '../assets/attraction_pin/selPin4.svg'
+import selPin5 from '../assets/attraction_pin/selPin5.svg'
+import selPin6 from '../assets/attraction_pin/selPin6.svg'
+import selPin7 from '../assets/attraction_pin/selPin7.svg'
+import selPin8 from '../assets/attraction_pin/selPin8.svg'
+import selPin9 from '../assets/attraction_pin/selPin9.svg'
+import selPin10 from '../assets/attraction_pin/selPin10.svg'
 
 const shape = {
   coords: [0, 0, 30, 45],
@@ -75,6 +86,25 @@ const Map = (): React.ReactElement => {
       setDirectionsResponse(result)
     }
     dispatch(setRedirect(false))
+  }
+
+  const getPin = (placeId: string): string | undefined => {
+    for (let i = 0; i < schedule.length; i++) {
+      if (schedule[i].placeId === placeId) {
+        switch (i + 1) {
+          case 1 : return selPin1
+          case 2 : return selPin2
+          case 3 : return selPin3
+          case 4 : return selPin4
+          case 5 : return selPin5
+          case 6 : return selPin6
+          case 7 : return selPin7
+          case 8 : return selPin8
+          case 9 : return selPin9
+          case 10 : return selPin10
+        }
+      }
+    }
   }
 
   return (
@@ -147,7 +177,7 @@ const Map = (): React.ReactElement => {
           <Marker
             shape={shape}
             position={{ lat: attractions[rec].location.latitude, lng: attractions[rec].location.longitude }}
-            icon={attractions[rec].isSelected ? undefined : { url: require('../assets/blue.png'), scaledSize: new google.maps.Size(30, 45) }}
+            icon={attractions[rec].isSelected ? getPin(rec.placeId) : { url: recPin, scaledSize: new google.maps.Size(30, 45) }}
             key={i}
             onClick={() => {
               if (!attractions[rec].isSelected) {
