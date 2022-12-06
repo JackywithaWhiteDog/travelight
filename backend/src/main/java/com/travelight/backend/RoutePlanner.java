@@ -65,8 +65,14 @@ public class RoutePlanner {
             travelSchedule = optimizeOrderBruteForce(vrptwDataModel, originalOrder);
         }
 
-        // TODO: convert order by -1;
+        convertTravelScheduleOrder(travelSchedule);
         return travelSchedule;
+    }
+
+    public static void convertTravelScheduleOrder(TravelSchedule travelSchedule) {
+        for (int i = 0; i < travelSchedule.order.length; i++) {
+            travelSchedule.order[i] -= 1;
+        }
     }
 
     public static boolean isValidTimeWindows(TimeWindows timeWindows) {
