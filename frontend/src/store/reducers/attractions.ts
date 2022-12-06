@@ -71,7 +71,7 @@ const attractionsSlice = createSlice({
     addAttractions: (state, action: PayloadAction<SelectableAttraction[]>) => {
       /*
       @TODO: Need to be optimized
-      - Currently time complexity: O(N)
+      - Currently time complexity: O(N^2)
       - Redux doesn't support non-serializable class (e.g., Set)
       */
       action.payload.forEach(attraction => {
