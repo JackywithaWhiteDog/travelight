@@ -76,7 +76,12 @@ const attractionsSlice = createSlice({
       */
       action.payload.forEach(attraction => {
         if (!state.attractionId.includes(attraction.placeId)) {
-          if (attraction.rating >= state.setting.minRating && attraction.comments >= state.setting.minComments) {
+          if (
+            attraction.rating >= state.setting.minRating &&
+            attraction.comments >= state.setting.minComments &&
+            attraction.constraint.openingTimes[state.setting.departureDay] !== -1 &&
+            attraction.constraint.closingTimes[state.setting.departureDay] !== -1
+          ) {
             state.recommendation.push(state.attractions.length)
           }
           state.attractions.push(attraction)
@@ -109,7 +114,12 @@ const attractionsSlice = createSlice({
       state.attractions[index].isSelected = false
       state.scheduleIndex[scheduleIndex] = -1
       state.order = emptyOrder
-      if (state.attractions[index].rating < state.setting.minRating || state.attractions[index].comments < state.setting.minComments) {
+      if (
+        state.attractions[index].rating < state.setting.minRating ||
+        state.attractions[index].comments < state.setting.minComments ||
+        state.attractions[index].constraint.openingTimes[state.setting.departureDay] === -1 ||
+        state.attractions[index].constraint.closingTimes[state.setting.departureDay] === -1
+      ) {
         const recommendedIndex = state.recommendation.indexOf(index)
         state.recommendation.splice(recommendedIndex, 1)
       }
@@ -144,7 +154,9 @@ const attractionsSlice = createSlice({
       state.recommendation = Array.from(Array(state.attractions.length).keys()).filter(index => (
         (
           state.attractions[index].rating >= state.setting.minRating &&
-          state.attractions[index].comments >= state.setting.minComments
+          state.attractions[index].comments >= state.setting.minComments &&
+          state.attractions[index].constraint.openingTimes[state.setting.departureDay] !== -1 &&
+          state.attractions[index].constraint.closingTimes[state.setting.departureDay] !== -1
         ) || state.schedule.includes(index)
       ))
       state.redirect = true
