@@ -86,16 +86,20 @@ const attractionsSlice = createSlice({
     },
     selectAttraction: (state, action: PayloadAction<number>) => {
       /*
+      Only add attraction to schedule if the length of schedule < 10
+
       Payload:
         - Index of recommended attractions: number
       */
-      state.reorderByDragging = false
-      state.canceledIndex = null
-      state.attractions[action.payload].isSelected = true
-      state.scheduleIndex[action.payload] = state.schedule.length
-      state.schedule.push(action.payload)
-      state.order = emptyOrder
-      state.redirect = true
+      if (state.schedule.length < 10) {
+        state.reorderByDragging = false
+        state.canceledIndex = null
+        state.attractions[action.payload].isSelected = true
+        state.scheduleIndex[action.payload] = state.schedule.length
+        state.schedule.push(action.payload)
+        state.order = emptyOrder
+        state.redirect = true
+      }
     },
     cancelAttraction: (state, action: PayloadAction<string>) => {
       /*

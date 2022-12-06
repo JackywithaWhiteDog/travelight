@@ -129,7 +129,11 @@ const Map = (): React.ReactElement => {
             key={i}
             onClick={() => {
               if (!rec.isSelected) {
-                dispatch(selectAttraction(i))
+                if (schedule.length < 10) {
+                  dispatch(selectAttraction(i))
+                } else {
+                  // TODO: show error message
+                }
               }
               if (activePin !== i || !activeByClick) {
                 setActivePin(i)
