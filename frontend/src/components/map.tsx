@@ -31,7 +31,8 @@ const Map = (): React.ReactElement => {
 
   const dispatch = useDispatch()
   const center = useSelector((state: StoreState) => new google.maps.LatLng(state.attractions.location.latitude, state.attractions.location.longitude))
-  const recommendation = useSelector((state: StoreState) => (state.attractions.recommendation.map(index => state.attractions.attractions[index])), shallowEqual)
+  const attractions = useSelector((state: StoreState) => state.attractions.attractions, shallowEqual)
+  const recommendation = useSelector((state: StoreState) => state.attractions.recommendation, shallowEqual)
   const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.attractions[index])), shallowEqual)
   const travelMode = useSelector((state: StoreState) => travelModeMap[state.attractions.setting.transportation])
   const redirect = useSelector((state: StoreState) => state.attractions.redirect)
@@ -145,13 +146,13 @@ const Map = (): React.ReactElement => {
         {recommendation.map((rec, i) => (
           <Marker
             shape={shape}
-            position={{ lat: rec.location.latitude, lng: rec.location.longitude }}
-            icon={rec.isSelected ? undefined : { url: require('../assets/blue.png'), scaledSize: new google.maps.Size(30, 45) }}
+            position={{ lat: attractions[rec].location.latitude, lng: attractions[rec].location.longitude }}
+            icon={attractions[rec].isSelected ? undefined : { url: require('../assets/blue.png'), scaledSize: new google.maps.Size(30, 45) }}
             key={i}
             onClick={() => {
-              if (!rec.isSelected) {
+              if (!attractions[rec].isSelected) {
                 if (schedule.length < MAX_SCHEDULE_LENGTH) {
-                  dispatch(selectAttraction(i))
+                  dispatch(selectAttraction(rec))
                 } else {
                   setAlertOpen(true)
                 }
@@ -182,7 +183,7 @@ const Map = (): React.ReactElement => {
                     disableAutoPan: true
                   }}
                 >
-                  <AttractionCard attraction={rec} />
+                  <AttractionCard attraction={attractions[rec]} />
                 </InfoBox>
               )
             }
