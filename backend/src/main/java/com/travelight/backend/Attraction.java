@@ -21,6 +21,14 @@ public class Attraction {
         this.constraint = constraint;
     }
 
+    public int getComments() {
+        return this.comments;
+    }
+
+    public void setComments(int comments) {
+        this.comments = comments;
+    }
+
     public String getPlaceId() {
         return this.placeId;
     }

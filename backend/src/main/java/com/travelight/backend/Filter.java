@@ -51,7 +51,6 @@ public class Filter {
         validPlace.add("post_office");
         validPlace.add("restaurant");
         validPlace.add("shopping_mall");
-        validPlace.add("supermarket");
         validPlace.add("tourist_attraction");
         validPlace.add("train_station");
         validPlace.add("amusement_park");
