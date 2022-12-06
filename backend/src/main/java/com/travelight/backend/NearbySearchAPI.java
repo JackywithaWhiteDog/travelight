@@ -2,8 +2,6 @@ package com.travelight.backend;
 
 import java.util.*;
 
-import javax.management.RuntimeErrorException;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +33,7 @@ public class NearbySearchAPI extends GoogleMapAPI {
 
     List<Attraction> parseResult(PlacesSearchResult results[], Filter filter) {
         List<Attraction> attractions = new ArrayList<>();
-        
+
         Thread[] threads = new Thread[results.length];
 
         DetailsAPI[] details = new DetailsAPI[results.length];
@@ -49,7 +47,7 @@ public class NearbySearchAPI extends GoogleMapAPI {
                 
                 Photo photo = result.photos[0];
                 
-                Attraction attraction = new Attraction(result.placeId, result.formattedAddress, result.rating,
+                Attraction attraction = new Attraction(result.placeId, result.formattedAddress, Math.round(result.rating * 10) / 10,
                         new GeoLocation(geo.location), null, photo.photoReference, result.name, result.userRatingsTotal);
                 // Async
                 details[t] = new DetailsAPI(attraction);
