@@ -1,21 +1,22 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Card, CardContent, CardActions, CardMedia, Rating, Typography, Box, IconButton } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { cancelAttraction } from '../store/reducers/attractions'
 import { SelectableAttraction } from '../types'
 import { COLORS } from '../constants'
+import { StoreState } from '../store'
 
 const AttractionCard = (props: { attraction: SelectableAttraction, visibility: boolean }): React.ReactElement => {
   const dispatch = useDispatch()
-  const openingTimeHour = Math.floor(props.attraction.constraint.openingTimes[0])
-  const openingTimeMin = (props.attraction.constraint.openingTimes[0] - Math.floor(props.attraction.constraint.openingTimes[0])) * 60
-  const closingTimeHour = Math.floor(props.attraction.constraint.closingTimes[0])
-  const closingTimeMin = (props.attraction.constraint.closingTimes[0] - Math.floor(props.attraction.constraint.closingTimes[0])) * 60
+  const addLeadingZeros = (num: number, totalLength: number): string => String(num).padStart(totalLength, '0')
+  const round = (num: number, fractionDigits: number): number => Number(num.toFixed(fractionDigits))
+  const departureDay = useSelector((state: StoreState) => state.attractions.setting.departureDay)
 
-  function addLeadingZeros (num: number, totalLength: number): string {
-    return String(num).padStart(totalLength, '0')
-  }
+  const openingTimeHour = Math.floor(props.attraction.constraint.openingTimes[departureDay])
+  const openingTimeMin = round((props.attraction.constraint.openingTimes[departureDay] - openingTimeHour) * 60, 0)
+  const closingTimeHour = Math.floor(props.attraction.constraint.closingTimes[departureDay])
+  const closingTimeMin = round((props.attraction.constraint.closingTimes[departureDay] - closingTimeHour) * 60, 0)
 
   return (
     <Box sx={{ display: props.visibility ? 'relative' : 'none', position: 'relative', maxWidth: 360 }}>
@@ -40,7 +41,7 @@ const AttractionCard = (props: { attraction: SelectableAttraction, visibility: b
             </Typography>
             <Box sx={{ display: 'inline-flex' }}>
               <Typography variant="body2" color="text.secondary" component="div" sx={{ paddingLeft: 0.25, paddingRight: 0.2, fontSize: '0.8rem' }}>
-                {props.attraction.rating}
+                {round(props.attraction.rating, 1)}
               </Typography>
               <Rating value={props.attraction.rating} readOnly precision={0.1} size="small" />
             </Box>
