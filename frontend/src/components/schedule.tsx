@@ -29,8 +29,9 @@ class Template extends React.Component<TemplateProps, {}> {
     const arrivalTime = useSelector((state: StoreState) => state.attractions.order.arriveTimes[this.props.item.index])
 
     const addLeadingZeros = (num: number, totalLength: number): string => String(num).padStart(totalLength, '0')
+    const round = (num: number, fractionDigits: number): number => Number(num.toFixed(fractionDigits))
     const arrivalHour = Math.floor(arrivalTime)
-    const arrivalMin = (arrivalTime - arrivalHour) * 60
+    const arrivalMin = round((arrivalTime - arrivalHour) * 60, 0)
 
     return (
       <Box sx={{ display: arrivalTime === undefined ? 'none' : 'flex', paddingBottom: '2px' }}>
@@ -46,10 +47,11 @@ class Template extends React.Component<TemplateProps, {}> {
     const transportationTime = useSelector((state: StoreState) => state.attractions.order.transportationTimes[this.props.item.index])
     const idleTime = useSelector((state: StoreState) => state.attractions.order.idleTimes[this.props.item.index])
     const transportationMethod = useSelector((state: StoreState) => state.attractions.setting.transportation)
+    const round = (num: number, fractionDigits: number): number => Number(num.toFixed(fractionDigits))
 
     // const addLeadingZeros = (num: number, totalLength: number): string => String(num).padStart(totalLength, '0')
-    const transportationMin = transportationTime * 60
-    const idleMin = idleTime * 60
+    const transportationMin = round(transportationTime * 60, 0)
+    const idleMin = round(idleTime * 60, 0)
 
     return (
       <Box sx={{ display: transportationTime === undefined ? 'none' : 'flex', marginTop: '8px' }}>

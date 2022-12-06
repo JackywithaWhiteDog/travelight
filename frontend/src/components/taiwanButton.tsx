@@ -59,10 +59,7 @@ const TaiwanButton = (): React.ReactElement => {
   // handling click event
   const onClick = (event: SyntheticEvent): void => {
     const clickedRegion: string = (event.target as any).id
-    console.log(clickedRegion)
-    console.log(defaultRegions[clickedRegion].location)
     if (clickedRegion in defaultRegions) {
-      console.log(defaultRegions[clickedRegion].location)
       dispatch(setLocation(defaultRegions[clickedRegion].location))
       navigate('map')
     }
@@ -70,13 +67,10 @@ const TaiwanButton = (): React.ReactElement => {
   // show default recommendations when mouse moving on.
   const moveOn = (event: SyntheticEvent): void => {
     const region: string = (event.target as any).id
-    console.log(region)
     setHovered(region)
   }
   // show default recommendations when mouse moving out.
   const moveOut = (event: SyntheticEvent): void => {
-    const region: string = (event.target as any).id
-    console.log(region)
     setHovered('')
   }
   // Return introduction, Taiwan map and recommendations if hovered.

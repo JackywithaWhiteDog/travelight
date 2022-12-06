@@ -8,13 +8,24 @@ import {
 
 import { Alert, Box, IconButton, Snackbar } from '@mui/material'
 import { Close } from '@mui/icons-material'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { StoreState } from '../store'
 import { selectAttraction, setLocation, setRedirect } from '../store/reducers/attractions'
 import AttractionCard from './attractionCard'
 import { MAX_SCHEDULE_LENGTH } from '../constants'
+import recPin from '../assets/attraction_pin/recPin.svg'
+import selPin1 from '../assets/attraction_pin/selPin1.svg'
+import selPin2 from '../assets/attraction_pin/selPin2.svg'
+import selPin3 from '../assets/attraction_pin/selPin3.svg'
+import selPin4 from '../assets/attraction_pin/selPin4.svg'
+import selPin5 from '../assets/attraction_pin/selPin5.svg'
+import selPin6 from '../assets/attraction_pin/selPin6.svg'
+import selPin7 from '../assets/attraction_pin/selPin7.svg'
+import selPin8 from '../assets/attraction_pin/selPin8.svg'
+import selPin9 from '../assets/attraction_pin/selPin9.svg'
+import selPin10 from '../assets/attraction_pin/selPin10.svg'
 
 const shape = {
   coords: [0, 0, 30, 45],
@@ -31,7 +42,8 @@ const Map = (): React.ReactElement => {
 
   const dispatch = useDispatch()
   const center = useSelector((state: StoreState) => new google.maps.LatLng(state.attractions.location.latitude, state.attractions.location.longitude))
-  const recommendation = useSelector((state: StoreState) => (state.attractions.recommendation.map(index => state.attractions.attractions[index])), shallowEqual)
+  const attractions = useSelector((state: StoreState) => state.attractions.attractions, shallowEqual)
+  const recommendation = useSelector((state: StoreState) => state.attractions.recommendation, shallowEqual)
   const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.attractions[index])), shallowEqual)
   const travelMode = useSelector((state: StoreState) => travelModeMap[state.attractions.setting.transportation])
   const redirect = useSelector((state: StoreState) => state.attractions.redirect)
@@ -45,22 +57,24 @@ const Map = (): React.ReactElement => {
 
   const [alertOpen, setAlertOpen] = React.useState<boolean>(false)
 
+  useEffect(() => {
+    if (redirect && schedule.length <= 1) {
+      setDirectionsResponse(undefined)
+      dispatch(setRedirect(false))
+    }
+  }, [schedule])
+
   let origin = null
   let destination = null
   let waypoints: google.maps.DirectionsWaypoint[] | undefined
-  if (redirect) {
-    if (schedule.length > 1) {
-      origin = { lat: schedule[0].location.latitude, lng: schedule[0].location.longitude }
-      destination = { lat: schedule[schedule.length - 1].location.latitude, lng: schedule[schedule.length - 1].location.longitude }
-      if (schedule.length > 2) {
-        waypoints = schedule.slice(1, -1).map(attraction => ({
-          location: { lat: attraction.location.latitude, lng: attraction.location.longitude },
-          stopover: true
-        }))
-      }
-    } else {
-      setDirectionsResponse(undefined)
-      dispatch(setRedirect(false))
+  if (redirect && schedule.length > 1) {
+    origin = { lat: schedule[0].location.latitude, lng: schedule[0].location.longitude }
+    destination = { lat: schedule[schedule.length - 1].location.latitude, lng: schedule[schedule.length - 1].location.longitude }
+    if (schedule.length > 2) {
+      waypoints = schedule.slice(1, -1).map(attraction => ({
+        location: { lat: attraction.location.latitude, lng: attraction.location.longitude },
+        stopover: true
+      }))
     }
   }
 
@@ -74,6 +88,25 @@ const Map = (): React.ReactElement => {
       setDirectionsResponse(result)
     }
     dispatch(setRedirect(false))
+  }
+
+  const getPin = (placeId: string): string | undefined => {
+    for (let i = 0; i < schedule.length; i++) {
+      if (schedule[i].placeId === placeId) {
+        switch (i + 1) {
+          case 1: return selPin1
+          case 2: return selPin2
+          case 3: return selPin3
+          case 4: return selPin4
+          case 5: return selPin5
+          case 6: return selPin6
+          case 7: return selPin7
+          case 8: return selPin8
+          case 9: return selPin9
+          case 10: return selPin10
+        }
+      }
+    }
   }
 
   return (
@@ -145,13 +178,13 @@ const Map = (): React.ReactElement => {
         {recommendation.map((rec, i) => (
           <Marker
             shape={shape}
-            position={{ lat: rec.location.latitude, lng: rec.location.longitude }}
-            icon={rec.isSelected ? undefined : { url: require('../assets/blue.png'), scaledSize: new google.maps.Size(30, 45) }}
+            position={{ lat: attractions[rec].location.latitude, lng: attractions[rec].location.longitude }}
+            icon={attractions[rec].isSelected ? getPin(attractions[rec].placeId) : { url: recPin, scaledSize: new google.maps.Size(30, 45) }}
             key={i}
             onClick={() => {
-              if (!rec.isSelected) {
+              if (!attractions[rec].isSelected) {
                 if (schedule.length < MAX_SCHEDULE_LENGTH) {
-                  dispatch(selectAttraction(i))
+                  dispatch(selectAttraction(rec))
                 } else {
                   setAlertOpen(true)
                 }
@@ -182,7 +215,7 @@ const Map = (): React.ReactElement => {
                     disableAutoPan: true
                   }}
                 >
-                  <AttractionCard attraction={rec} />
+                  <AttractionCard attraction={attractions[rec]} />
                 </InfoBox>
               )
             }
