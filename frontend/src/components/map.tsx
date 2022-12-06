@@ -177,7 +177,7 @@ const Map = (): React.ReactElement => {
           <Marker
             shape={shape}
             position={{ lat: attractions[rec].location.latitude, lng: attractions[rec].location.longitude }}
-            icon={attractions[rec].isSelected ? getPin(rec.placeId) : { url: recPin, scaledSize: new google.maps.Size(30, 45) }}
+            icon={attractions[rec].isSelected ? getPin(attractions[rec].placeId) : { url: recPin, scaledSize: new google.maps.Size(30, 45) }}
             key={i}
             onClick={() => {
               if (!attractions[rec].isSelected) {
