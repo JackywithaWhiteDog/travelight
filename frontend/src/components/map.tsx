@@ -14,7 +14,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { StoreState } from '../store'
 import { selectAttraction, setLocation, setRedirect } from '../store/reducers/attractions'
 import AttractionCard from './attractionCard'
-import { MAX_SCHEDULE_LENGTH } from '../constants'
+
 import recPin from '../assets/attraction_pin/recPin.svg'
 import selPin1 from '../assets/attraction_pin/selPin1.svg'
 import selPin2 from '../assets/attraction_pin/selPin2.svg'
@@ -26,6 +26,9 @@ import selPin7 from '../assets/attraction_pin/selPin7.svg'
 import selPin8 from '../assets/attraction_pin/selPin8.svg'
 import selPin9 from '../assets/attraction_pin/selPin9.svg'
 import selPin10 from '../assets/attraction_pin/selPin10.svg'
+import { MAX_SCHEDULE_LENGTH, COLORS } from '../constants'
+import EditIcon from '@mui/icons-material/Edit'
+import CloseIcon from '@mui/icons-material/Close'
 
 const shape = {
   coords: [0, 0, 30, 45],
@@ -56,6 +59,8 @@ const Map = (): React.ReactElement => {
   const [map, setMap] = React.useState<google.maps.Map | null>(null)
 
   const [alertOpen, setAlertOpen] = React.useState<boolean>(false)
+  const [changed, setChanged] = React.useState<boolean>(false)
+  // const valueRef = React.useRef('')
 
   useEffect(() => {
     if (redirect && schedule.length <= 1) {
@@ -165,7 +170,7 @@ const Map = (): React.ReactElement => {
           ]
         }}
         onLoad={setMap}
-        onClick={() => setActivePin(null)}
+        onClick={() => { !changed && setActivePin(null) }}
         onDragEnd={() => {
           if (map !== null) {
             const curCenter = map.getCenter()
@@ -218,7 +223,16 @@ const Map = (): React.ReactElement => {
                     disableAutoPan: true
                   }}
                 >
-                  <AttractionCard attraction={attractions[rec]} />
+                  <Box>
+                  <AttractionCard attraction={attractions[rec]} index={rec} />
+                  <div>
+
+                  <IconButton aria-label="edit" onClick={ () => { changed ? setChanged(false) : setChanged(true) }}
+                  sx={{ backgroundColor: COLORS.deleteButtonBackground, opacity: 0.3, borderRadius: '12px', ':hover': { backgroundColor: COLORS.deleteButtonBackground, opacity: 0.9 } }}>
+                    { changed ? <CloseIcon color={'secondary'} /> : <EditIcon color={'secondary'} />}
+                  </IconButton>
+                  </div>
+                  </Box>
                 </InfoBox>
               )
             }
