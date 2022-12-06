@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { MAX_SCHEDULE_LENGTH } from '../../constants'
 import { Location, Region, SelectableAttraction, Setting, Order } from '../../types'
 
 interface State {
@@ -91,7 +92,7 @@ const attractionsSlice = createSlice({
       Payload:
         - Index of recommended attractions: number
       */
-      if (state.schedule.length < 10) {
+      if (state.schedule.length < MAX_SCHEDULE_LENGTH) {
         state.reorderByDragging = false
         state.canceledIndex = null
         state.attractions[action.payload].isSelected = true

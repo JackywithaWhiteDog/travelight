@@ -6,13 +6,15 @@ import {
   DirectionsService
 } from '@react-google-maps/api'
 
-import { Box } from '@mui/material'
+import { Alert, Box, IconButton, Snackbar } from '@mui/material'
+import { Close } from '@mui/icons-material'
 import React from 'react'
 
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { StoreState } from '../store'
 import { selectAttraction, setLocation, setRedirect } from '../store/reducers/attractions'
 import AttractionCard from './attractionCard'
+import { MAX_SCHEDULE_LENGTH } from '../constants'
 
 const shape = {
   coords: [0, 0, 30, 45],
@@ -42,6 +44,8 @@ const Map = (): React.ReactElement => {
   const [map, setMap] = React.useState<google.maps.Map | null>(null)
 
   const center = new google.maps.LatLng(location.latitude, location.longitude)
+
+  const [alertOpen, setAlertOpen] = React.useState<boolean>(false)
 
   let origin = null
   let destination = null
@@ -81,6 +85,25 @@ const Map = (): React.ReactElement => {
         overflow: 'auto'
       }}
     >
+      <Snackbar
+        open={alertOpen}
+      >
+        <Alert
+          severity="error"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => setAlertOpen(false)}
+            >
+              <Close fontSize="inherit" />
+            </IconButton>
+          }
+        >
+          最多只能選 {MAX_SCHEDULE_LENGTH} 個景點！
+        </Alert>
+      </Snackbar>
       <GoogleMap
         center={center}
         zoom={15}
@@ -129,10 +152,10 @@ const Map = (): React.ReactElement => {
             key={i}
             onClick={() => {
               if (!rec.isSelected) {
-                if (schedule.length < 10) {
+                if (schedule.length < MAX_SCHEDULE_LENGTH) {
                   dispatch(selectAttraction(i))
                 } else {
-                  // TODO: show error message
+                  setAlertOpen(true)
                 }
               }
               if (activePin !== i || !activeByClick) {
