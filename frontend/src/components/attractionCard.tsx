@@ -1,14 +1,16 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Card, CardContent, CardActions, CardMedia, Rating, Typography, Box, IconButton } from '@mui/material'
+import { Card, CardContent, CardActions, CardMedia, Rating, Typography, Box, IconButton, TextField } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { cancelAttraction } from '../store/reducers/attractions'
+import EditAttributesIcon from '@mui/icons-material/EditAttributes'
+import { cancelAttraction, setStayTime } from '../store/reducers/attractions'
 import { SelectableAttraction } from '../types'
 import { COLORS } from '../constants'
 import { StoreState } from '../store'
 
-const AttractionCard = (props: { attraction: SelectableAttraction, visibility: boolean }): React.ReactElement => {
+const AttractionCard = (props: { attraction: SelectableAttraction, visibility: boolean, index: number }): React.ReactElement => {
   const dispatch = useDispatch()
+
   const addLeadingZeros = (num: number, totalLength: number): string => String(num).padStart(totalLength, '0')
   const round = (num: number, fractionDigits: number): number => Number(num.toFixed(fractionDigits))
   const departureDay = useSelector((state: StoreState) => state.attractions.setting.departureDay)
@@ -18,6 +20,10 @@ const AttractionCard = (props: { attraction: SelectableAttraction, visibility: b
   const openingTimeMin = round((props.attraction.constraint.openingTimes[departureDay] - openingTimeHour) * 60, 0)
   const closingTimeHour = Math.floor(props.attraction.constraint.closingTimes[departureDay])
   const closingTimeMin = round((props.attraction.constraint.closingTimes[departureDay] - closingTimeHour) * 60, 0)
+  const [staytime, setstaytime] = React.useState(props.attraction.constraint.stayTime)
+  const handleChangeStaytime: any = (event: any) => {
+    setstaytime(event.target.value)
+  }
 
   return (
     <Box sx={{ display: props.visibility ? 'relative' : 'none', position: 'relative', maxWidth: 360 }}>
@@ -27,6 +33,18 @@ const AttractionCard = (props: { attraction: SelectableAttraction, visibility: b
           sx={{ top: 0, right: 0, zIndex: 1, position: 'absolute' }}>
           <IconButton aria-label="delete" sx={{ backgroundColor: COLORS.deleteButtonBackground, opacity: 0.3, borderRadius: '12px', ':hover': { backgroundColor: COLORS.deleteButtonBackground, opacity: 0.8 } }}>
             <DeleteIcon sx={{ opacity: 0.8 }}/>
+          </IconButton>
+        </CardActions>
+      }
+      {
+        props.index !== -1 &&
+        <CardActions onClick={() => {
+          dispatch(setStayTime([props.index, staytime]))
+        }
+          }
+          sx={{ bottom: '0%', right: '50%', zIndex: 1, position: 'absolute' }}>
+          <IconButton aria-label="edit" sx={{ borderRadius: '12px' }}>
+            <EditAttributesIcon color={'action'} sx={{ opacity: 1 }}/>
           </IconButton>
         </CardActions>
       }
@@ -62,8 +80,18 @@ const AttractionCard = (props: { attraction: SelectableAttraction, visibility: b
             </Typography>
             }
             <Typography variant="body2" color="text.secondary" component="div" sx={{ fontSize: '0.8rem' }}>
-              停留時間：{props.attraction.constraint.stayTime} 小時
+              停留時間：{
+              props.index !== -1
+                ? <TextField
+              id="staytime"
+              type="number"
+              defaultValue={props.attraction.constraint.stayTime}
+              onChange={ handleChangeStaytime }
+              sx={{ fontSize: '0.8rem' }}
+              />
+                : props.attraction.constraint.stayTime } 小時
             </Typography>
+
           </CardContent>
         </Box>
         <CardMedia

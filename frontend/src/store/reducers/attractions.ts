@@ -216,6 +216,11 @@ const attractionsSlice = createSlice({
     },
     setRedirect: (state, action: PayloadAction<boolean>) => {
       state.redirect = action.payload
+    },
+    setStayTime: (state, action: PayloadAction<number[]>) => {
+      const index = action.payload[0]
+      const stayTime = action.payload[1]
+      state.attractions[index].constraint.stayTime = stayTime
     }
   }
 })
@@ -230,7 +235,8 @@ export const {
   setSetting,
   setOrder,
   closeScheduleInvalidAlert,
-  setRedirect
+  setRedirect,
+  setStayTime
 } = attractionsSlice.actions
 
 export default attractionsSlice.reducer
