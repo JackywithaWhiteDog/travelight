@@ -4,6 +4,7 @@ import { Card, CardContent, CardActions, CardMedia, Rating, Typography, Box, Ico
 import DeleteIcon from '@mui/icons-material/Delete'
 import { cancelAttraction } from '../store/reducers/attractions'
 import { SelectableAttraction } from '../types'
+import { COLORS } from '../constants'
 
 const AttractionCard = (props: { attraction: SelectableAttraction, visibility: boolean }): React.ReactElement => {
   const dispatch = useDispatch()
@@ -22,8 +23,8 @@ const AttractionCard = (props: { attraction: SelectableAttraction, visibility: b
         props.attraction.isSelected &&
         <CardActions onClick={() => dispatch(cancelAttraction(props.attraction.placeId))}
           sx={{ top: 0, right: 0, zIndex: 1, position: 'absolute' }}>
-          <IconButton aria-label="delete">
-            <DeleteIcon />
+          <IconButton aria-label="delete" sx={{ backgroundColor: COLORS.deleteButtonBackground, opacity: 0.3, borderRadius: '12px', ':hover': { backgroundColor: COLORS.deleteButtonBackground, opacity: 0.8 } }}>
+            <DeleteIcon sx={{ opacity: 0.8 }}/>
           </IconButton>
         </CardActions>
       }
