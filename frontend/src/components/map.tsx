@@ -30,7 +30,7 @@ const Map = (): React.ReactElement => {
   }
 
   const dispatch = useDispatch()
-  const location = useSelector((state: StoreState) => state.attractions.location)
+  const center = useSelector((state: StoreState) => new google.maps.LatLng(state.attractions.location.latitude, state.attractions.location.longitude))
   const recommendation = useSelector((state: StoreState) => (state.attractions.recommendation.map(index => state.attractions.attractions[index])), shallowEqual)
   const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.attractions[index])), shallowEqual)
   const travelMode = useSelector((state: StoreState) => travelModeMap[state.attractions.setting.transportation])
@@ -42,8 +42,6 @@ const Map = (): React.ReactElement => {
   const [activeByClick, setActiveByClick] = React.useState<boolean>(false)
 
   const [map, setMap] = React.useState<google.maps.Map | null>(null)
-
-  const center = new google.maps.LatLng(location.latitude, location.longitude)
 
   const [alertOpen, setAlertOpen] = React.useState<boolean>(false)
 
