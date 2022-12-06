@@ -114,7 +114,7 @@ const defaultRegions: ({ [key: string]: { name: string, location: Location } }) 
     }
   },
   'taitung-county': {
-    name: '台東市',
+    name: '台東縣',
     location: {
       longitude: 121.0713702,
       latitude: 22.7972447
@@ -128,7 +128,7 @@ const defaultRegions: ({ [key: string]: { name: string, location: Location } }) 
     }
   },
   'yilan-county': {
-    name: '宜蘭市',
+    name: '宜蘭縣',
     location: {
       longitude: 121.7377502,
       latitude: 24.7021073
