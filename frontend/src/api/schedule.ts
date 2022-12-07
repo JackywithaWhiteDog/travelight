@@ -1,5 +1,5 @@
 import { StoreDispatch } from '../store'
-import { reorderSchedule, setOrder } from '../store/reducers/attractions'
+import { reorderSchedule, setOrder, emptyOrder } from '../store/reducers/attractions'
 import { Attraction, Order, Transportation } from '../types'
 import axios from 'axios'
 import { generateMockOrder } from './mockData'
@@ -24,8 +24,13 @@ export const optimizeSchedule = async (schedule: Attraction[], transportation: T
   } else {
     order = generateMockOrder(schedule)
   }
+
+  if (order.isValid) {
+    dispatch(setOrder(order))
+  } else {
+    dispatch(setOrder(emptyOrder))
+  }
   if (!check && order.isValid) {
     dispatch(reorderSchedule({ indices: order.order, reorderByDragging: false }))
   }
-  dispatch(setOrder(order))
 }
