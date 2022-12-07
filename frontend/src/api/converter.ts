@@ -1,4 +1,4 @@
-import { Attraction, SelectableAttraction, Location, Constraint } from '../types'
+import { Attraction, SelectableAttraction } from '../types'
 
 export const photoReferenceToUrl = (pictureReference: string): string => {
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
@@ -21,15 +21,16 @@ export const attractionToApiFormat = (attraction: Attraction): any => {
 
 export const apiFormatToSelectableAttraction = (data: any): SelectableAttraction => {
   return (({
-    placeId, rating, name, constraint, address, pictureURL, geoLocation
-  }) => ({
-    placeId: placeId as string,
-    rating: rating as number,
-    name: name as string,
-    constraint: constraint as Constraint,
-    location: geoLocation as Location,
-    address: address as string,
+    placeId, rating, name, constraint, address, pictureURL, geoLocation, comments
+  }): SelectableAttraction => ({
+    placeId,
+    rating,
+    name,
+    constraint,
+    location: geoLocation,
+    address,
     pictureURL: photoReferenceToUrl(pictureURL),
-    isSelected: false
-  }))(data) as SelectableAttraction
+    isSelected: false,
+    comments
+  }))(data)
 }

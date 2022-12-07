@@ -23,7 +23,7 @@ interface reorderSchedulePayload {
   reorderByDragging: boolean
 }
 
-const emptyOrder = {
+export const emptyOrder = {
   order: [],
   arriveTimes: [],
   leaveTimes: [],

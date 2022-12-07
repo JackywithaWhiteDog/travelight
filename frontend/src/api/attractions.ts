@@ -10,7 +10,7 @@ const API_ROOT = process.env.REACT_APP_API_ROOT ?? ''
 export const getRecommendationAPI = async (location: Location): Promise<SelectableAttraction[]> => {
   const response = await axios.get(API_ROOT + '/nearbyAttractions', {
     params: {
-      longtitude: location.longitude,
+      longitude: location.longitude,
       latitude: location.latitude
     }
   })
