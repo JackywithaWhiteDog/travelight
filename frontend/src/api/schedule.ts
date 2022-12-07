@@ -24,7 +24,7 @@ export const optimizeSchedule = async (schedule: Attraction[], transportation: T
   } else {
     order = generateMockOrder(schedule)
   }
-  if (!check) {
+  if (!check && order.isValid) {
     dispatch(reorderSchedule({ indices: order.order, reorderByDragging: false }))
   }
   dispatch(setOrder(order))

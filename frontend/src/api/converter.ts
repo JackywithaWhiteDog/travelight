@@ -31,6 +31,6 @@ export const apiFormatToSelectableAttraction = (data: any): SelectableAttraction
     address,
     pictureURL: photoReferenceToUrl(pictureURL),
     isSelected: false,
-    comments: 0
+    comments
   }))(data)
 }
