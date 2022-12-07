@@ -24,7 +24,12 @@ interface TemplateProps {
   dragHandleProps: object
 }
 
-class Template extends React.Component<TemplateProps, {}> {
+class Template extends React.Component<TemplateProps, { draggable: boolean }> {
+  constructor (props: TemplateProps) {
+    super(props)
+    this.state = { draggable: true }
+  }
+
   ArrivalTime = (): React.ReactElement => {
     const arrivalTime = useSelector((state: StoreState) => state.attractions.order.arriveTimes[this.props.item.index])
 
@@ -76,9 +81,9 @@ class Template extends React.Component<TemplateProps, {}> {
 
   render (): React.ReactElement {
     return (
-      <div {...this.props.dragHandleProps}>
+      <div {...(this.state.draggable ? this.props.dragHandleProps : {})}>
         <this.ArrivalTime />
-        <AttractionCard attraction={this.props.item.attraction} index={-1} />
+        <AttractionCard attraction={this.props.item.attraction} index={this.props.item.index} setDraggable={(draggable) => this.setState({ draggable })} />
         <this.TransportationTime />
       </div>
     )
