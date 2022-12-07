@@ -1,22 +1,9 @@
-import React, { useEffect } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { Box, Button, Typography } from '@mui/material'
-import { getDefaultRegions } from '../api/regions'
-import { StoreState } from '../store'
-import { setLocation } from '../store/reducers/attractions'
+import React from 'react'
+import { Box, Typography } from '@mui/material'
 import TaiwanButton from '../components/taiwanButton'
 import title from '../assets/title.svg'
 
 const Home = (): React.ReactElement => {
-  const dispatch = useDispatch()
-  const defaultRegions = useSelector((state: StoreState) => state.attractions.defaultRegions, shallowEqual)
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    void getDefaultRegions(dispatch)
-  }, [])
-
   return (
     <>
       <Box sx={{
@@ -64,20 +51,6 @@ const Home = (): React.ReactElement => {
         </Box>
         <TaiwanButton />
       </Box>
-      {
-        defaultRegions.map((region, i) => (
-          <Button
-            variant="contained"
-            key={i}
-            onClick={() => {
-              dispatch(setLocation(region.location))
-              navigate('map')
-            }}
-          >
-            {region.name}
-          </Button>
-        ))
-      }
     </>
   )
 }
