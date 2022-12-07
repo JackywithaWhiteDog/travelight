@@ -8,6 +8,7 @@ class BackendApplicationTests {
 
 	@Test
 	void contextLoads() {
+		System.out.println("\n ===== This is a JUnit test in our project ===== \n");
 	}
 
 }

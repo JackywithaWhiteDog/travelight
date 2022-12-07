@@ -58,7 +58,7 @@ const Map = (): React.ReactElement => {
   const [alertOpen, setAlertOpen] = React.useState<boolean>(false)
 
   useEffect(() => {
-    if (!redirect) {
+    if (redirect && schedule.length <= 1) {
       setDirectionsResponse(undefined)
       dispatch(setRedirect(false))
     }
@@ -94,16 +94,16 @@ const Map = (): React.ReactElement => {
     for (let i = 0; i < schedule.length; i++) {
       if (schedule[i].placeId === placeId) {
         switch (i + 1) {
-          case 1 : return selPin1
-          case 2 : return selPin2
-          case 3 : return selPin3
-          case 4 : return selPin4
-          case 5 : return selPin5
-          case 6 : return selPin6
-          case 7 : return selPin7
-          case 8 : return selPin8
-          case 9 : return selPin9
-          case 10 : return selPin10
+          case 1: return selPin1
+          case 2: return selPin2
+          case 3: return selPin3
+          case 4: return selPin4
+          case 5: return selPin5
+          case 6: return selPin6
+          case 7: return selPin7
+          case 8: return selPin8
+          case 9: return selPin9
+          case 10: return selPin10
         }
       }
     }
