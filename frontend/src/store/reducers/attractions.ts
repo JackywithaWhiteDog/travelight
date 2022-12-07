@@ -176,6 +176,8 @@ const attractionsSlice = createSlice({
       const index = action.payload[0]
       const stayTime = action.payload[1]
       state.attractions[index].constraint.stayTime = stayTime
+      state.order = emptyOrder
+      state.redirect = true
     }
   }
 })

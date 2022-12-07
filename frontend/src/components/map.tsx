@@ -221,11 +221,11 @@ const Map = (): React.ReactElement => {
                   }}
                 >
                   <Box>
-                  <AttractionCard attraction={attractions[rec]} index={rec} />
+                  <AttractionCard attraction={attractions[rec]} index={changed ? rec : -1} />
                   <div>
 
                   <IconButton aria-label="edit" onClick={ () => { changed ? setChanged(false) : setChanged(true) }}
-                  sx={{ backgroundColor: COLORS.deleteButtonBackground, opacity: 0.3, borderRadius: '12px', ':hover': { backgroundColor: COLORS.deleteButtonBackground, opacity: 0.9 } }}>
+                  sx={{ backgroundColor: COLORS.deleteButtonBackground, opacity: 0.9, borderRadius: '12px', ':hover': { backgroundColor: COLORS.deleteButtonBackground, opacity: 1 } }}>
                     { changed ? <CloseIcon color={'secondary'} /> : <EditIcon color={'secondary'} />}
                   </IconButton>
                   </div>
