@@ -44,7 +44,7 @@ const AttractionCard = ({ attraction, visibility, index, setDraggable }: Attract
       {
         index !== -1 &&
         <CardActions onClick={() => {
-          dispatch(setStayTime([index, staytime]))
+          dispatch(setStayTime([attraction.placeId, staytime.toString()]))
         }
         }
           sx={{ bottom: '0%', right: '50%', zIndex: 1, position: 'absolute' }}>
