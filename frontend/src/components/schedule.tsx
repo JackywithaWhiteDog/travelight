@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { Box, Button, Toolbar, Typography } from '@mui/material'
-import { TimeToLeave, TwoWheeler, DirectionsBus, DirectionsWalk } from '@mui/icons-material'
+import { Alert, Box, Button, IconButton, Slide, Snackbar, Toolbar, Typography } from '@mui/material'
+import { Close, TimeToLeave, TwoWheeler, DirectionsBus, DirectionsWalk } from '@mui/icons-material'
 import DraggableList from 'react-draggable-list'
 
 import AttractionCard from './attractionCard'
 import { optimizeSchedule } from '../api/schedule'
 import { StoreState } from '../store'
-import { reorderSchedule } from '../store/reducers/attractions'
+import { closeScheduleInvalidAlert, reorderSchedule } from '../store/reducers/attractions'
 import { SelectableAttraction } from '../types'
 
 interface ItemInterface {
@@ -115,12 +115,8 @@ const Schedule = (): React.ReactElement => {
   const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.attractions[index])), shallowEqual)
   const reorderByDragging = useSelector((state: StoreState) => state.attractions.reorderByDragging)
   const canceledIndex = useSelector((state: StoreState) => state.attractions.canceledIndex, shallowEqual)
-  const [listItems, setListItems] = useState<ItemInterface[]>(schedule.map((attraction, index) => {
-    return {
-      attraction,
-      index
-    }
-  }))
+  const scheduleInvalidAlert = useSelector((state: StoreState) => state.attractions.scheduleInvalidAlert)
+  const [listItems, setListItems] = useState<ItemInterface[]>(schedule.map((attraction, index) => ({ attraction, index })))
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -147,6 +143,28 @@ const Schedule = (): React.ReactElement => {
         overflow: 'auto'
       }}
     >
+      <Snackbar
+        open={scheduleInvalidAlert}
+        autoHideDuration={1500}
+        onClose={() => scheduleInvalidAlert && dispatch(closeScheduleInvalidAlert())}
+        TransitionComponent={Slide}
+      >
+        <Alert
+          severity="error"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => dispatch(closeScheduleInvalidAlert())}
+            >
+              <Close fontSize="inherit" />
+            </IconButton>
+          }
+        >
+          行程無法滿足您的需求，請減少景點或停留時間！
+        </Alert>
+      </Snackbar>
       <Toolbar
         variant='dense'
         sx={{
