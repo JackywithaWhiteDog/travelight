@@ -6,7 +6,7 @@ import {
   DirectionsService
 } from '@react-google-maps/api'
 
-import { Alert, Box, IconButton, Snackbar } from '@mui/material'
+import { Alert, Box, IconButton, Slide, Snackbar } from '@mui/material'
 import { Close } from '@mui/icons-material'
 import React, { useEffect } from 'react'
 
@@ -118,6 +118,9 @@ const Map = (): React.ReactElement => {
     >
       <Snackbar
         open={alertOpen}
+        autoHideDuration={1500}
+        onClose={() => alertOpen && setAlertOpen(false)}
+        TransitionComponent={Slide}
       >
         <Alert
           severity="error"
