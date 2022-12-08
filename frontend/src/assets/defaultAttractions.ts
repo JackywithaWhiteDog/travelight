@@ -451,8 +451,8 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
       pictureURL: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTJtwQnasAs4_i2g0V4S_Im5RvmaS0IMkGo9N_7oX_KHWlImY18iR8SUAXb4gn2vJY6KdLdaUpGGOd5eeF2YCzJTQ'
     },
     {
-      name: '六堆客家文化園區',
-      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcT4DLMokUOc2wgmEz_A-aLxUXg84Pf73iLpi6xJbx62prAiQOPex0VBtxVlnAr-_WjaUvGZjsTF83LfdWOD7Z1j-g'
+      name: '林後四林平地森林園區',
+      pictureURL: 'https://lh5.googleusercontent.com/p/AF1QipN17vLYfx2c5Ze93F--ii35d2I-qPjP0uuo59Af=w696-h390-n-k-no'
     },
     {
       name: '台灣原住民族文化園區',
@@ -571,7 +571,7 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
     {
       name: '通樑古榕',
       pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcSqL7by2NCf4vsiX45x1fQoJSj7Kj_9z6IzEtS5StzYfOjhXNfXhKNiRmY7rGMWV822yV6nrJkCDGgZ8M8WKgfrnA'
-    },
+    }
   ],
   'keelung-city': [
     {
