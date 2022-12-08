@@ -146,7 +146,11 @@ const Schedule = (): React.ReactElement => {
       <Snackbar
         open={scheduleInvalidAlert}
         autoHideDuration={1500}
-        onClose={() => scheduleInvalidAlert && dispatch(closeScheduleInvalidAlert())}
+        onClose={() => {
+          if (scheduleInvalidAlert) {
+            dispatch(closeScheduleInvalidAlert())
+          }
+        }}
         TransitionComponent={Slide}
       >
         <Alert
