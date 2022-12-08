@@ -65,7 +65,9 @@ public class RoutePlanner {
             travelSchedule = optimizeOrderBruteForce(vrptwDataModel, originalOrder);
         }
 
-        convertTravelScheduleOrder(travelSchedule);
+        if (travelSchedule.order != null) {
+            convertTravelScheduleOrder(travelSchedule);
+        }
         return travelSchedule;
     }
 
