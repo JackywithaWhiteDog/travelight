@@ -27,18 +27,3 @@ export const renderWithProviders = (ui: React.ReactElement): StoreType => {
   // Return an object with the store and all of RTL's query functions
   return store
 }
-
-// export const renderWithProviders = (
-//   ui: React.ReactElement,
-//   {
-//     preloadedState = {},
-//     // Automatically create a store instance if no store was passed in
-//     store = configureStore({ reducer: { attractions: attractionsReducer }, preloadedState }),
-//     ...renderOptions
-//   }: ExtendedRenderOptions = {}) => {
-//   function Wrapper ({ children }: PropsWithChildren<{}>): JSX.Element {
-//     return <Provider store={store}>{children}</Provider>
-//   }
-//   // Return an object with the store and all of RTL's query functions
-//   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) }
-// }

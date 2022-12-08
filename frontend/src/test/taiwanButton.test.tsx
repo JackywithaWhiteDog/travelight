@@ -9,7 +9,8 @@ import defaultRegions from '../assets/defaultRegions'
 const testCases = map.locations.map((location) => ({
   name: location.name,
   id: location.id,
-  location: defaultRegions[location.id].location
+  location: defaultRegions[location.id].location,
+  chineseName: defaultRegions[location.id].name
 }))
 
 const mockedUsedNavigate = jest.fn()
@@ -37,6 +38,9 @@ testCases.forEach((testCase) => {
   it('Testing taiwanButton', async () => {
     const store = renderWithProviders(<TaiwanButton />)
     const button = screen.getByRole('none', { name: testCase.name })
+    fireEvent.mouseOver(button)
+    const city = screen.getByText(testCase.chineseName)
+    expect(city).not.toBeNull()
     const beforeCount = mockedUsedNavigate.mock.calls.length
     fireEvent.click(button)
     const afterCount = mockedUsedNavigate.mock.calls.length
