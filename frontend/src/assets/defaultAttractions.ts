@@ -31,40 +31,24 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
     {
       name: '國立國父紀念館',
       pictureURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8M6RwAv4cPjRbVJXHG83QdiCyJSC_oDphMcyWMbhLoVGSWwhP3YIcCstpJ_E4krhNiPeg1qiEuDcZYuHwJlnIgQ'
-    },
-    {
-      name: '臺北市立美術館',
-      pictureURL: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTaSq1gftLd5l4HkbmNMmoiM4I9BDgrubNH1EuG8NIS07jfalMJpqW4MG5fBnsuRMT6gzS3K8UurLKteqr3Q8Y2DA'
-    },
-    {
-      name: '華山1914文化創意產業園區',
-      pictureURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQABTFJcxuEyISLjyA-G0HOoXtfyKITRjuWb3wxeug3l19L9TaNp-Fvg5uTQ6zMtmQThVMgl_kraemrve87Xft3Ew'
     }
   ],
   'new-taipei-city': [
     {
-      name: '烏來區',
-      pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcQiRzbs_Nz0UCXWZzEPqYoXn1qDhsuIGRZiZ-dUs-1l1SahwzMZlGAqLM3OgNWjeiWvd4KEJsl2FBl2kL2IpxL1ZA'
+      name: '碧潭風景區',
+      pictureURL: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRswHuM6wjrvlTkbHXf58iix3SHSa87m4oGFgAmm2b87jrJ_J2dxtIOTCXN0pT_fSf9Kfg7nEAIQjJCL1bSQxrBwQ'
     },
     {
-      name: '平溪區',
-      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSO30DV_gA37200DRThWTnV8wQmO00DlcBy50V0F7TzVkGwf3Q7SxBapnRH0mg-CoB6veph3574Yj-BNKFSCRUZGQ'
+      name: '林本源園邸',
+      pictureURL: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ2BzcmwYLJOQ6ZBUHnfc8tzOu-H8-7wggUsyGOeZMWcKjRS6P2gmz5seXkIn7z-1UnMI1Zs3E6SkOQgRznE0EFrQ'
     },
     {
-      name: '鶯歌區',
-      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSieduw4fte36C4BeHTXXPmiK6mcvDeBcdThTDqR3Z0xkAFg5wnKJ_iIjH93739eCOv06KjVwCGNbsHwDxTnrINVQ'
+      name: '三貂角燈塔',
+      pictureURL: 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcQvmZ1vlaSgLL932DQWZ9-cHf13_9e7wQbkOzZ44gDpZSfpBAWWgr8QzBkwHd_9Dadio10gR_P-c2HFD844t1_tgA'
     },
     {
-      name: '金山區',
-      pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcQTw-F3T4Re--Qzg76FUDdiS_w_WmyfLNYupW7n8--DnfrFMhvpkBWwqK2nq4DckQt1LQRnkUwaEWjnSJ3GhHjG1w'
-    },
-    {
-      name: '九份',
-      pictureURL: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQKd5DYriq4PRHGzbEE9yZKYmW-GnIS2_Z6nG_5d0072B0oeSK6rh2rBu0g6UTQNC8SJaeGUrQyGI50Syppn0ZltQ'
-    },
-    {
-      name: '野柳',
-      pictureURL: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcR9xmEh3dbiQMvSYxE_c3V7-mtTINwiJUJ2DOjfNBpGFIRA6iHu6SRaz1dlXDHrvktKVPIjPnCtFo4mJ02ib7SnEQ'
+      name: '新北市立鶯歌陶瓷博物館',
+      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSXoR0KuqhDNO-8blfPzzhaDZq5nmblGSbct903qebe9zqZDaIXhUcdjS1BYoWi19UvoGE8rbeT5SrpCi1S5L6y0Q'
     },
     {
       name: '福隆海水浴場',
@@ -79,22 +63,14 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
       pictureURL: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQpJo-J_-jkZOkvgL9nergb8nllc5FHMTR5FmQK1ShsyFE6dmNHfmxwFcD2bFnn2MfqPagWDhwuOyyhJdBSKQvAyg'
     },
     {
-      name: '林本源園邸',
-      pictureURL: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ2BzcmwYLJOQ6ZBUHnfc8tzOu-H8-7wggUsyGOeZMWcKjRS6P2gmz5seXkIn7z-1UnMI1Zs3E6SkOQgRznE0EFrQ'
+      name: '滿月圓國家森林遊樂區',
+      pictureURL: 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcRaP_vWAbQx_FEUN_-rchZejrUgqqE8gwoH-FNiKJ2zgeC6Y5x4IjlMNH61LJZgtNgJW1l4A-pIoQdXHAnjisanUA'
     }
   ],
   'taoyuan-city': [
     {
-      name: '桃園區',
-      pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcQCWZdi5Pzyj8jAFwVuilKNFFnnfrq26GOyObRXz5gsBtDp2dKSJ3MtY2CwAdQbHgjBdhp1JRud0bG9Ru2_PISRZw'
-    },
-    {
       name: '六福村主題遊樂園',
       pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTbSppa5HcylKYGF9w53fAdLBaznANonRFfW1_K4uo0fMr-28uwp7fEgdzke1ywt_3jNy75jurfFbsPJ8cOG3H-_A'
-    },
-    {
-      name: '捷運桃園機場線',
-      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcT2TIPZiiGQDJdUUM0V1VEaGQ6BoDoILbD8vIQG4ftm6o7HfwUBMSR2I7_zxV6kOiPqna2jfO5jsBs51USa3RG9XA'
     },
     {
       name: '大溪老街',
@@ -157,14 +133,6 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
     {
       name: '麗寶樂園',
       pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcQpr-0voIiFg2j2feQK11XfDSLFG-UuefHnJQ5zZ6qS6E38Oal4W7b799vHsVIEMN1m0ueNTOb3Ki0uR_z6RcCgaQ'
-    },
-    {
-      name: '太魯閣國家公園',
-      pictureURL: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRG4gO-Ik_EkPg3xJ-UOaVhce17SD-MAYcxOygRqKlmZzvLzflvuYtXBRL4J0rjP53ZURKavrpQhL6iRxTtbpPavQ'
-    },
-    {
-      name: '雪山',
-      pictureURL: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTvN-E7i93xNrLUl-AbmM6cko76kJhXmuAuYH0vB5gjeQao8O8Fv7tkXN-qrG2_Pqy5x1l8wqinKgrZ9tBUVYa3DA'
     }
   ],
   'tainan-city': [
@@ -199,14 +167,6 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
     {
       name: '臺南祀典大天后宮',
       pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSTgEIpvP_bpZHDLs38k-edoyJyZuI5ktQOdooKKPKoyCQy_syNcez9WHq2vfkXxLjQCscvCmrP4Nbdb4_SC1s0vQ'
-    },
-    {
-      name: '台南北門井仔腳瓦盤鹽田',
-      pictureURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGZzW9zibQQ1ykG9tU8S0mEFQ-5MUCdR3zj2vvai9HVkUu9zhiG3e51lNnEIjdYKkrXfS5xZ7ceJ5O48jOjz7VVA'
-    },
-    {
-      name: '七股鹽山',
-      pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcSZumshL5PFKAi1eK2aXgYWNpnhZ7KZlpaeUuEXh-t7YBdFw4mmS4ctcIlEIlCpMoHkT8qCDZr-o64jSOBBJ0CPFQ'
     }
   ],
   'kaohsiung-city': [
@@ -239,16 +199,8 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
       pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcQuZHh6T-U6Gi-dj6goRWhY3zI2N2b31ee7EN8V0cDtdF-gIout9HCuhphRznXD6zSyI8eLqV2lBz97D9J1xD3d_Q'
     },
     {
-      name: '旗津區',
-      pictureURL: 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSDZHOSr6evSrvneFoBzYIqJ71rU2vJtdmTvU6pDqlT5ofNnf8KeJIWbSSV3i2l7oy1Q-erppKvCXU39cAa15N9DQ'
-    },
-    {
       name: '打狗英國領事館官邸',
       pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcSuh-gMTkLwR81QlGy5wDow401vw7WbnjT9wVcX-U8ycFQlYusxWSGBuyP7uST_fklHX3_PJEnDIS_F3GF3hwsboQ'
-    },
-    {
-      name: '西子灣',
-      pictureURL: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTAyy7W9_w0zrNHRhT041Zpb2BvYQwaAvXgqvHK0mNVmFYn_wZNmYwJm0fqALK5MrMfG1B6XRpic3vq6_UFuZrpwA'
     }
   ],
   'yilan-county': [
@@ -277,16 +229,8 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
       pictureURL: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTxZDgxsjrHV1we68qrTYZ-8_fcU_OEwh60d2kQl4ENhkldYWTozlVEA2afytZLMIHlYg0Dy84iAQT508mTn1VP2Q'
     },
     {
-      name: '金車噶瑪蘭威士忌酒廠',
-      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTUpovdIBnY7W1fvIgNRKp2vYH53rH0bbPalnuqVm3wuUisOl9rJKC0n8mFangNaV4rwFkS43sC6xYEgVgsM387Jw'
-    },
-    {
       name: '蘇澳冷泉公園',
       pictureURL: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSMdmYORti7v4wtCwV4R83bduWgO3oJx_ney8nsitP4N1cRNTT-Xa2j26P6EjozyQHXNm5XQRw4kPXXkZx5d1EBAA'
-    },
-    {
-      name: '礁溪溫泉公園',
-      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcRllMC1dnmi7Rk0nNBemL84i9kxRHGFxSfhXNop1d3ZEQhpi7eMX2q0pAm1WPI9-dl9DlMA3MqdE21r8hlGVE-m6g'
     },
     {
       name: '冬山河親水公園',
@@ -307,10 +251,6 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
       pictureURL: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRoZLAjQ-UzwqcQPP0Kdw0HamWadC1gBUQh1-py_gUOIsjnZruuQptU_yUrmyhpyhmsG6v8OKPwZ1twEYQB6W0Psw'
     },
     {
-      name: '小叮噹科學主題樂園',
-      pictureURL: 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTjTsym2ipvxkFJBFEwh06ANEMyvMKLez5I-NCVmjf46YCUpekev7GR2ze1qC0NJnhpn9P7gwMwf8E5G9K9IooPqA'
-    },
-    {
       name: '內灣老街',
       pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSKK6zEJyMY-9vhaAyVC5Ic1BABxhRRxwkadFaWxLJd26PnTZc17iaK1tehxnnkh0-c7aNJIhizunt1GwwYGyMx6g'
     },
@@ -325,52 +265,40 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
     {
       name: '綠世界生態農場',
       pictureURL: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR5DP2EOlkXGhyZiQ915uz9A9IMO7bs3IHUUiW1GA3A77euhk5jA66o9At4278_nvAAEjy_jDY407nS3ycEH0y4og'
-    },
-    {
-      name: '桃山',
-      pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcTDEe6wTFWBeUnGKxfoW7_ktu-h4Cr13BSMpAtTlwkw-e9vxZujuCt-CYP7J7AXSTknlAzSW5iNpp0mfynxOjscYA'
     }
   ],
   'miaoli-county': [
     {
-      name: '南庄鄉',
-      pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcQZLE8q76Iy8kMUAUa1BdDEN2bepfcPsO_yx6TYRXyfeYDdemZ8Ls8Bmi7tz2YWCNaJWbsPKqUadboewmJVHLdSYw'
+      name: '白沙屯拱天宮',
+      pictureURL: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcRDdHvoRsQMsWkYe55Zln90JLs-ZMmhpn6eO7RV6Kiy961DwbGaM6xZJTgm7GXDZSv7CJipeJRxb13_r3-YF11Vow'
     },
     {
-      name: '竹南鎮',
-      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTb-GiPqwuOPP-pFuVE2QyTR2uDLVxIWCwttQe-KvaWLHF-YgmfGDylFIG6ITr0HvmjEDmVK4YzggHJgD24mam10A'
+      name: '飛牛牧場',
+      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTfrlppgknif8pYp7IkzdoDlmockhSxugdgx3BxSfjNSz7A_Z-wh1oG1n0vncn5TzNg5nZUopD5968YtfFiJ7SnFg'
     },
     {
-      name: '三義鄉',
-      pictureURL: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ_-TA7fHRA7i7qe_mNVe_5NvzZ782i-fdsCL1A5E8wv97X-jPmPN-jmbfEjs5O4AOZ30jLbzHCTad2GpDSQh4IIA'
+      name: '觀霧國家森林遊樂園',
+      pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcTuciKMYD3qEqYiTDqP9CA9TM2nKYDNMvGw2aQFvzvFTz9GjgAglbIiM6ZvT4q6n2wXtpM6EkXoWWhva41go9MLGA'
     },
     {
-      name: '苗栗市',
-      pictureURL: 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcRMcNVF8U4mUGLN-dmlGrON8PQhyCy3dzi4XV3rt9yLvc-Xp_GKI10TJFsTXBw2y48TpC6NqubwScvvWeRZ-1huEg'
+      name: '後龍鎮半天寮休閒文化園區 - 好望角',
+      pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcSzbCfEosn0oSDbxpoxxK9hOrv4eMsz4LdTxeQFuD-2ONc95NUWoAv6KKt-LyIafDD_Q_qxL6SRyfeR0HL3xDIPVQ'
     },
     {
-      name: '苑裡鎮',
-      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSM8GKeRlCz2nJIKGf6FlSkwVdqX7v3Pa-yO5xqkzldzzcIcAHvAshFnK1dIsBjQ7Fk9PVuBT4ab7gPCSiZya5Prg'
+      name: '龍騰斷橋(魚藤坪斷橋)',
+      pictureURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR08FQdGbYU-9z8rZQJIUCYYUKUgTMZNypG7pd04R3n1T4HSleEnGxYQxZ9JX0VIhLWrZRlphGbn1OnT6x8K4fNyw'
     },
     {
-      name: '頭份',
-      pictureURL: 'https://lh5.googleusercontent.com/p/AF1QipOdYTq9DXBT71YdFOANz90FjyUhQZ7ldWuEfTvG=w928-h520-n-k-no'
+      name: '九華山大興善寺',
+      pictureURL: 'https://lh5.googleusercontent.com/p/AF1QipNjLlNUBdqAyv-ZQ1kY_lPPB0OHHXFGxsnbCptO=w444-h303-n-k-no'
     },
     {
-      name: '通霄鎮',
-      pictureURL: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcSfT_7cDgqS9qwPNhAuvVFnAXn8AhoubvCEeQ0d7PpDbbXjLs3SpBNqHYk2ydt7W171Xa9AU5JilYDx2EVzlV78gg'
+      name: '神仙谷',
+      pictureURL: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcTop0vfzDcv9CnvjKAzXgley7XeHkUsm3-FohhZF9iV9-0VHQFEPuZJw3vvOWS_Uqs_8e448dldC1me8FSPyxbydQ'
     },
     {
-      name: '公館',
-      pictureURL: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcTJbAN7ZmqnJm6OPrlHwSEywaiDxr7ggxKGjv0nXql0RZjyjZVm7bKOt4pL6QWf_HYvKKkhCSIXqyn0K9oQF3IymA'
-    },
-    {
-      name: '泰安鄉',
-      pictureURL: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcTul1EzwriLDlUsncH6vRh68jGiBWwuTJnA9EHYnqOPZZSc67-NGCb_oc7WQCuqeFGqJdYzrNW4Svg-p6ibnTAICQ'
-    },
-    {
-      name: '大湖鄉',
-      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcQVOATDLdjk_GOGcHPylhChE5Pknul2k_xeboP6gx4qX4WD1zyGaOpaK7qdMmvyM3DPpIrMxMzUsB1bvfQmaWyiHQ'
+      name: '泰安竹林秘境',
+      pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcQEHNC82e0rsDkUtXVDvuUz4MltMFysT2mhsgJcZEHIny6thxbbERmM0xn3CWO9bJOTnAqv5z6lzn-mXRAVAsTjqg'
     }
   ],
   'changhua-county': [
@@ -403,16 +331,8 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
       pictureURL: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQLSiGExY05AAGJQ7wlbcyqF_XE-OmuRSO15YJAKSw_cF-izNiI4SUQ-d11xfJTPpRfggAF_I5yhGC4PCNkVeRdtg'
     },
     {
-      name: '成美文化園',
-      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcQXGcK2xKNBgcEZkSbRJhZj9nn7frFdOotyA0vQF_T6LfboQqK18OBKUY508noElJcV4L6UNWjo-8u8M47mzoTetQ'
-    },
-    {
       name: '八卦山大佛風景區',
       pictureURL: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ8YGAfoMBEtD_nEPURoqmE4qSol8Yge2Ym6mWemNTwP73JIzLCsweyIKS9Ul9u7sDiy8iHBUMNJA9l8-S6wJCHYA'
-    },
-    {
-      name: '溪湖糖廠',
-      pictureURL: 'https://lh5.googleusercontent.com/p/AF1QipNtM2FdR--kL3jqOFhL4echKJZVtjcQKl4C2Usy=w928-h520-n-k-no'
     }
   ],
   'nantou-county': [
@@ -437,16 +357,8 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
       pictureURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9zMubeWNokJEQAAgCoAaf2EKzKrb3Sz4Ve4Tyv8-wM3p9Hq1s7MWGZiqTKK45cLeX4GbvuEwugvWDVdVyDAkwrA'
     },
     {
-      name: '日月潭纜車',
-      pictureURL: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcQJdkSXhofokpjvMrJT6mIMdqPY7LNnkv7k9wSo0p1H0WiXSVFkluNXpoPp16Ap31ymhKj6vzNoBnU6WqxfRWNz2w'
-    },
-    {
       name: '日月潭文武廟',
       pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcSPn01Xjwl_4b3NoMIO_ZPrK4zODtoEve5paUxrpYvUDA04t6_7g_CIKzw9l0S4uDDs8Ai3WKXPlzI3gQZS5Tynaw'
-    },
-    {
-      name: '伊達邵碼頭',
-      pictureURL: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcQ1dUnV_d1UexOVQrFClgrgvkIzp2jFzxU_khJTCKA-5gB4fbBBWv7yOE1eZYHExC3lVL347b9kT1GnIclyFS7Ymg'
     },
     {
       name: '溪頭自然教育園區',
@@ -475,20 +387,12 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
       pictureURL: 'https://lh5.googleusercontent.com/p/AF1QipM0vM4OEHyNPaynjtOWYIQs6NXAfvegxfa0EP4=w928-h520-n-k-no'
     },
     {
-      name: '飛天潛艇G5',
-      pictureURL: 'https://lh5.googleusercontent.com/p/AF1QipNxmm_lTDGZECwEy3tbNPjrr-lhEM2TWKpyUxWp=w928-h520-n-k-no'
-    },
-    {
       name: '五元兩角(Five Yuan and Two Jiao)',
       pictureURL: 'https://lh5.googleusercontent.com/p/AF1QipNBMq-6RwZ4YK6tM2wcAtDlXd6Ik2WOJE9MN1JD=w928-h520-n-k-no'
     },
     {
       name: '峭壁雄風',
       pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcQzGOj3SR1a7UVsDUtrNi7Qiw33XoSTihPPKSzRgIA0h2lj5zpIBEFzcvJo_m5GhlOmvhdVBIV5YXBL326JOsB7tQ'
-    },
-    {
-      name: '衝瘋飛車',
-      pictureURL: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcQRakYeDqjqsyHzCY_9rU_BVJ6vAUZm0suAHj3FP7s8SY8GR44JmzycfyO_QhQTv8hepj1ocjpnzEvRZa6i6JiVKQ'
     },
     {
       name: '澄霖沉香味道森林館',
@@ -505,20 +409,12 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
       pictureURL: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ7BRdxaFDlwe4CEkZQpyX42B7s4FcIGGETFkjV9VE12JcvsX7Tr_1WKL1C7MH7OvWLqityOgZaVrWcVb-wBICJzw'
     },
     {
-      name: '奮起湖老街',
-      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcRjm9RGaIJtUWC5YDj5VJcm-_ZdA5wr7U4FaCpQs3jd-YjRrfiVy78zMxl-B8t2ryU3M5lc1a-yNAhqp0rkfgoKdw'
-    },
-    {
       name: '太平雲梯遊客服務中心',
       pictureURL: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR9SR2COK5zO6X2e9e5ctPfvLMWTqEAVuWICTbXqig7b54UkJURfGIuZTw9RA7jA07b7NRyNwypyMu_M4vF2Ob1Kg'
     },
     {
       name: '曾文水庫',
       pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcQ06p29tE-ApZWVavOj2PvNJlPrg56RwpAUUI_mkgd1czV1cmP5lYEP0X1hBlFDfVWN17LHsFmFdpJlYHmj15JI4Q'
-    },
-    {
-      name: '高跟鞋教堂',
-      pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcQzdSRXDzWn1MF2-zsQaYBmm4_8NAzTG-UKyzaXUeGwBUis1wUChHpo-CEMNJQdwIkUXm3LrB0sfL1THYoCC3L5fA'
     },
     {
       name: '姊妹潭',
@@ -555,8 +451,8 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
       pictureURL: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTJtwQnasAs4_i2g0V4S_Im5RvmaS0IMkGo9N_7oX_KHWlImY18iR8SUAXb4gn2vJY6KdLdaUpGGOd5eeF2YCzJTQ'
     },
     {
-      name: '六堆客家文化園區',
-      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcT4DLMokUOc2wgmEz_A-aLxUXg84Pf73iLpi6xJbx62prAiQOPex0VBtxVlnAr-_WjaUvGZjsTF83LfdWOD7Z1j-g'
+      name: '林後四林平地森林園區',
+      pictureURL: 'https://lh5.googleusercontent.com/p/AF1QipN17vLYfx2c5Ze93F--ii35d2I-qPjP0uuo59Af=w696-h390-n-k-no'
     },
     {
       name: '台灣原住民族文化園區',
@@ -573,14 +469,6 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
     {
       name: '墾丁國家森林遊樂區',
       pictureURL: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcQ_FAh7Q8NG71DRQjgcU50eYusY38zfg0bElVUHhcwePzdGUjOzFvZAsqUGWpaBrvHoDEoLXWj3fJZbzf6ai4YFEA'
-    },
-    {
-      name: '大武山',
-      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSJ29mm9bxWtIIIpdkNTf8NPRRPi6r0vmh94lwgAB1D4ZVDRPFLr7XXYm54MBN0Z7Fqa9U9KeCQ52aY-_dBRdLASw'
-    },
-    {
-      name: '大鵬灣',
-      pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcRBwxW9OE3KhJjN5soPp26o4mlS4sfr0XfdikOh1f6q0ChkCdq7GmJXslo75bWwxBublg4rdlEPBF5rLTqGtncRMg'
     }
   ],
   'hualien-county': [
@@ -615,14 +503,6 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
     {
       name: '東大門觀光夜市',
       pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSHAV9_RvrIiTgafv7psP-jkW1XDQZkxwu9QXS09kLy_gFEZ1TOYqWyfEURy5v-_Jl1fVRGaJv0L2OiyzdOwrd1iw'
-    },
-    {
-      name: '白楊步道',
-      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcS1xQaeiFn9el_k8JRPt1l3WbgFZhJK7gYAEcVXy6XLbl6wnimSRzHFOzQ-5RTDnrYDW7delSNujzItiwzKP5PbTA'
-    },
-    {
-      name: '大農大富平地森林園區',
-      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSc_c6UMoyhFsgUSQf8u37vXpd30--jHKNkx9wLW83VY9gNX5qNa854Cjuip2DMw0WfiBhCJYn2ppzXDSPVFIywmg'
     }
   ],
   'taitung-county': [
@@ -643,16 +523,8 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
       pictureURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpHEJJpbJwk95aPkYVSXeid8tHE-FXQydxHpcfoKhEuUmKSXMDy1JXRwc8sISMW7nJcMWpVdVBDgflGh8DCNsw6g'
     },
     {
-      name: '台東市正氣路觀光夜市',
-      pictureURL: 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSJjKdYuMBjMLLiQk16iM6nkjpjR-r1J2h9wj-ORj_JSPEpKBiXVTTnIJgwtk0lyVoDuNIxTryaI5zSLLoo4iwH-w'
-    },
-    {
       name: '池上伯朗大道',
       pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcSkntsHPdlfl2ZOfHDP7qWuFKRvZTGKexjYqLjvDSRII3N-QU7AhIp95ZvEUTJCar9r1azYo3zDISbglLgebQKG5g'
-    },
-    {
-      name: '嘉明湖',
-      pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcTExoIDMupqB8f5ED9KeVQ7Q6lztfXQiwERfxbyNs9qvL1FGZnlpuRHpGI8CUT-N_Q_U9DUXNcFS8uTo_jlyU66Cg'
     },
     {
       name: '鹿野高台',
@@ -697,16 +569,8 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
       pictureURL: 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTA0HnshNRf8UFdquFjA4mF6MSEA00hRlZQNtAysqNBFOc0AIUlW0zS2fLUm9mFmUt2OrAJJZFHyqLLET7CkwUBMQ'
     },
     {
-      name: 'Daisho Island',
-      pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcR6wdJ5Dd-Hily_RyP2hQy816fbljPPgFpu3515Pu7nnzdUDEqomrbO0aKgsz6KwtAv8MgegALz0SrYLqz9lwhpFA'
-    },
-    {
       name: '通樑古榕',
       pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcSqL7by2NCf4vsiX45x1fQoJSj7Kj_9z6IzEtS5StzYfOjhXNfXhKNiRmY7rGMWV822yV6nrJkCDGgZ8M8WKgfrnA'
-    },
-    {
-      name: 'Hoko Island',
-      pictureURL: 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSjTOmPPtJpeOlDn-x-N4crnde8vGqbG8iDgrTWzoNqSrp-_o9F-xAeqrXKw4oTf__Bc-4qPTs8WdCd2lZoj7H6Ow'
     }
   ],
   'keelung-city': [
@@ -731,10 +595,6 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
       pictureURL: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSuJjm4xzWZvaWBBC-oig660HGPUVUL-xmXuoactWDcI9UGZyUi4YW1XEScbXsLntikGuq2h0IMS0e5je5FpuGYWw'
     },
     {
-      name: 'Peace Island',
-      pictureURL: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcQ366RLahdoZQlnOFah3ue4o1gxx4R5Rl3sWcl4SjcaHsAO9j4waFSUnYGt3CTDeIRgcUveCr7kluChml4QaMx5IQ'
-    },
-    {
       name: '基隆內港',
       pictureURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR91voK_BkLYXTFV0QoUC3YOz8FBbXA0fsvrtr-FAJR7sC6vffpx-ybr_Sg5buqwktijpOYZ-nL501RES8VcPnyCA'
     },
@@ -745,10 +605,6 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
     {
       name: '望幽谷',
       pictureURL: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcS_3L1hWStjqEUitCOG0M0LOOVMwtD4VdJ038r3ejIK7d_20bcSXWIJYU0oJTBEhcNctXbx776EPRqTFbM6af5bcw'
-    },
-    {
-      name: '基隆中正公園',
-      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcRW8sIyHD-M1b4DSNhR3hF3D_QgYxWG3lNp9dT3Ak6b3mBiIpVssIAXsRbWkcwLvW13VsaQZuw6hpOydEAFKd7puA'
     }
   ],
   'hsinchu-city': [
@@ -763,10 +619,6 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
     {
       name: '新竹市立動物園',
       pictureURL: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcSADCL3vPDbTOCiYw8h7Uq-__Nkdnq_gjuZS68n8PGiRvi2BEjS8Sc-09fYhv219DwN3zxIkcxDwOn2_zQN3wWbpA'
-    },
-    {
-      name: '小叮噹科學主題樂園',
-      pictureURL: 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTjTsym2ipvxkFJBFEwh06ANEMyvMKLez5I-NCVmjf46YCUpekev7GR2ze1qC0NJnhpn9P7gwMwf8E5G9K9IooPqA'
     },
     {
       name: '新竹科學工業園區',
@@ -817,14 +669,6 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
     {
       name: '森林之歌',
       pictureURL: 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcRfQemnEhgVsSGkhz1V-V5r92er4Zbx3YdtM0YIbei17DEmm3t8UFGdWrcl_8mL7RLqP0kAOciQsv3AooUDzm4xEA'
-    },
-    {
-      name: '嘉義公園射日塔',
-      pictureURL: 'https://lh5.googleusercontent.com/p/AF1QipNftoLVxc7HpZZaUtn33pAncGd6DIYOLo5TyEPk=w928-h520-n-k-no'
-    },
-    {
-      name: '嘉義市立美術館',
-      pictureURL: 'https://lh5.googleusercontent.com/p/AF1QipNjBvRJ_XHU4St_xFJ1jSUGZEUsoVLmSUJyU4En=w928-h520-n-k-no'
     },
     {
       name: '國定古蹟-嘉義舊監獄',
