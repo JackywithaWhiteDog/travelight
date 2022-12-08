@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getRecommendationAPI } from './attractions'
+import { getRecommendationAPI } from '../api/attractions'
 import { Location } from '../types'
 import { mockSelectableAttractionList, mockResponse } from './mockData'
 
