@@ -29,6 +29,8 @@ public class Filter {
             check = false;
         if (result.userRatingsTotal < minComments)
             check = false;
+        if (result.photos == null)
+            check = false;
 
         return check;
     }
