@@ -2,11 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { MAX_SCHEDULE_LENGTH } from '../../constants'
 import { Location, Region, SelectableAttraction, Setting, Order } from '../../types'
 
+const MAX_ATTRACTION_LENGTH = 30
+
 interface State {
   defaultRegions: Region[]
   location: Location
   attractions: SelectableAttraction[]
   attractionId: string[]
+  attractionIndexQueue: number[]
   recommendation: number[]
   schedule: number[]
   scheduleIndex: number[]
@@ -38,6 +41,7 @@ const initialState: State = {
   location: { longitude: 121.421072, latitude: 25.085651 },
   attractions: [],
   attractionId: [],
+  attractionIndexQueue: [],
   recommendation: [],
   schedule: [],
   scheduleIndex: [],
@@ -75,19 +79,52 @@ const attractionsSlice = createSlice({
       - Currently time complexity: O(N^2)
       - Redux doesn't support non-serializable class (e.g., Set)
       */
-      action.payload.forEach(attraction => {
+      let queueIndex = 0
+      let traverseCnt = state.attractions.length
+      action.payload.every(attraction => {
         if (!state.attractionId.includes(attraction.placeId)) {
-          if (
-            attraction.rating >= state.setting.minRating &&
-            attraction.comments >= state.setting.minComments &&
-            attraction.constraint.openingTimes[state.setting.departureDay] !== -1 &&
-            attraction.constraint.closingTimes[state.setting.departureDay] !== -1
-          ) {
-            state.recommendation.push(state.attractions.length)
+          if (state.attractions.length < MAX_ATTRACTION_LENGTH) {
+            if (
+              attraction.rating >= state.setting.minRating &&
+              attraction.comments >= state.setting.minComments &&
+              attraction.constraint.openingTimes[state.setting.departureDay] !== -1 &&
+              attraction.constraint.closingTimes[state.setting.departureDay] !== -1
+            ) {
+              state.recommendation.push(state.attractions.length)
+            }
+            state.attractionIndexQueue.push(state.attractions.length)
+            state.attractions.push(attraction)
+            state.attractionId.push(attraction.placeId)
+            state.scheduleIndex.push(-1)
+          } else {
+            // FIFO strategy
+            while (traverseCnt > 0 && queueIndex < state.attractionIndexQueue.length) {
+              traverseCnt -= 1
+              const index = state.attractionIndexQueue[queueIndex]
+              if (state.scheduleIndex[index] === -1) {
+                if (
+                  attraction.rating >= state.setting.minRating &&
+                  attraction.comments >= state.setting.minComments &&
+                  attraction.constraint.openingTimes[state.setting.departureDay] !== -1 &&
+                  attraction.constraint.closingTimes[state.setting.departureDay] !== -1 &&
+                  !state.recommendation.includes(index)
+                ) {
+                  state.recommendation.push(index)
+                }
+                state.attractionIndexQueue.splice(queueIndex, 1)
+                state.attractionIndexQueue.push(index)
+                state.attractions[index] = attraction
+                state.attractionId[index] = attraction.placeId
+                break
+              }
+              queueIndex += 1
+            }
+            if (traverseCnt === 0 || queueIndex === state.attractionIndexQueue.length) {
+              return false
+            }
           }
-          state.attractions.push(attraction)
-          state.attractionId.push(attraction.placeId)
         }
+        return true
       })
     },
     selectAttraction: (state, action: PayloadAction<number>) => {
@@ -117,7 +154,7 @@ const attractionsSlice = createSlice({
       state.canceledIndex = scheduleIndex
       const index = state.schedule.splice(scheduleIndex, 1)[0]
       state.attractions[index].isSelected = false
-      state.scheduleIndex[scheduleIndex] = -1
+      state.scheduleIndex[index] = -1
       state.order = emptyOrder
       if (
         state.attractions[index].rating < state.setting.minRating ||
