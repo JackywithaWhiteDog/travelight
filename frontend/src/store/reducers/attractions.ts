@@ -15,6 +15,7 @@ interface State {
   reorderByDragging: boolean
   canceledIndex: number | null
   order: Order
+  scheduleInvalidAlert: boolean
   redirect: boolean
 }
 
@@ -51,6 +52,7 @@ const initialState: State = {
   reorderByDragging: true,
   canceledIndex: null,
   order: emptyOrder,
+  scheduleInvalidAlert: false,
   redirect: true
 }
 
@@ -168,6 +170,12 @@ const attractionsSlice = createSlice({
     },
     setOrder: (state, action: PayloadAction<Order>) => {
       state.order = action.payload
+      if (!action.payload.isValid) {
+        state.scheduleInvalidAlert = true
+      }
+    },
+    closeScheduleInvalidAlert: (state) => {
+      state.scheduleInvalidAlert = false
     },
     setRedirect: (state, action: PayloadAction<boolean>) => {
       state.redirect = action.payload
@@ -184,6 +192,7 @@ export const {
   reorderSchedule,
   setSetting,
   setOrder,
+  closeScheduleInvalidAlert,
   setRedirect
 } = attractionsSlice.actions
 
