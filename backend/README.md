@@ -1,14 +1,10 @@
 # Back-End of Travelight
 ## Usage
-1. Create executable JAR file with predefined docker tool
+1. Build image
 ```
-docker run -it --rm --name my-project -v "$(pwd)":/root -w /root adoptopenjdk/maven-openjdk11:latest mvn clean install
+docker build -t springio/gs-spring-boot-docker . --build-arg SECRET_PASSPHRASE=[our secret passphrase]
 ```
-2. Build image
-```
-docker build -t springio/gs-spring-boot-docker .
-```
-3. Depoly our app
+2. Depoly our app
 ```
 docker run -p 8080:8080 springio/gs-spring-boot-docker
 ```

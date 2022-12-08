@@ -1,6 +1,7 @@
 package com.travelight.backend;
 
 public class Attraction {
+    int comments;
     String placeId;
     String name;
     String pictureURL;
@@ -9,12 +10,23 @@ public class Attraction {
     GeoLocation geoLocation;
     Constraint constraint;
 
-    public Attraction(String placeId, String address, double rating, GeoLocation geoLocation, Constraint constraint) {
+    public Attraction(String placeId, String address, double rating, GeoLocation geoLocation, Constraint constraint, String pictureURL, String name, int comments) {
+        this.name = name;
+        this.rating = rating;
         this.placeId = placeId;
         this.address = address;
-        this.rating = rating;
+        this.comments = comments;
+        this.pictureURL = pictureURL;
         this.geoLocation = geoLocation;
         this.constraint = constraint;
+    }
+
+    public int getComments() {
+        return this.comments;
+    }
+
+    public void setComments(int comments) {
+        this.comments = comments;
     }
 
     public String getPlaceId() {

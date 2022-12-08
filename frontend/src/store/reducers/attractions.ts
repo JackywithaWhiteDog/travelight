@@ -1,17 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Location, Region, SelectableAttraction, Setting } from '../../types'
+import { MAX_SCHEDULE_LENGTH } from '../../constants'
+import { Location, Region, SelectableAttraction, Setting, Order } from '../../types'
 
 interface State {
   defaultRegions: Region[]
   location: Location
-  recommendation: SelectableAttraction[]
-  recommendationId: string[]
+  attractions: SelectableAttraction[]
+  attractionId: string[]
+  recommendation: number[]
   schedule: number[]
   scheduleIndex: number[]
   setting: Setting
   checkedSettingIndices: number[]
   reorderByDragging: boolean
   canceledIndex: number | null
+  order: Order
+  redirect: boolean
 }
 
 interface reorderSchedulePayload {
@@ -19,11 +23,22 @@ interface reorderSchedulePayload {
   reorderByDragging: boolean
 }
 
+export const emptyOrder = {
+  order: [],
+  arriveTimes: [],
+  leaveTimes: [],
+  transportationTimes: [],
+  idleTimes: [],
+  savedTime: 0,
+  isValid: false
+}
+
 const initialState: State = {
   defaultRegions: [],
   location: { longitude: 121.421072, latitude: 25.085651 },
+  attractions: [],
+  attractionId: [],
   recommendation: [],
-  recommendationId: [],
   schedule: [],
   scheduleIndex: [],
   setting: {
@@ -33,8 +48,10 @@ const initialState: State = {
     minComments: 0
   },
   checkedSettingIndices: [5, 5, (new Date()).getDay(), 2],
-  reorderByDragging: false,
-  canceledIndex: null
+  reorderByDragging: true,
+  canceledIndex: null,
+  order: emptyOrder,
+  redirect: true
 }
 
 interface SetSettingParams {
@@ -52,29 +69,43 @@ const attractionsSlice = createSlice({
     setLocation: (state, action: PayloadAction<Location>) => {
       state.location = action.payload
     },
-    addRecommendation: (state, action: PayloadAction<SelectableAttraction[]>) => {
+    addAttractions: (state, action: PayloadAction<SelectableAttraction[]>) => {
       /*
       @TODO: Need to be optimized
-      - Currently time complexity: O(N)
+      - Currently time complexity: O(N^2)
       - Redux doesn't support non-serializable class (e.g., Set)
       */
       action.payload.forEach(attraction => {
-        if (!state.recommendationId.includes(attraction.placeId)) {
-          state.recommendation.push(attraction)
-          state.recommendationId.push(attraction.placeId)
+        if (!state.attractionId.includes(attraction.placeId)) {
+          if (
+            attraction.rating >= state.setting.minRating &&
+            attraction.comments >= state.setting.minComments &&
+            attraction.constraint.openingTimes[state.setting.departureDay] !== -1 &&
+            attraction.constraint.closingTimes[state.setting.departureDay] !== -1
+          ) {
+            state.recommendation.push(state.attractions.length)
+          }
+          state.attractions.push(attraction)
+          state.attractionId.push(attraction.placeId)
         }
       })
     },
     selectAttraction: (state, action: PayloadAction<number>) => {
       /*
+      Only add attraction to schedule if the length of schedule < 10
+
       Payload:
         - Index of recommended attractions: number
       */
-      state.reorderByDragging = false
-      state.canceledIndex = null
-      state.recommendation[action.payload].isSelected = true
-      state.scheduleIndex[action.payload] = state.schedule.length
-      state.schedule.push(action.payload)
+      if (state.schedule.length < MAX_SCHEDULE_LENGTH) {
+        state.reorderByDragging = false
+        state.canceledIndex = null
+        state.attractions[action.payload].isSelected = true
+        state.scheduleIndex[action.payload] = state.schedule.length
+        state.schedule.push(action.payload)
+        state.order = emptyOrder
+        state.redirect = true
+      }
     },
     cancelAttraction: (state, action: PayloadAction<string>) => {
       /*
@@ -82,11 +113,22 @@ const attractionsSlice = createSlice({
         - PlaceId of selected indices: string
       */
       state.reorderByDragging = false
-      const scheduleIndex = state.schedule.map(index => state.recommendationId[index]).indexOf(action.payload)
+      const scheduleIndex = state.schedule.map(index => state.attractionId[index]).indexOf(action.payload)
       state.canceledIndex = scheduleIndex
       const index = state.schedule.splice(scheduleIndex, 1)[0]
-      state.recommendation[index].isSelected = false
+      state.attractions[index].isSelected = false
       state.scheduleIndex[scheduleIndex] = -1
+      state.order = emptyOrder
+      if (
+        state.attractions[index].rating < state.setting.minRating ||
+        state.attractions[index].comments < state.setting.minComments ||
+        state.attractions[index].constraint.openingTimes[state.setting.departureDay] === -1 ||
+        state.attractions[index].constraint.closingTimes[state.setting.departureDay] === -1
+      ) {
+        const recommendedIndex = state.recommendation.indexOf(index)
+        state.recommendation.splice(recommendedIndex, 1)
+      }
+      state.redirect = true
     },
     reorderSchedule: (state, action: PayloadAction<reorderSchedulePayload>) => {
       /*
@@ -100,10 +142,35 @@ const attractionsSlice = createSlice({
         state.scheduleIndex[state.schedule[index]] = i
       })
       state.schedule = action.payload.indices.map(index => state.schedule[index])
+      if (action.payload.reorderByDragging) {
+        state.order = emptyOrder
+      }
+      state.redirect = true
     },
     setSetting: (state, action: PayloadAction<SetSettingParams>) => {
+      if (
+        action.payload.setting.departureDay !== state.setting.departureDay ||
+        action.payload.setting.transportation !== state.setting.transportation
+      ) {
+        state.order = emptyOrder
+      }
       state.setting = action.payload.setting
       state.checkedSettingIndices = action.payload.checkedIndices
+      state.recommendation = Array.from(Array(state.attractions.length).keys()).filter(index => (
+        (
+          state.attractions[index].rating >= state.setting.minRating &&
+          state.attractions[index].comments >= state.setting.minComments &&
+          state.attractions[index].constraint.openingTimes[state.setting.departureDay] !== -1 &&
+          state.attractions[index].constraint.closingTimes[state.setting.departureDay] !== -1
+        ) || state.schedule.includes(index)
+      ))
+      state.redirect = true
+    },
+    setOrder: (state, action: PayloadAction<Order>) => {
+      state.order = action.payload
+    },
+    setRedirect: (state, action: PayloadAction<boolean>) => {
+      state.redirect = action.payload
     }
   }
 })
@@ -111,11 +178,13 @@ const attractionsSlice = createSlice({
 export const {
   setDefaultRegions,
   setLocation,
-  addRecommendation,
+  addAttractions,
   selectAttraction,
   cancelAttraction,
   reorderSchedule,
-  setSetting
+  setSetting,
+  setOrder,
+  setRedirect
 } = attractionsSlice.actions
 
 export default attractionsSlice.reducer

@@ -30,7 +30,7 @@ public class RoutePlanner {
 		int departureDay = optimizationInfo.getDepartureDay();
 		String transportation = optimizationInfo.getTransportation();
         System.out.println(String.format("===== Travel by '%s' =====", transportation));
-        
+
         // Extract information
         String[] placeIds = getPlaceIdsFromAttractions(attractions);
         TimeMatrix timeMatrix = DistanceAPI.getTimeMatrix(placeIds, transportation);
@@ -54,7 +54,7 @@ public class RoutePlanner {
         if (!isValidTimeWindows(vrptwDataModel.timeWindows)) {
             return new TravelSchedule(null, null, null, null, null, 0, false);
         }
-        
+
         // If time window is valid, perform route check or optimization
         TravelSchedule travelSchedule;
 		boolean performCheck = optimizationInfo.getCheck();
@@ -65,8 +65,14 @@ public class RoutePlanner {
             travelSchedule = optimizeOrderBruteForce(vrptwDataModel, originalOrder);
         }
 
-        // TODO: convert order by -1;
+        convertTravelScheduleOrder(travelSchedule);
         return travelSchedule;
+    }
+
+    public static void convertTravelScheduleOrder(TravelSchedule travelSchedule) {
+        for (int i = 0; i < travelSchedule.order.length; i++) {
+            travelSchedule.order[i] -= 1;
+        }
     }
 
     public static boolean isValidTimeWindows(TimeWindows timeWindows) {
@@ -81,7 +87,7 @@ public class RoutePlanner {
     }
 
     public static TravelSchedule optimizeOrderBruteForce(VrptwDataModel vrptwDataModel, List<Integer> originalOrder) {
-        
+
         Collection<List<Integer>> perms = Collections2.permutations(originalOrder);
         // Traverse every possible permutation
         double minTransportationTime = -1.0;
@@ -110,7 +116,7 @@ public class RoutePlanner {
 
         return bestTravelSchedule;
     }
-    
+
     public static TravelSchedule optimizeOrder(VrptwDataModel vrptwDataModel) {
         // Route optimization by OR-tools
         // vrptwSolver.solve(vrptwDataModel);
@@ -125,9 +131,9 @@ public class RoutePlanner {
 
 		boolean isValid = true;
 		TravelSchedule travelSchedule = new TravelSchedule(
-            order, 
-            arriveTimes, 
-            leaveTimes, 
+            order,
+            arriveTimes,
+            leaveTimes,
             transporationTimes,
             idleTimes,
             savedTime,
@@ -170,7 +176,7 @@ public class RoutePlanner {
                     long transitTime = vrptwDataModel.timeMatrix.data[prevNode][node];
                     long prevStayTime = vrptwDataModel.stayTimes[prevNode - 1];
                     long transportationTime = transitTime - prevStayTime;
-                    
+
                     curTime = curTime - transitTime;
                     transportationTimes[i - 1] = (double) transportationTime / TimeUtils.minutesPerHour;
                 }
@@ -180,9 +186,9 @@ public class RoutePlanner {
         // System.out.println("total idle time: " + sumTimes(idleTimes));
 
         return new TravelSchedule(
-            Ints.toArray(order), 
-            arriveTimes, 
-            leaveTimes, 
+            Ints.toArray(order),
+            arriveTimes,
+            leaveTimes,
             transportationTimes,
             idleTimes,
             0,

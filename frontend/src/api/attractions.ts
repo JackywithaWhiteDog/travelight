@@ -1,5 +1,5 @@
 import { StoreDispatch } from '../store'
-import { addRecommendation } from '../store/reducers/attractions'
+import { addAttractions } from '../store/reducers/attractions'
 import { Location, SelectableAttraction } from '../types'
 import axios from 'axios'
 import { mockSelectableAttractionList } from './mockData'
@@ -7,27 +7,23 @@ import { apiFormatToSelectableAttraction } from './converter'
 
 const API_ROOT = process.env.REACT_APP_API_ROOT ?? ''
 
-export const getRecommendationAPI = async (location: Location, minRating: number, minComments: number): Promise<SelectableAttraction[]> => {
+export const getRecommendationAPI = async (location: Location): Promise<SelectableAttraction[]> => {
   const response = await axios.get(API_ROOT + '/nearbyAttractions', {
     params: {
-      longtitude: location.longitude,
-      latitude: location.latitude,
-      minRating,
-      minComments
+      longitude: location.longitude,
+      latitude: location.latitude
     }
   })
   const rawdata = response.data
   return rawdata.map(apiFormatToSelectableAttraction)
 }
 
-export const getRecommendation = async (location: Location, minRating: number, minComments: number, dispatch: StoreDispatch): Promise<void> => {
+export const getRecommendation = async (location: Location, dispatch: StoreDispatch): Promise<void> => {
   let data: SelectableAttraction[]
-  console.log(API_ROOT)
-  console.log(minRating, minComments)
   if (API_ROOT !== '') {
-    data = await getRecommendationAPI(location, minRating, minComments)
+    data = await getRecommendationAPI(location)
   } else {
     data = mockSelectableAttractionList
   }
-  dispatch(addRecommendation(data))
+  dispatch(addAttractions(data))
 }
