@@ -10,6 +10,7 @@ import SettingBox from './settingBox'
 import logo from '../assets/logo.svg'
 import { useSelector } from 'react-redux'
 import { StoreState } from '../store'
+import { Link } from 'react-router-dom'
 
 const Header = (): React.ReactElement => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
@@ -36,7 +37,9 @@ const Header = (): React.ReactElement => {
       }}
     >
       <Toolbar sx={{ justifyContent: 'space-between' }}>
-        <img src={logo} height={40} />
+        <Link to='/'>
+          <img src={logo} height={40} />
+        </Link>
         <Button
           variant="outlined"
           startIcon={<Settings />}

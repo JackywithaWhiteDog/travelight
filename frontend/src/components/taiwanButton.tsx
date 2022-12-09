@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import React, { SyntheticEvent, useState } from 'react'
 import { SVGMap } from 'react-svg-map'
 
-import { setLocation } from '../store/reducers/attractions'
+import { setLocation, setRedirect } from '../store/reducers/attractions'
 import Taiwan from '../assets/map'
 import defaultRegions from '../assets/defaultRegions'
 import defaultAttractions from '../assets/defaultAttractions'
@@ -61,6 +61,7 @@ const TaiwanButton = (): React.ReactElement => {
     const clickedRegion: string = (event.target as any).id
     if (clickedRegion in defaultRegions) {
       dispatch(setLocation(defaultRegions[clickedRegion].location))
+      dispatch(setRedirect(true))
       navigate('map')
     }
   }
