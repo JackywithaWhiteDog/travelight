@@ -21,14 +21,19 @@ interface TemplateProps {
   dragHandleProps: object
 }
 
-class Template extends React.Component<TemplateProps, {}> {
+class Template extends React.Component<TemplateProps, { draggable: boolean }> {
+  constructor (props: TemplateProps) {
+    super(props)
+    this.state = { draggable: true }
+  }
+
   ArrivalTime = (): React.ReactElement => {
     const index = useSelector((state: StoreState) => state.attractions.scheduleIndex[state.attractions.attractionId.indexOf(this.props.item.attraction.placeId)])
+    const round = (num: number, fractionDigits: number): number => Number(num.toFixed(fractionDigits))
     const arrivalTime = useSelector((state: StoreState) => state.attractions.order.arriveTimes[index])
-
     const addLeadingZeros = (num: number, totalLength: number): string => String(num).padStart(totalLength, '0')
     const arrivalHour = Math.floor(arrivalTime)
-    const arrivalMin = (arrivalTime - arrivalHour) * 60
+    const arrivalMin = round((arrivalTime - arrivalHour) * 60, 0)
 
     return (
       <Box sx={{ display: arrivalTime === undefined ? 'none' : 'flex', paddingBottom: '2px' }}>
@@ -47,8 +52,9 @@ class Template extends React.Component<TemplateProps, {}> {
     const transportationMethod = useSelector((state: StoreState) => state.attractions.setting.transportation)
 
     // const addLeadingZeros = (num: number, totalLength: number): string => String(num).padStart(totalLength, '0')
-    const transportationMin = transportationTime * 60
-    const idleMin = idleTime * 60
+    const round = (num: number, fractionDigits: number): number => Number(num.toFixed(fractionDigits))
+    const transportationMin = round(transportationTime * 60, 0)
+    const idleMin = round(idleTime * 60, 0)
 
     return (
       <Box sx={{ display: transportationTime === undefined ? 'none' : 'flex', marginTop: '8px' }}>
@@ -74,10 +80,11 @@ class Template extends React.Component<TemplateProps, {}> {
   }
 
   render (): React.ReactElement {
+
     return (
-      <div {...this.props.dragHandleProps}>
+      <div {...(this.state.draggable ? this.props.dragHandleProps : {})}>
         <this.ArrivalTime />
-        <AttractionCard attraction={this.props.item.attraction} index={-1} />
+        <AttractionCard attraction={this.props.item.attraction} />
         <this.TransportationTime />
       </div>
     )
