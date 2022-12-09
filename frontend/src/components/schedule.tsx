@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { Box, Button, Toolbar, Typography } from '@mui/material'
-import TimeToLeaveIcon from '@mui/icons-material/TimeToLeave'
-import TwoWheelerIcon from '@mui/icons-material/TwoWheeler'
-import DirectionsBusIcon from '@mui/icons-material/DirectionsBus'
-import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk'
+import { Alert, Box, Button, IconButton, Slide, Snackbar, Toolbar, Typography } from '@mui/material'
+import { Close, TimeToLeave, TwoWheeler, DirectionsBus, DirectionsWalk } from '@mui/icons-material'
 import DraggableList from 'react-draggable-list'
 
 import AttractionCard from './attractionCard'
 import { optimizeSchedule } from '../api/schedule'
 import { StoreState } from '../store'
-import { reorderSchedule } from '../store/reducers/attractions'
+import { closeScheduleInvalidAlert, reorderSchedule } from '../store/reducers/attractions'
 import { SelectableAttraction } from '../types'
 
 interface ItemInterface {
@@ -31,7 +28,8 @@ class Template extends React.Component<TemplateProps, { draggable: boolean }> {
   }
 
   ArrivalTime = (): React.ReactElement => {
-    const arrivalTime = useSelector((state: StoreState) => state.attractions.order.arriveTimes[this.props.item.index])
+    const index = useSelector((state: StoreState) => state.attractions.scheduleIndex[state.attractions.attractionId.indexOf(this.props.item.attraction.placeId)])
+    const arrivalTime = useSelector((state: StoreState) => state.attractions.order.arriveTimes[index])
 
     const addLeadingZeros = (num: number, totalLength: number): string => String(num).padStart(totalLength, '0')
     const arrivalHour = Math.floor(arrivalTime)
@@ -40,7 +38,7 @@ class Template extends React.Component<TemplateProps, { draggable: boolean }> {
     return (
       <Box sx={{ display: arrivalTime === undefined ? 'none' : 'flex', paddingBottom: '2px' }}>
         <Box sx={{ backgroundColor: '#8ec3b0', borderRadius: '4px', height: '22px', width: '32px', textAlign: 'center', fontSize: '0.9rem' }} >
-          {this.props.item.index + 1}
+          {index + 1}
         </Box>
         <Typography sx={{ paddingLeft: '8px', fontSize: '0.9rem', fontWeight: 'bold' }} >抵達時間  - {arrivalHour}:{addLeadingZeros(arrivalMin, 2)}</Typography>
       </Box>
@@ -48,8 +46,9 @@ class Template extends React.Component<TemplateProps, { draggable: boolean }> {
   }
 
   TransportationTime = (): React.ReactElement => {
-    const transportationTime = useSelector((state: StoreState) => state.attractions.order.transportationTimes[this.props.item.index])
-    const idleTime = useSelector((state: StoreState) => state.attractions.order.idleTimes[this.props.item.index])
+    const index = useSelector((state: StoreState) => state.attractions.scheduleIndex[state.attractions.attractionId.indexOf(this.props.item.attraction.placeId)])
+    const transportationTime = useSelector((state: StoreState) => state.attractions.order.transportationTimes[index])
+    const idleTime = useSelector((state: StoreState) => state.attractions.order.idleTimes[index])
     const transportationMethod = useSelector((state: StoreState) => state.attractions.setting.transportation)
 
     // const addLeadingZeros = (num: number, totalLength: number): string => String(num).padStart(totalLength, '0')
@@ -60,16 +59,16 @@ class Template extends React.Component<TemplateProps, { draggable: boolean }> {
       <Box sx={{ display: transportationTime === undefined ? 'none' : 'flex', marginTop: '8px' }}>
         <Box sx={{ borderLeft: '2px dashed rgba(0, 0, 0, 0.5)', marginLeft: '15px', marginRight: '10px' }} />
         <Box sx={{ display: transportationMethod === 'driving' ? 'flex' : 'none', paddingTop: '5px', paddingBottom: '5px' }}>
-          <TimeToLeaveIcon fontSize="medium" color="action" />
+          <TimeToLeave fontSize="medium" color="action" />
         </Box>
         <Box sx={{ display: transportationMethod === 'bicycling' ? 'flex' : 'none', paddingTop: '5px', paddingBottom: '5px' }}>
-          <TwoWheelerIcon fontSize="medium" color="action" />
+          <TwoWheeler fontSize="medium" color="action" />
         </Box>
         <Box sx={{ display: transportationMethod === 'transit' ? 'flex' : 'none', paddingTop: '5px', paddingBottom: '5px' }}>
-          <DirectionsBusIcon fontSize="medium" color="action" />
+          <DirectionsBus fontSize="medium" color="action" />
         </Box>
         <Box sx={{ display: transportationMethod === 'walking' ? 'flex' : 'none', paddingTop: '5px', paddingBottom: '5px' }}>
-          <DirectionsWalkIcon fontSize="medium" color="action" />
+          <DirectionsWalk fontSize="medium" color="action" />
         </Box>
         <Typography sx={{ fontSize: '0.9rem', color: '#6B6B6B', fontWeight: 'bold', paddingLeft: '8px', paddingTop: '7px' }} >{transportationMin} 分鐘</Typography>
         <Typography sx={{ display: idleMin > 0 ? 'flex' : 'none', fontSize: '0.6rem', color: '#6B6B6B', paddingLeft: '15px', paddingTop: '9px' }} >
@@ -80,6 +79,7 @@ class Template extends React.Component<TemplateProps, { draggable: boolean }> {
   }
 
   render (): React.ReactElement {
+    console.log(this.props.item.attraction, this.props.item.attraction.name, this.props.item.attraction.constraint.stayTime)
     return (
       <div {...(this.state.draggable ? this.props.dragHandleProps : {})}>
         <this.ArrivalTime />
@@ -121,12 +121,8 @@ const Schedule = (): React.ReactElement => {
   const schedule = useSelector((state: StoreState) => (state.attractions.schedule.map(index => state.attractions.attractions[index])), shallowEqual)
   const reorderByDragging = useSelector((state: StoreState) => state.attractions.reorderByDragging)
   const canceledIndex = useSelector((state: StoreState) => state.attractions.canceledIndex, shallowEqual)
-  const [listItems, setListItems] = useState<ItemInterface[]>(schedule.map((attraction, index) => {
-    return {
-      attraction,
-      index
-    }
-  }))
+  const scheduleInvalidAlert = useSelector((state: StoreState) => state.attractions.scheduleInvalidAlert)
+  const [listItems, setListItems] = useState<ItemInterface[]>(schedule.map((attraction, index) => ({ attraction, index })))
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -153,6 +149,32 @@ const Schedule = (): React.ReactElement => {
         overflow: 'auto'
       }}
     >
+      <Snackbar
+        open={scheduleInvalidAlert}
+        autoHideDuration={1500}
+        onClose={() => {
+          if (scheduleInvalidAlert) {
+            dispatch(closeScheduleInvalidAlert())
+          }
+        }}
+        TransitionComponent={Slide}
+      >
+        <Alert
+          severity="error"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => dispatch(closeScheduleInvalidAlert())}
+            >
+              <Close fontSize="inherit" />
+            </IconButton>
+          }
+        >
+          行程無法滿足您的需求，請減少景點或停留時間！
+        </Alert>
+      </Snackbar>
       <Toolbar
         variant='dense'
         sx={{

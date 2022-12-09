@@ -47,7 +47,7 @@ public class NearbySearchAPI extends GoogleMapAPI {
                 
                 Photo photo = result.photos[0];
                 
-                Attraction attraction = new Attraction(result.placeId, result.formattedAddress, Math.round(result.rating * 10) / 10,
+                Attraction attraction = new Attraction(result.placeId, result.formattedAddress, Math.round(result.rating * 10) / 10.0,
                         new GeoLocation(geo.location), null, photo.photoReference, result.name, result.userRatingsTotal);
                 // Async
                 details[t] = new DetailsAPI(attraction);

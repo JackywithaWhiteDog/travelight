@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Card, CardContent, CardActions, CardMedia, Rating, Typography, Box, IconButton, TextField } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
 import EditAttributesIcon from '@mui/icons-material/EditAttributes'
 import { cancelAttraction, setStayTime } from '../store/reducers/attractions'
 import { SelectableAttraction } from '../types'
@@ -26,6 +27,7 @@ const AttractionCard = ({ attraction, visibility, index, setDraggable }: Attract
   const closingTimeHour = Math.floor(attraction.constraint.closingTimes[departureDay])
   const closingTimeMin = round((attraction.constraint.closingTimes[departureDay] - closingTimeHour) * 60, 0)
   const [staytime, setstaytime] = React.useState(attraction.constraint.stayTime)
+  const [changed, setChanged] = React.useState<boolean>(false)
   const handleChangeStaytime: any = (event: any) => {
     setstaytime(event.target.value)
   }
@@ -42,12 +44,22 @@ const AttractionCard = ({ attraction, visibility, index, setDraggable }: Attract
         </CardActions>
       }
       {
-        index !== -1 &&
+        index !== -1 && !changed &&
+        <CardActions onClick={() => setChanged(true)}
+          sx={{ bottom: 0, right: '50%', zIndex: 1, position: 'absolute' }}>
+          <IconButton aria-label="delete" size="small" sx={{ backgroundColor: 'primary', opacity: 0.3, borderRadius: '12px', ':hover': { backgroundColor: COLORS.deleteButtonBackground, opacity: 0.8 } }}>
+            <EditIcon sx={{ opacity: 0.8 }} />
+          </IconButton>
+        </CardActions>
+      }
+      {
+        changed &&
         <CardActions onClick={() => {
           dispatch(setStayTime([attraction.placeId, staytime.toString()]))
+          setChanged(false)
         }
         }
-          sx={{ bottom: '0%', right: '50%', zIndex: 1, position: 'absolute' }}>
+          sx={{ bottom: '3rem', right: '50%', zIndex: 1, position: 'absolute' }}>
           <IconButton aria-label="edit" sx={{ borderRadius: '12px' }}>
             <EditAttributesIcon color={'action'} sx={{ opacity: 1 }} />
           </IconButton>
@@ -77,13 +89,14 @@ const AttractionCard = ({ attraction, visibility, index, setDraggable }: Attract
             </Typography>
             <Typography variant="body2" color="text.secondary" component="div" sx={{ fontSize: '0.8rem' }}>
               停留時間：{
-                index !== -1
+                changed
                   ? <TextField
                     id="staytime"
                     type="number"
+                    variant="standard"
                     defaultValue={attraction.constraint.stayTime}
                     onChange={handleChangeStaytime}
-                    sx={{ fontSize: '0.8rem' }}
+                    sx={{ fontSize: '0.5rem' }}
                     {...(setDraggable !== undefined ? { onMouseEnter: () => setDraggable(false), onMouseLeave: () => setDraggable(true) } : {})}
                   />
                   : attraction.constraint.stayTime

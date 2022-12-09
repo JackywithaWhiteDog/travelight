@@ -1,5 +1,3 @@
-const API_KEY = (process.env.REACT_APP_GOOGLE_MAPS_API_KEY === undefined) ? '' : process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-
 const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: string }> } = {
   'taipei-city': [
     {
@@ -7,12 +5,12 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
       pictureURL: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=AW30NDyvP-V4HuzHRFE-lDRTZw7GvQBUAfOJ5o7A7xrbA3C9HXLiQMw7lBDA1vTo2j3okiG1o9AcA6DTcpadfJOL0hfzL_rdfVICU_gJvaJ_EuDpMtFVbXHVxqiA4n30-bVUrmOetjP10TNmjp_IQiy4v-rv03FXPeh6AokxDpbPkocCNV_H&key=${API_KEY}`
     },
     {
-      name: '西門町',
-      pictureURL: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=AW30NDy73_uguOtTfzh0CJsJu0a3FBVhuK32LCbUEciNovW03p8fqTVY7vlQC7wN2_nQQV3YnPekDq4o6_83EWg0YYN5Yza8O3gXp8RAdDYbzbatoj6ZeMP3vgJs0FH91PmAg-rPVMKzwkn7PEOg-tqAco_l2OJOgV9jwgbB_6HxFj6xtYDN&key=${API_KEY}`
+      name: '福隆海水浴場',
+      pictureURL: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcQcfxvxlpszODjKKqrj1pl3vVuXi1SdWHOICqdkWqAlUGvRKxSpSjsM00VdSYz9L0s3g7yk6BQjWgry5i0PBadO-Q'
     },
     {
-      name: '台北101',
-      pictureURL: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=AW30NDyp9NIg5rPlcc_X_ORtNKGWg5qy-owhYehxfwIYKyvPDogCqKd-iweeT-WWH4LhvGJIi7ltDAf5NGKfrFCJRVswnpXKpaUBHaK_HJvWd73fKsZS82CnrKrUFPICSuUaz6bSKlwMrRk-A61LOz8Vdy94mG8gd425grJDR6nOa5qCIzYa&key=${API_KEY}`
+      name: '淡水紅毛城',
+      pictureURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyLK4A_MxJWHxvZQ-OHqHB2JCSevEyCzjvLBSLa-sq1-B4-5pDsRbqb39899d6H7KxjJ1SbjFExaxX50prVJAbOQ'
     },
     {
       name: '淡水漁人碼頭',
@@ -39,6 +37,22 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
   ],
   'hualien-county': [
     {
+      name: '七星潭',
+      pictureURL: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQjUUzwgkl-jjaImLEUi0-6zfc_08pAZJBu6SZPG3T5mimID-fusHEe0DpIx7MT8-YcIpR7F1pkYGkKUykxg-tJoQ'
+    },
+    {
+      name: '清水斷崖',
+      pictureURL: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQRTewzovdI0mWwmjcMnGK-XcsPbIW1E-HOpKx-ecJmQLEgQRbtR_fFF8LnWT_yFrRd-Nrj0ExyL_PXQFtmnIJTgQ'
+    },
+    {
+      name: '長春祠',
+      pictureURL: 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcQH7sNkI1y5how-jYS3UM8AaefUheSQEy0Eh8qlr-XhHyF0dSkHNmW4Yty44GfyO-tbuI4voKj7hfZwOm6So9q1JQ'
+    },
+    {
+      name: '錐麓古道',
+      pictureURL: 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSov8zzrGqlNJ3WFLCWpKDKztJanrLRrUqSYLC28qf7qde4xZBY-MoRk6ObF5fGnnv7FR0wqZ2_JABLwXIpoM4UgA'
+    },
+    {
       name: '遠雄海洋公園',
       pictureURL: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=AW30NDxSX8oFEEfzllrRFmhZjTqO-12zf1lkR8FKrYhv7TGHurSBTeipaVGKXKsHAw7rH35SX58GkgCPxTC4IMrDFrrrjjdj8KTldT9Btq0EDnEeV3ev8Y2lkngzTZ3_aAsVBwod-PR8SujHUPw3vASzAWX9mm4y4fRYn1vqx91Y_IP3CwQj&key=${API_KEY}`
     },
@@ -51,8 +65,8 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
       pictureURL: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=AW30NDwC42IYuJPEO5k7ZxteAr2Ul2XKWn6Ly7oZTX6Due9Vr0KzYcB_MULQtOIHJVXScZZweS2XKqXeaVFF0As35qqviI2B_WU_L8rNV_n1GIAUp8IA9D7qAsROq3MRK9HPGd6hQaf1yvs3LX5hMkQZQUmjKzB3gL66RwEnYN7WxIu6uLau&key=${API_KEY}`
     },
     {
-      name: '光復糖廠',
-      pictureURL: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=AW30NDw7nQBHKGSsHYWRomIR2IZdUuIY79kyGYNCQyRl0M1rrBkpFedH1vQBmDHvIo6ukJKmfj95gW0am_xiayb5q67lWC63RGvF2v7hrCcYdKJZixKh-VNcxUjTi9up10GI4XcGyOGGfXJI-9sAsQgrsHh6JnFfUeKc5QmXU_bgklnjOf3R&key=${API_KEY}`
+      name: '國定古蹟-嘉義舊監獄',
+      pictureURL: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcSI1oBp2yn-MKCoGRr-ddX6Czs0o3ZVVJcM59Wi5mNw1IbW3OtLNNIPrXSe_2DdqQMXJ8mcagri-bFyl1QL3hNKPQ'
     }
   ]
 }
