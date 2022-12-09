@@ -2,7 +2,7 @@ import { StoreDispatch } from '../store'
 import { addAttractions } from '../store/reducers/attractions'
 import { Location, SelectableAttraction } from '../types'
 import axios from 'axios'
-import { mockSelectableAttractionList } from './mockData'
+import { mockSelectableAttractionList } from '../test/mockData'
 import { apiFormatToSelectableAttraction } from './converter'
 
 const API_ROOT = process.env.REACT_APP_API_ROOT ?? ''

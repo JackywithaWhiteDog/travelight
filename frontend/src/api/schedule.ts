@@ -2,7 +2,7 @@ import { StoreDispatch } from '../store'
 import { reorderSchedule, setOrder, emptyOrder } from '../store/reducers/attractions'
 import { Attraction, Order, Transportation } from '../types'
 import axios from 'axios'
-import { generateMockOrder } from './mockData'
+import { generateMockOrder } from '../test/mockData'
 import { attractionToApiFormat } from './converter'
 
 const API_ROOT = process.env.REACT_APP_API_ROOT ?? ''
