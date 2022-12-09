@@ -1,4 +1,4 @@
-name: ESLint
+name: ESLint and Jest
 
 on:
   pull_request:
@@ -20,3 +20,14 @@ jobs:
       - name: Run ESLint
         working-directory: frontend
         run: yarn lint
+  unit-test:
+    needs: linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install modules
+        working-directory: frontend
+        run: yarn
+      - name: Run jest
+        working-directory: frontend
+        run: yarn jest
