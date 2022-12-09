@@ -265,6 +265,10 @@ const defaultAttractions: { [key: string]: Array<{ name: string, pictureURL: str
     {
       name: '綠世界生態農場',
       pictureURL: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR5DP2EOlkXGhyZiQ915uz9A9IMO7bs3IHUUiW1GA3A77euhk5jA66o9At4278_nvAAEjy_jDY407nS3ycEH0y4og'
+    },
+    {
+      name: '小叮噹科學主題樂園',
+      pictureURL: 'https://lh5.googleusercontent.com/p/AF1QipOna6P8XxuPn19BBzGvwWzOxeRVErl4hG1ldRQ-=w696-h390-n-k-no'
     }
   ],
   'miaoli-county': [
