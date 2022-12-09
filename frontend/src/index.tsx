@@ -13,15 +13,17 @@ const root = ReactDOM.createRoot(
 )
 root.render(
   <Provider store={store} >
-    <Layout>
-      <BrowserRouter>
-        <Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout showSettings={false} />}>
           <Route path="/" element={<Home />} />
+        </Route>
+        <Route element={<Layout showSettings={true} />}>
           <Route path="/map" element={<App />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </BrowserRouter>
-    </Layout>
+        </Route>
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </BrowserRouter>
   </Provider>
 )
 
