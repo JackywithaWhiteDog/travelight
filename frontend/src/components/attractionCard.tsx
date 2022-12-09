@@ -48,9 +48,15 @@ const AttractionCard = (props: { attraction: SelectableAttraction, visibility: b
             <Typography variant="body2" color="text.secondary" component="div" sx={{ fontSize: '0.8rem' }}>
               {props.attraction.address}
             </Typography>
-            <Typography variant="body2" color="text.secondary" component="div" sx={{ fontSize: '0.8rem' }}>
+            {
+              openingTimeHour === -1 && closingTimeHour === -1
+                ? <Typography variant="body2" color="text.secondary" component="div" sx={{ fontSize: '0.8rem', color: 'red' }}>
+              此日不營業
+            </Typography>
+                : <Typography variant="body2" color="text.secondary" component="div" sx={{ fontSize: '0.8rem' }}>
               {openingTimeHour}:{addLeadingZeros(openingTimeMin, 2)} - {closingTimeHour}:{addLeadingZeros(closingTimeMin, 2)}
             </Typography>
+            }
             <Typography variant="body2" color="text.secondary" component="div" sx={{ fontSize: '0.8rem' }}>
               停留時間：{props.attraction.constraint.stayTime} 小時
             </Typography>
