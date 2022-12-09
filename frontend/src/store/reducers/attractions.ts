@@ -217,10 +217,13 @@ const attractionsSlice = createSlice({
     setRedirect: (state, action: PayloadAction<boolean>) => {
       state.redirect = action.payload
     },
-    setStayTime: (state, action: PayloadAction<number[]>) => {
-      const index = action.payload[0]
+    setStayTime: (state, action: PayloadAction<string[]>) => {
+      const scheduleIndex = state.schedule.map(index => state.attractionId[index]).indexOf(action.payload[0])
+      const index = state.schedule[scheduleIndex]
       const stayTime = action.payload[1]
-      state.attractions[index].constraint.stayTime = stayTime
+      state.attractions[index].constraint.stayTime = Number(stayTime)
+      state.order = emptyOrder
+      state.redirect = true
     }
   }
 })
