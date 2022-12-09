@@ -12,6 +12,7 @@ const AttractionCard = (props: { attraction: SelectableAttraction, visibility: b
   const addLeadingZeros = (num: number, totalLength: number): string => String(num).padStart(totalLength, '0')
   const round = (num: number, fractionDigits: number): number => Number(num.toFixed(fractionDigits))
   const departureDay = useSelector((state: StoreState) => state.attractions.setting.departureDay)
+  const truncate = (str: string, n: number): string => { return (str.length > n) ? str.slice(0, n - 1) + '...' : str }
 
   const openingTimeHour = Math.floor(props.attraction.constraint.openingTimes[departureDay])
   const openingTimeMin = round((props.attraction.constraint.openingTimes[departureDay] - openingTimeHour) * 60, 0)
@@ -46,7 +47,10 @@ const AttractionCard = (props: { attraction: SelectableAttraction, visibility: b
               <Rating value={props.attraction.rating} readOnly precision={0.1} size="small" />
             </Box>
             <Typography variant="body2" color="text.secondary" component="div" sx={{ fontSize: '0.8rem' }}>
-              {props.attraction.address}
+              評論：{props.attraction.comments} 則
+            </Typography>
+            <Typography variant="body2" color="text.secondary" component="div" sx={{ fontSize: '0.8rem' }}>
+              {truncate(props.attraction.address, 22)}
             </Typography>
             <Typography variant="body2" color="text.secondary" component="div" sx={{ fontSize: '0.8rem' }}>
               {openingTimeHour}:{addLeadingZeros(openingTimeMin, 2)} - {closingTimeHour}:{addLeadingZeros(closingTimeMin, 2)}
