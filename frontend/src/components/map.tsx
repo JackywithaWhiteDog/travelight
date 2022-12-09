@@ -184,6 +184,7 @@ const Map = (): React.ReactElement => {
             position={{ lat: attractions[rec].location.latitude, lng: attractions[rec].location.longitude }}
             icon={attractions[rec].isSelected ? getPin(attractions[rec].placeId) : { url: recPin, scaledSize: new google.maps.Size(30, 45) }}
             key={i}
+            zIndex={attractions[rec].isSelected ? 2 : 1}
             onClick={() => {
               if (!attractions[rec].isSelected) {
                 if (schedule.length < MAX_SCHEDULE_LENGTH) {
