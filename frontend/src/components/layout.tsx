@@ -1,5 +1,6 @@
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material'
 import React from 'react'
+import { Outlet } from 'react-router-dom'
 import Header from './header'
 
 const theme = createTheme({
@@ -13,14 +14,14 @@ const theme = createTheme({
 })
 
 interface LayoutProps {
-  children: React.ReactElement
+  showSettings: boolean
 }
 
 const Layout = (props: LayoutProps): React.ReactElement => (
   <ThemeProvider theme={theme}>
     <CssBaseline />
-    <Header />
-    <main>{props.children}</main>
+    <Header showSettings={props.showSettings} />
+    <main><Outlet /></main>
   </ThemeProvider>
 )
 
