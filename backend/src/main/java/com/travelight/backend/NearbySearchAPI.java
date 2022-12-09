@@ -24,9 +24,11 @@ public class NearbySearchAPI extends GoogleMapAPI {
 
         PlacesSearchResponse response = request
                 .location(new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude))).radius(1500)
+                .language("zh-TW")
                 .awaitIgnoreError();
 
-        List<Attraction> attractions = parseResult(response.results, new Filter(Float.valueOf(minRating), Integer.valueOf(minComments)));
+        List<Attraction> attractions = parseResult(response.results,
+                new Filter(Float.valueOf(minRating), Integer.valueOf(minComments)));
 
         return attractions;
     }
@@ -44,11 +46,13 @@ public class NearbySearchAPI extends GoogleMapAPI {
             if (filter.verify(result)) {
                 // Generate detail information for each attraction.
                 Geometry geo = result.geometry;
-                
+
                 Photo photo = result.photos[0];
-                
-                Attraction attraction = new Attraction(result.placeId, result.formattedAddress, Math.round(result.rating * 10) / 10.0,
-                        new GeoLocation(geo.location), null, photo.photoReference, result.name, result.userRatingsTotal);
+
+                Attraction attraction = new Attraction(result.placeId, result.formattedAddress,
+                        Math.round(result.rating * 10) / 10.0,
+                        new GeoLocation(geo.location), null, photo.photoReference, result.name,
+                        result.userRatingsTotal);
                 // Async
                 details[t] = new DetailsAPI(attraction);
                 threads[t] = new Thread(details[t]);
