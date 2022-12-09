@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { MAX_SCHEDULE_LENGTH } from '../../constants'
 import { Location, Region, SelectableAttraction, Setting, Order } from '../../types'
 
-const MAX_ATTRACTION_LENGTH = 30
+const MAX_ATTRACTION_LENGTH = 50
 
 interface State {
   defaultRegions: Region[]
