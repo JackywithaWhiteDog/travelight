@@ -23,7 +23,8 @@ interface TemplateProps {
 
 class Template extends React.Component<TemplateProps, {}> {
   ArrivalTime = (): React.ReactElement => {
-    const arrivalTime = useSelector((state: StoreState) => state.attractions.order.arriveTimes[this.props.item.index])
+    const index = useSelector((state: StoreState) => state.attractions.scheduleIndex[state.attractions.attractionId.indexOf(this.props.item.attraction.placeId)])
+    const arrivalTime = useSelector((state: StoreState) => state.attractions.order.arriveTimes[index])
 
     const addLeadingZeros = (num: number, totalLength: number): string => String(num).padStart(totalLength, '0')
     const round = (num: number, fractionDigits: number): number => Number(num.toFixed(fractionDigits))
@@ -33,7 +34,7 @@ class Template extends React.Component<TemplateProps, {}> {
     return (
       <Box sx={{ display: arrivalTime === undefined ? 'none' : 'flex', paddingBottom: '2px' }}>
         <Box sx={{ backgroundColor: '#8ec3b0', borderRadius: '4px', height: '22px', width: '32px', textAlign: 'center', fontSize: '0.9rem' }} >
-          {this.props.item.index + 1}
+          {index + 1}
         </Box>
         <Typography sx={{ paddingLeft: '8px', fontSize: '0.9rem', fontWeight: 'bold' }} >抵達時間  - {arrivalHour}:{addLeadingZeros(arrivalMin, 2)}</Typography>
       </Box>
@@ -41,8 +42,9 @@ class Template extends React.Component<TemplateProps, {}> {
   }
 
   TransportationTime = (): React.ReactElement => {
-    const transportationTime = useSelector((state: StoreState) => state.attractions.order.transportationTimes[this.props.item.index])
-    const idleTime = useSelector((state: StoreState) => state.attractions.order.idleTimes[this.props.item.index])
+    const index = useSelector((state: StoreState) => state.attractions.scheduleIndex[state.attractions.attractionId.indexOf(this.props.item.attraction.placeId)])
+    const transportationTime = useSelector((state: StoreState) => state.attractions.order.transportationTimes[index])
+    const idleTime = useSelector((state: StoreState) => state.attractions.order.idleTimes[index])
     const transportationMethod = useSelector((state: StoreState) => state.attractions.setting.transportation)
     const round = (num: number, fractionDigits: number): number => Number(num.toFixed(fractionDigits))
 
