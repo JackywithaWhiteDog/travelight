@@ -80,11 +80,10 @@ class Template extends React.Component<TemplateProps, { draggable: boolean }> {
   }
 
   render (): React.ReactElement {
-
     return (
       <div {...(this.state.draggable ? this.props.dragHandleProps : {})}>
         <this.ArrivalTime />
-        <AttractionCard attraction={this.props.item.attraction} />
+        <AttractionCard attraction={this.props.item.attraction} index={this.props.item.index} setDraggable={(draggable) => this.setState({ draggable })} />
         <this.TransportationTime />
       </div>
     )
