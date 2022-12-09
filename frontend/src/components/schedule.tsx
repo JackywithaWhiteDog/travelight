@@ -79,6 +79,7 @@ class Template extends React.Component<TemplateProps, { draggable: boolean }> {
   }
 
   render (): React.ReactElement {
+    console.log(this.props.item.attraction, this.props.item.attraction.name, this.props.item.attraction.constraint.stayTime)
     return (
       <div {...(this.state.draggable ? this.props.dragHandleProps : {})}>
         <this.ArrivalTime />
