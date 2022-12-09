@@ -18,7 +18,7 @@ interface AttractionCardProps {
 
 const AttractionCard = ({ attraction, visibility, index, setDraggable }: AttractionCardProps): React.ReactElement => {
   const dispatch = useDispatch()
-
+  const MAX_TIME = 24
   const addLeadingZeros = (num: number, totalLength: number): string => String(num).padStart(totalLength, '0')
   const round = (num: number, fractionDigits: number): number => Number(num.toFixed(fractionDigits))
   const departureDay = useSelector((state: StoreState) => state.attractions.setting.departureDay)
@@ -29,7 +29,9 @@ const AttractionCard = ({ attraction, visibility, index, setDraggable }: Attract
   const closingTimeMin = round((attraction.constraint.closingTimes[departureDay] - closingTimeHour) * 60, 0)
   const [staytime, setstaytime] = React.useState(attraction.constraint.stayTime)
   const [changed, setChanged] = React.useState<boolean>(false)
+
   const handleChangeStaytime: any = (event: any) => {
+    while (event.target.value >= MAX_TIME) { event.target.value -= MAX_TIME }
     setstaytime(event.target.value)
   }
 
@@ -47,7 +49,7 @@ const AttractionCard = ({ attraction, visibility, index, setDraggable }: Attract
       {
         index !== -1 && !changed &&
         <CardActions onClick={() => setChanged(true)}
-          sx={{ bottom: 0, right: '50%', zIndex: 1, position: 'absolute' }}>
+          sx={{ bottom: 0, left: '7.5rem', zIndex: 1, position: 'absolute' }}>
           <IconButton aria-label="delete" size="small" sx={{ backgroundColor: 'primary', opacity: 0.3, borderRadius: '12px', ':hover': { backgroundColor: COLORS.deleteButtonBackground, opacity: 0.8 } }}>
             <EditIcon sx={{ opacity: 0.8 }} />
           </IconButton>
@@ -60,7 +62,7 @@ const AttractionCard = ({ attraction, visibility, index, setDraggable }: Attract
           setChanged(false)
         }
         }
-          sx={{ bottom: '3rem', right: '50%', zIndex: 1, position: 'absolute' }}>
+          sx={{ bottom: '0.8rem', left: '6rem', zIndex: 1, position: 'absolute' }}>
           <IconButton aria-label="edit" sx={{ borderRadius: '12px' }}>
             <EditAttributesIcon color={'action'} sx={{ opacity: 1 }} />
           </IconButton>
@@ -100,15 +102,15 @@ const AttractionCard = ({ attraction, visibility, index, setDraggable }: Attract
             <Typography variant="body2" color="text.secondary" component="div" sx={{ fontSize: '0.8rem' }}>
               停留時間：{
                 changed
-                  ? <TextField
+                  ? <Box> <br/> <TextField
                     id="staytime"
                     type="number"
                     variant="standard"
                     defaultValue={attraction.constraint.stayTime}
                     onChange={handleChangeStaytime}
-                    sx={{ fontSize: '0.5rem' }}
+                    sx={{ fontSize: '0.5rem', width: { sm: '50%' } }}
                     {...(setDraggable !== undefined ? { onMouseEnter: () => setDraggable(false), onMouseLeave: () => setDraggable(true) } : {})}
-                  />
+                  /> <br/> </Box>
                   : attraction.constraint.stayTime
               } 小時
             </Typography>

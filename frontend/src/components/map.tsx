@@ -225,7 +225,7 @@ const Map = (): React.ReactElement => {
                   }}
                 >
                   <Box>
-                  <AttractionCard attraction={attractions[rec]} index={rec} />
+                  <AttractionCard attraction={attractions[rec]} index={changed ? rec : -1} />
                   <div>
 
                   <IconButton aria-label="edit" onClick={ () => { changed ? setChanged(false) : setChanged(true) }}
