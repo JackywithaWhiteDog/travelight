@@ -32,11 +32,11 @@ class Template extends React.Component<TemplateProps, {}> {
     const arrivalMin = round((arrivalTime - arrivalHour) * 60, 0)
 
     return (
-      <Box sx={{ display: arrivalTime === undefined ? 'none' : 'flex', paddingBottom: '2px' }}>
+      <Box sx={{ display: 'flex', paddingBottom: '2px' }}>
         <Box sx={{ backgroundColor: '#8ec3b0', borderRadius: '4px', height: '22px', width: '32px', textAlign: 'center', fontSize: '0.9rem' }} >
           {index + 1}
         </Box>
-        <Typography sx={{ paddingLeft: '8px', fontSize: '0.9rem', fontWeight: 'bold' }} >抵達時間  - {arrivalHour}:{addLeadingZeros(arrivalMin, 2)}</Typography>
+        <Typography sx={{ paddingLeft: '8px', fontSize: '0.9rem', fontWeight: 'bold', display: arrivalTime === undefined ? 'none' : 'flex' }} >抵達時間  - {arrivalHour}:{addLeadingZeros(arrivalMin, 2)}</Typography>
       </Box>
     )
   }
