@@ -215,8 +215,21 @@ const Schedule = (): React.ReactElement => {
       >
         <Typography sx={{ fontWeight: 'bold' }}>您的行程</Typography>
         <Box>
-          <Button size='small' variant="contained" onClick={() => { void optimizeSchedule(schedule, transportation, departureDay, true, dispatch) }} sx={{ margin: '5px' }} color='primary'>檢查</Button>
-          <Button size='small' variant="contained" onClick={() => { void optimizeSchedule(schedule, transportation, departureDay, false, dispatch) }} sx={{ margin: '5px' }}>規劃</Button>
+          <Button
+            size='small'
+            variant="contained"
+            onClick={() => { void optimizeSchedule(schedule, transportation, departureDay, true, dispatch) }}
+            sx={{ margin: '5px' }}
+            color='primary'
+            disabled={schedule.length <= 1}
+          >檢查</Button>
+          <Button
+            size='small'
+            variant="contained"
+            onClick={() => { void optimizeSchedule(schedule, transportation, departureDay, false, dispatch) }}
+            sx={{ margin: '5px' }}
+            disabled={schedule.length <= 1}
+          >規劃</Button>
         </Box>
       </Toolbar>
       <Box
