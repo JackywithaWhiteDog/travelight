@@ -1,5 +1,3 @@
 package com.travelight.backend;
 
-public class VrptwSolution {
-    
-}
+public class VrptwSolution {}

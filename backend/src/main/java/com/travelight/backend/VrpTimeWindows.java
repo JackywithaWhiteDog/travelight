@@ -14,33 +14,35 @@ import java.util.logging.Logger;
 /** VRPTW. */
 public class VrpTimeWindows {
   private static final Logger logger = Logger.getLogger(VrpTimeWindows.class.getName());
+
   static class DataModel {
     public final long[][] timeMatrix = {
-        {0, 0, 0, 0},
-        {0, 0, 3, 4},
-        {0, 5000, 0, 1},
-        {0, 4, 1, 0},
-        // {0, 0, 0, 0},
-        // {0, 0, 19, 24},
-        // {0, 19, 0, 23},
-        // {0, 24, 23, 0}
+      {0, 0, 0, 0},
+      {0, 0, 3, 4},
+      {0, 5000, 0, 1},
+      {0, 4, 1, 0},
+      // {0, 0, 0, 0},
+      // {0, 0, 19, 24},
+      // {0, 19, 0, 23},
+      // {0, 24, 23, 0}
     };
     public final long[][] timeWindows = {
-        // {0, 1440},
-        // {0, 10},
-        // {4, 8},
-        // {0, 12},
-        {0, 1440},
-        {900, 1440},
-        {480, 1140},
-        {480, 1140}
+      // {0, 1440},
+      // {0, 10},
+      // {4, 8},
+      // {0, 12},
+      {0, 1440},
+      {900, 1440},
+      {480, 1140},
+      {480, 1140}
     };
     public final int vehicleNumber = 1;
     public final int depot = 0;
   }
 
   /// @brief Print the solution.
-  static void printSolution(DataModel data, RoutingModel routing, RoutingIndexManager manager, Assignment solution) {
+  static void printSolution(
+      DataModel data, RoutingModel routing, RoutingIndexManager manager, Assignment solution) {
     // Solution cost.
     logger.info("Objective : " + solution.objectiveValue());
     // Inspect solution.
@@ -52,13 +54,23 @@ public class VrpTimeWindows {
       String route = "";
       while (!routing.isEnd(index)) {
         IntVar timeVar = timeDimension.cumulVar(index);
-        route += manager.indexToNode(index) + " Time(" + solution.min(timeVar) + ","
-            + solution.max(timeVar) + ") -> ";
+        route +=
+            manager.indexToNode(index)
+                + " Time("
+                + solution.min(timeVar)
+                + ","
+                + solution.max(timeVar)
+                + ") -> ";
         index = solution.value(routing.nextVar(index));
       }
       IntVar timeVar = timeDimension.cumulVar(index);
-      route += manager.indexToNode(index) + " Time(" + solution.min(timeVar) + ","
-          + solution.max(timeVar) + ")";
+      route +=
+          manager.indexToNode(index)
+              + " Time("
+              + solution.min(timeVar)
+              + ","
+              + solution.max(timeVar)
+              + ")";
       logger.info(route);
       logger.info("Time of the route: " + solution.min(timeVar) + "min");
       totalTime += solution.min(timeVar);
@@ -80,18 +92,20 @@ public class VrpTimeWindows {
 
     // Create and register a transit callback.
     final int transitCallbackIndex =
-        routing.registerTransitCallback((long fromIndex, long toIndex) -> {
-          // Convert from routing variable Index to user NodeIndex.
-          int fromNode = manager.indexToNode(fromIndex);
-          int toNode = manager.indexToNode(toIndex);
-          return data.timeMatrix[fromNode][toNode];
-        });
+        routing.registerTransitCallback(
+            (long fromIndex, long toIndex) -> {
+              // Convert from routing variable Index to user NodeIndex.
+              int fromNode = manager.indexToNode(fromIndex);
+              int toNode = manager.indexToNode(toIndex);
+              return data.timeMatrix[fromNode][toNode];
+            });
 
     // Define cost of each arc.
     routing.setArcCostEvaluatorOfAllVehicles(transitCallbackIndex);
 
     // Add Time constraint.
-    routing.addDimension(transitCallbackIndex, // transit callback
+    routing.addDimension(
+        transitCallbackIndex, // transit callback
         10000, // allow waiting time
         30000, // vehicle maximum capacities
         false, // start cumul to zero
@@ -116,8 +130,7 @@ public class VrpTimeWindows {
 
     // Setting first solution heuristic.
     RoutingSearchParameters searchParameters =
-        main.defaultRoutingSearchParameters()
-            .toBuilder()
+        main.defaultRoutingSearchParameters().toBuilder()
             .setFirstSolutionStrategy(FirstSolutionStrategy.Value.PATH_CHEAPEST_ARC)
             .build();
 
