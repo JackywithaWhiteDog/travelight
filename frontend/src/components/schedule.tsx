@@ -21,13 +21,17 @@ interface TemplateProps {
   dragHandleProps: object
 }
 
-class Template extends React.Component<TemplateProps, {}> {
+class Template extends React.Component<TemplateProps, { draggable: boolean }> {
+  constructor (props: TemplateProps) {
+    super(props)
+    this.state = { draggable: true }
+  }
+
   ArrivalTime = (): React.ReactElement => {
     const index = useSelector((state: StoreState) => state.attractions.scheduleIndex[state.attractions.attractionId.indexOf(this.props.item.attraction.placeId)])
-    const arrivalTime = useSelector((state: StoreState) => state.attractions.order.arriveTimes[index])
-
-    const addLeadingZeros = (num: number, totalLength: number): string => String(num).padStart(totalLength, '0')
     const round = (num: number, fractionDigits: number): number => Number(num.toFixed(fractionDigits))
+    const arrivalTime = useSelector((state: StoreState) => state.attractions.order.arriveTimes[index])
+    const addLeadingZeros = (num: number, totalLength: number): string => String(num).padStart(totalLength, '0')
     const arrivalHour = Math.floor(arrivalTime)
     const arrivalMin = round((arrivalTime - arrivalHour) * 60, 0)
 
@@ -46,9 +50,9 @@ class Template extends React.Component<TemplateProps, {}> {
     const transportationTime = useSelector((state: StoreState) => state.attractions.order.transportationTimes[index])
     const idleTime = useSelector((state: StoreState) => state.attractions.order.idleTimes[index])
     const transportationMethod = useSelector((state: StoreState) => state.attractions.setting.transportation)
-    const round = (num: number, fractionDigits: number): number => Number(num.toFixed(fractionDigits))
 
     // const addLeadingZeros = (num: number, totalLength: number): string => String(num).padStart(totalLength, '0')
+    const round = (num: number, fractionDigits: number): number => Number(num.toFixed(fractionDigits))
     const transportationMin = round(transportationTime * 60, 0)
     const idleMin = round(idleTime * 60, 0)
 
@@ -77,9 +81,9 @@ class Template extends React.Component<TemplateProps, {}> {
 
   render (): React.ReactElement {
     return (
-      <div {...this.props.dragHandleProps}>
+      <div {...(this.state.draggable ? this.props.dragHandleProps : {})}>
         <this.ArrivalTime />
-        <AttractionCard attraction={this.props.item.attraction} />
+        <AttractionCard attraction={this.props.item.attraction} index={this.props.item.index} setDraggable={(draggable) => this.setState({ draggable })} />
         <this.TransportationTime />
       </div>
     )
