@@ -122,8 +122,13 @@ const Schedule = (): React.ReactElement => {
   const reorderByDragging = useSelector((state: StoreState) => state.attractions.reorderByDragging)
   const canceledIndex = useSelector((state: StoreState) => state.attractions.canceledIndex, shallowEqual)
   const scheduleInvalidAlert = useSelector((state: StoreState) => state.attractions.scheduleInvalidAlert)
+  const savedTime = useSelector((state: StoreState) => state.attractions.order.savedTime)
+  const [showSavedTime, setShowSavedTime] = useState<boolean>(false)
   const [listItems, setListItems] = useState<ItemInterface[]>(schedule.map((attraction, index) => ({ attraction, index })))
   const dispatch = useDispatch()
+
+  const savedHour = Math.floor(savedTime)
+  const savedMin = Math.round((savedTime - savedHour) * 60)
 
   useEffect(() => {
     if (!reorderByDragging) {
@@ -138,6 +143,10 @@ const Schedule = (): React.ReactElement => {
         listItems.splice(canceledIndex, 1)
         setListItems([...listItems])
       }
+
+      if (savedHour > 0 || savedMin > 0) {
+        setShowSavedTime(true)
+      }
     }
   }, [schedule])
 
@@ -149,6 +158,28 @@ const Schedule = (): React.ReactElement => {
         overflow: 'auto'
       }}
     >
+      <Snackbar
+        open={showSavedTime}
+        autoHideDuration={1500}
+        onClose={() => showSavedTime && setShowSavedTime(false)}
+        TransitionComponent={Slide}
+      >
+        <Alert
+          severity="success"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => setShowSavedTime(false)}
+            >
+              <Close fontSize="inherit" />
+            </IconButton>
+          }
+        >
+          此規劃將為您節省{savedHour > 0 && ` ${savedHour} 小時`}{savedMin > 0 && ` ${savedMin} 分鐘`}！
+        </Alert>
+      </Snackbar>
       <Snackbar
         open={scheduleInvalidAlert}
         autoHideDuration={1500}
