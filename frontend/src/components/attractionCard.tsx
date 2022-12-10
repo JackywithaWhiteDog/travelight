@@ -83,7 +83,7 @@ const AttractionCard = ({ attraction, visibility, index, setDraggable }: Attract
         <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: '170px' }}>
           <CardContent sx={{ padding: 1, '&:last-child': { paddingBottom: 1 }, paddingLeft: 2 }}>
             <Typography component="div" variant="h6" sx={{ fontWeight: 'bold', lineHeight: 1.4, fontSize: '1rem' }}>
-              {attraction.name}
+              { truncate(attraction.name, 18)}
             </Typography>
             <Box sx={{ display: 'inline-flex' }}>
               <Typography variant="body2" color="text.secondary" component="div" sx={{ paddingLeft: 0.25, paddingRight: 0.2, fontSize: '0.8rem' }}>
@@ -126,7 +126,7 @@ const AttractionCard = ({ attraction, visibility, index, setDraggable }: Attract
         </Box>
         <CardMedia
           component="img"
-          sx={{ maxWidth: '50% !important' }}
+          sx={{ maxWidth: '50% !important', maxHeight: '180px' }}
           image={attraction.pictureURL}
         />
       </Card>
