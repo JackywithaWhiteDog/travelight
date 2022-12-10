@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { Card, CardContent, CardActions, CardMedia, Rating, Typography, Box, IconButton, TextField } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
@@ -18,7 +18,7 @@ interface AttractionCardProps {
 
 const AttractionCard = ({ attraction, visibility, index, setDraggable }: AttractionCardProps): React.ReactElement => {
   const dispatch = useDispatch()
-  const MAX_TIME = 24
+  // const MAX_TIME = 24
   const addLeadingZeros = (num: number, totalLength: number): string => String(num).padStart(totalLength, '0')
   const round = (num: number, fractionDigits: number): number => Number(num.toFixed(fractionDigits))
   const departureDay = useSelector((state: StoreState) => state.attractions.setting.departureDay)
@@ -27,16 +27,17 @@ const AttractionCard = ({ attraction, visibility, index, setDraggable }: Attract
   const openingTimeMin = round((attraction.constraint.openingTimes[departureDay] - openingTimeHour) * 60, 0)
   const closingTimeHour = Math.floor(attraction.constraint.closingTimes[departureDay])
   const closingTimeMin = round((attraction.constraint.closingTimes[departureDay] - closingTimeHour) * 60, 0)
-  const [staytime, setstaytime] = React.useState(attraction.constraint.stayTime)
   const [changed, setChanged] = React.useState<boolean>(false)
-
+  const attractionIndex = useSelector((state: StoreState) => state.attractions.attractionId.indexOf(attraction.placeId), shallowEqual)
+  const attractionStaytime = useSelector((state: StoreState) => state.attractions.attractions[attractionIndex].constraint.stayTime, shallowEqual)
+  const [staytime, setstaytime] = React.useState(attractionStaytime)
   const handleChangeStaytime: any = (event: any) => {
-    while (event.target.value >= MAX_TIME) { event.target.value -= MAX_TIME }
+    while (event.target.value >= 24) { event.target.value -= 24 }
     setstaytime(event.target.value)
+    console.log('change', staytime, attractionStaytime)
   }
-
   return (
-    <Box sx={{ display: visibility ? 'relative' : 'none', position: 'relative', maxWidth: 360 }}>
+    <Box sx={{ display: visibility ? 'relative' : 'none', position: 'relative', maxWidth: 360 } }>
       {
         attraction.isSelected &&
         <CardActions onClick={() => dispatch(cancelAttraction(attraction.placeId))}
@@ -48,7 +49,12 @@ const AttractionCard = ({ attraction, visibility, index, setDraggable }: Attract
       }
       {
         index !== -1 && !changed &&
-        <CardActions onClick={() => setChanged(true)}
+        <CardActions onClick={() => {
+          setstaytime(attractionStaytime)
+          setChanged(true)
+          console.log('edit', staytime, attractionStaytime)
+        }
+        }
           sx={{ bottom: 0, left: '7.5rem', zIndex: 1, position: 'absolute' }}>
           <IconButton aria-label="delete" size="small" sx={{ backgroundColor: 'primary', opacity: 0.3, borderRadius: '12px', ':hover': { backgroundColor: COLORS.deleteButtonBackground, opacity: 0.8 } }}>
             <EditIcon sx={{ opacity: 0.8 }} />
@@ -58,7 +64,8 @@ const AttractionCard = ({ attraction, visibility, index, setDraggable }: Attract
       {
         changed &&
         <CardActions onClick={() => {
-          dispatch(setStayTime([attraction.placeId, staytime.toString()]))
+          dispatch(setStayTime([attractionIndex, staytime]))
+          console.log(staytime, attractionStaytime)
           setChanged(false)
         }
         }
@@ -72,7 +79,7 @@ const AttractionCard = ({ attraction, visibility, index, setDraggable }: Attract
         display: 'flex',
         justifyContent: 'space-between',
         borderRadius: '16px'
-      }}>
+      } }>
         <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: '170px' }}>
           <CardContent sx={{ padding: 1, '&:last-child': { paddingBottom: 1 }, paddingLeft: 2 }}>
             <Typography component="div" variant="h6" sx={{ fontWeight: 'bold', lineHeight: 1.4, fontSize: '1rem' }}>
@@ -106,12 +113,12 @@ const AttractionCard = ({ attraction, visibility, index, setDraggable }: Attract
                     id="staytime"
                     type="number"
                     variant="standard"
-                    defaultValue={attraction.constraint.stayTime}
+                    defaultValue={attractionStaytime}
                     onChange={handleChangeStaytime}
                     sx={{ fontSize: '0.5rem', width: { sm: '50%' } }}
                     {...(setDraggable !== undefined ? { onMouseEnter: () => setDraggable(false), onMouseLeave: () => setDraggable(true) } : {})}
                   /> <br/> </Box>
-                  : attraction.constraint.stayTime
+                  : attractionStaytime
               } 小時
             </Typography>
 
