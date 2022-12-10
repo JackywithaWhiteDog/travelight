@@ -71,7 +71,7 @@
             <groupId>com.google.ortools</groupId>
             <artifactId>ortools-darwin-x86-64</artifactId>
             <version>9.0.9048</version>
-        </dependency>	
+        </dependency>
 
 		<dependency>
 			<groupId>com.google.guava</groupId>

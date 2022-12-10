@@ -45,5 +45,3 @@ Commit message should be structured as
 - `fix(frontend.api): wrong HTTP request type`
 - `refact(backend): remove legacy code`
 - `test(backend.optimize): add test case for infeasible schedule`
-
-
