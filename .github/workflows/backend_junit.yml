@@ -1,0 +1,24 @@
+name: JUnit
+
+on:
+  pull_request:
+    branches:
+      - main
+      - production
+    paths:
+      - backend/**.java
+
+jobs:
+  unit-test:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        working-directory: backend
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Run JUnit with Maven
+        working-directory: backend
+        run: mvn --batch-mode clean test
