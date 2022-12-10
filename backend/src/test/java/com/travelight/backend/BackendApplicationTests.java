@@ -6,9 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class BackendApplicationTests {
 
-	@Test
-	void contextLoads() {
-		System.out.println("\n ===== This is a JUnit test in our project ===== \n");
-	}
-
+  @Test
+  void contextLoads() {
+    System.out.println("\n ===== This is a JUnit test in our project ===== \n");
+  }
 }
