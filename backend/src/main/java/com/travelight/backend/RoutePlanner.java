@@ -103,13 +103,13 @@ public class RoutePlanner {
       double savedTime = originalTransportationTime - minTransportationTime;
       System.out.println(
           "\nThe original transporation time: "
-              + originalTransportationTime
+              + originalTransportationTime * TimeUtils.minutesPerHour
               + " / "
               + "The best transportation time: "
-              + minTransportationTime
+              + minTransportationTime * TimeUtils.minutesPerHour
               + " / "
               + "Total saved time: "
-              + savedTime);
+              + savedTime * TimeUtils.minutesPerHour);
       bestTravelSchedule.setSavedTime(savedTime);
     }
 
