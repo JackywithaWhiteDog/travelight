@@ -220,7 +220,7 @@ const Map = (): React.ReactElement => {
                 <InfoBox
                   options={{
                     closeBoxURL: '',
-                    boxStyle: {},
+                    boxStyle: { width: '100%' },
                     disableAutoPan: true
                   }}
                 >
