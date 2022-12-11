@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import { getRecommendationAPI } from '../../api/attractions'
 import { optimizeScheduleAPI } from '../../api/schedule'
 import { Location } from '../../types'
