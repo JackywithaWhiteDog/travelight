@@ -5,6 +5,8 @@ on:
     branches:
       - main
       - production
+    paths:
+      - backend/**.java
 
 jobs:
   unit-test:
