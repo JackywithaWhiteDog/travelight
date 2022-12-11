@@ -1,8 +1,8 @@
 import React, { ReactElement, useState } from 'react'
 import { unmountComponentAtNode } from 'react-dom'
-import SettingBox from '../components/settingBox'
-import { StoreState } from '../store'
-import { renderWithProviders } from './utils/test-utils'
+import SettingBox from '../../components/settingBox'
+import { StoreState } from '../../store'
+import { renderWithProviders } from '../utils/test-utils'
 import { fireEvent, screen } from '@testing-library/react'
 import { useSelector } from 'react-redux'
 

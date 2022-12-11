@@ -5,9 +5,8 @@ import axios from 'axios'
 import { generateMockOrder } from '../test/mockData'
 import { attractionToApiFormat } from './converter'
 
-const API_ROOT = process.env.REACT_APP_API_ROOT ?? ''
-
 export const optimizeScheduleAPI = async (schedule: Attraction[], transportation: Transportation, departureDay: number, check: boolean): Promise<Order> => {
+  const API_ROOT = process.env.REACT_APP_API_ROOT ?? ''
   const response = await axios.post(API_ROOT + '/optimize', {
     attractions: schedule.map(attractionToApiFormat),
     departureDay,
@@ -18,6 +17,7 @@ export const optimizeScheduleAPI = async (schedule: Attraction[], transportation
 }
 
 export const optimizeSchedule = async (schedule: Attraction[], transportation: Transportation, departureDay: number, check: boolean, dispatch: StoreDispatch): Promise<void> => {
+  const API_ROOT = process.env.REACT_APP_API_ROOT ?? ''
   let order: Order
   if (API_ROOT !== '') {
     order = await optimizeScheduleAPI(schedule, transportation, departureDay, check)
