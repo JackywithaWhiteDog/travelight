@@ -34,7 +34,7 @@ public class DetailsAPI extends GoogleMapAPI implements Runnable {
     // placeID = "ChIJJ9z7h9OtQjQR8vwZA7PhkKs"; // Test cross day
     // placeID = "ChIJN1t_tDeuEmsRUsoyG83frY4"; // Test only five day
     PlaceDetailsRequest request = new PlaceDetailsRequest(context);
-    PlaceDetails response = request.placeId(placeID).awaitIgnoreError();
+    PlaceDetails response = request.language("zh-TW").placeId(placeID).awaitIgnoreError();
 
     String formattedAddress = response.formattedAddress;
 
