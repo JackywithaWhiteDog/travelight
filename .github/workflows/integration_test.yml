@@ -18,6 +18,6 @@ jobs:
       - name: "Start test"
         run:
           docker run -p 8080:8080 springio/gs-spring-boot-docker &
-          sleep 5s &&
+          sleep 21s &&
           cd frontend &&
           yarn ijest
