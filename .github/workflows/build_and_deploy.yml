@@ -48,7 +48,7 @@ jobs:
       - name: Build and Push Container
         working-directory: backend
         run: |-
-          docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}" . --build-arg SECRET_PASSPHRASE=${{ secrets.SECRET_PASSPHRASE }} /
+          docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}" . --build-arg SECRET_PASSPHRASE=${{ secrets.SECRET_PASSPHRASE }}/
           docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}"
       # END - Docker auth and build
 
