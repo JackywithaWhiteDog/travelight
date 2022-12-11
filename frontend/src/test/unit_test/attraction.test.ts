@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { getRecommendationAPI } from '../api/attractions'
-import { Location } from '../types'
-import { mockSelectableAttractionList, mockResponse } from './mockData'
+import { getRecommendationAPI } from '../../api/attractions'
+import { Location } from '../../types'
+import { mockSelectableAttractionList, mockResponse } from '../mockData'
 
 jest.mock('axios')
 const mockedAxios = axios as jest.Mocked<typeof axios>

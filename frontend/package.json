@@ -41,7 +41,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src --ext .ts,.tsx --max-warnings=0",
-    "jest": "jest"
+    "jest": "jest ./src/test/unit_test/ ",
+    "ijest": "jest ./src/test/integration_test/"
   },
   "eslintConfig": {
     "extends": [
