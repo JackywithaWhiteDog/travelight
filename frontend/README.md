@@ -1,6 +1,19 @@
-# Getting Started with Create React App
+# Front-end of Travelight
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Usage
+
+1. Build image
+```
+docker build -t travelight-frontend:latest . \
+    --build-arg GOOGLE_MAPS_API_KEY=[api key for Google Maps API] \
+    --build-arg API_ROOT=[backend URL]
+```
+
+2. Deploy our app
+```
+docker run -p 8080:8080 travelight-frontend:latest
+```
+
 
 ## Available Scripts
 
@@ -39,8 +52,14 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+### `yarn lint`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Analyze code with [ESLint](https://eslint.org/).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### `yarn jest`
+
+Run jest for unit test. The testing codes are at `frontend/src/test/unit_test`.
+
+### `yarn ijest`
+
+Run jest for unit test. The testing codes are at `frontend/src/test/integration_test`. Note that the backend service should run at the same time at `http://localhost:8080`
