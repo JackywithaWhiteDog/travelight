@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: "Build backend"
         working-directory: backend
-        run: docker build -t springio/gs-spring-boot-docker . --build-arg SECRET_PASSPHRASE=se2022_group4
+        run: docker build -t springio/gs-spring-boot-docker . --build-arg SECRET_PASSPHRASE=${{ secrets.SECRET_PASSPHRASE }}
       - name: "Frontend dependency"
         working-directory: frontend
         run: yarn
