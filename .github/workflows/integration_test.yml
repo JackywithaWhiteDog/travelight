@@ -1,6 +1,7 @@
 name: Integration test
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - production
@@ -10,14 +11,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: "Build environment"
-        run:
-          docker build -t springio/gs-spring-boot-docker ./backend --build-arg SECRET_PASSPHRASE=se2022_group4 &
-          cd frontend &&
-          yarn
+      - name: "Build backend"
+        working-directory: backend
+        run: docker build -t springio/gs-spring-boot-docker . --build-arg SECRET_PASSPHRASE=se2022_group4
+      - name: "Frontend dependency"
+        working-directory: frontend
+        run: yarn
       - name: "Start test"
-        run:
+        working-directory: frontend
+        run: |-
           docker run -p 8080:8080 springio/gs-spring-boot-docker &
-          sleep 21s &&
-          cd frontend &&
+          sleep 21s
+          echo $(docker ps)
+          echo $(curl -v "http://localhost:8080/nearbyAttractions?longitude=121.5654268&latitude=25.0329636")
           yarn ijest
+        env:
+          API_ROOT: http://localhost:8080
