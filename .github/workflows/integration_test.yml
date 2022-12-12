@@ -1,0 +1,23 @@
+name: Integration test
+
+on:
+  pull_request:
+    branches:
+      - production
+
+jobs:
+  integration-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: "Build environment"
+        run:
+          docker build -t springio/gs-spring-boot-docker ./backend --build-arg SECRET_PASSPHRASE=se2022_group4 &
+          cd frontend &&
+          yarn
+      - name: "Start test"
+        run:
+          docker run -p 8080:8080 springio/gs-spring-boot-docker &
+          sleep 21s &&
+          cd frontend &&
+          yarn ijest

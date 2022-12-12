@@ -27,3 +27,5 @@ yarn-error.log*
 *.md
 .eslintrc.json
 jest.config.js
+
+.env

@@ -1,8 +1,8 @@
 import axios from 'axios'
-import { optimizeScheduleAPI } from '../api/schedule'
-import { mockSelectableAttractionList, generateMockOrder } from './mockData'
-import { Order } from '../types'
-import { attractionToApiFormat } from '../api/converter'
+import { optimizeScheduleAPI } from '../../api/schedule'
+import { mockSelectableAttractionList, generateMockOrder } from '../mockData'
+import { Order } from '../../types'
+import { attractionToApiFormat } from '../../api/converter'
 
 jest.mock('axios')
 const mockedAxios = axios as jest.Mocked<typeof axios>

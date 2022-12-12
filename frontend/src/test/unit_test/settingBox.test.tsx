@@ -1,24 +1,9 @@
 import React, { ReactElement, useState } from 'react'
-import { unmountComponentAtNode } from 'react-dom'
-import SettingBox from '../components/settingBox'
-import { StoreState } from '../store'
-import { renderWithProviders } from './utils/test-utils'
+import SettingBox from '../../components/settingBox'
+import { StoreState } from '../../store'
+import { renderWithProviders } from '../utils/test-utils'
 import { fireEvent, screen } from '@testing-library/react'
 import { useSelector } from 'react-redux'
-
-let container: any
-beforeEach(() => {
-  // setup a DOM element as a render target
-  container = document.createElement('div')
-  document.body.appendChild(container)
-})
-
-afterEach(() => {
-  // cleanup on exiting
-  unmountComponentAtNode(container)
-  container.remove()
-  container = null
-})
 
 const TestSettingBox = (): ReactElement => {
   const [checkedIndices, setCheckedIndices] = useState<number[]>([5, 5, (new Date()).getDay(), 2])

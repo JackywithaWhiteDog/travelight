@@ -1,10 +1,9 @@
 import React from 'react'
-import { unmountComponentAtNode } from 'react-dom'
-import { renderWithProviders } from './utils/test-utils'
+import { renderWithProviders } from '../utils/test-utils'
 import { fireEvent, screen } from '@testing-library/react'
-import TaiwanButton from '../components/taiwanButton'
-import map from '../assets/map'
-import defaultRegions from '../assets/defaultRegions'
+import TaiwanButton from '../../components/taiwanButton'
+import map from '../../assets/map'
+import defaultRegions from '../../assets/defaultRegions'
 
 const testCases = map.locations.map((location) => ({
   name: location.name,
@@ -19,20 +18,6 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => mockedUsedNavigate
 }))
-
-let container: any
-beforeEach(() => {
-  // setup a DOM element as a render target
-  container = document.createElement('div')
-  document.body.appendChild(container)
-})
-
-afterEach(() => {
-  // cleanup on exiting
-  unmountComponentAtNode(container)
-  container.remove()
-  container = null
-})
 
 testCases.forEach((testCase) => {
   it('Testing taiwanButton', async () => {
