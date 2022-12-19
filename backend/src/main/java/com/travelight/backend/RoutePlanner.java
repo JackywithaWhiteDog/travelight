@@ -2,6 +2,7 @@ package com.travelight.backend;
 
 import com.google.common.collect.Collections2;
 import com.google.common.primitives.Ints;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,10 +48,11 @@ public class RoutePlanner {
         IntStream.rangeClosed(1, optimizationInfo.attractions.length)
             .boxed()
             .collect(Collectors.toList()); // original travel order
+
     if (performCheck) {
       travelSchedule = checkOrder(vrptwDataModel, originalOrder);
     } else {
-      travelSchedule = optimizeOrderBruteForce(vrptwDataModel, originalOrder);
+      travelSchedule = optimizeOrder(vrptwDataModel, originalOrder);
     }
 
     if (travelSchedule.order != null) {
@@ -116,23 +118,28 @@ public class RoutePlanner {
     return bestTravelSchedule;
   }
 
-  public static TravelSchedule optimizeOrder(VrptwDataModel vrptwDataModel) {
-    // Route optimization by OR-tools
-    // vrptwSolver.solve(vrptwDataModel);
-
-    // convert the solution to the travelSchedule
-    int[] order = {0, 2, 1};
-    double[] arriveTimes = {1, 2, 3};
-    double[] leaveTimes = {1.5, 2.5, 3.5};
-    double[] transporationTimes = {1, 1};
-    double[] idleTimes = {0, 0};
-    double savedTime = 1;
-
-    boolean isValid = true;
-    TravelSchedule travelSchedule =
-        new TravelSchedule(
-            order, arriveTimes, leaveTimes, transporationTimes, idleTimes, savedTime, isValid);
-    return travelSchedule;
+  public static TravelSchedule optimizeOrder(
+      VrptwDataModel vrptwDataModel, List<Integer> originalOrder) {
+    // check the original schedule (in order to get the original time)
+    TravelSchedule originalSchedule = checkOrder(vrptwDataModel, originalOrder);
+    // optimize the order
+    VrptwSolution vrptwSolution = vrptwSolver.solve(vrptwDataModel);
+    // check the optimized schedule (to get the minimized time)
+    if (vrptwSolution.hasSolution) {
+      List<Integer> optimizedOrder =
+          Arrays.stream(vrptwSolution.order).boxed().collect(Collectors.toList());
+      TravelSchedule optimizedSchedule = checkOrder(vrptwDataModel, optimizedOrder);
+      // set saved time
+      if (originalSchedule.isValid) {
+        double originalTime = sumTimes(originalSchedule.transportationTimes);
+        double optimizedTime = sumTimes(optimizedSchedule.transportationTimes);
+        double savedTime = originalTime - optimizedTime;
+        optimizedSchedule.setSavedTime(savedTime);
+      }
+      return optimizedSchedule;
+    } else {
+      return new TravelSchedule(null, null, null, null, null, 0, false);
+    }
   }
 
   public static TravelSchedule checkOrder(VrptwDataModel vrptwDataModel, List<Integer> order) {
