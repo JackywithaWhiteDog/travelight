@@ -14,7 +14,7 @@ public class VrptwSolver {
     System.load("/usr/share/or-tools/libjniortools.so");
   }
 
-  public void solve(VrptwDataModel vrptwDataModel) {
+  public VrptwSolution solve(VrptwDataModel vrptwDataModel) {
     // Create Routing Index Manager
     RoutingIndexManager manager =
         new RoutingIndexManager(
@@ -73,7 +73,35 @@ public class VrptwSolver {
     // Solve the problem.
     Assignment solution = routing.solveWithParameters(searchParameters);
 
-    printSolution(vrptwDataModel, routing, manager, solution);
+    VrptwSolution vrptwSolution = new VrptwSolution(false, null);
+    if (solution != null) {
+      int[] order = parseOrder(vrptwDataModel, routing, manager, solution);
+      vrptwSolution.setHasSolution(true);
+      vrptwSolution.setOrder(order);
+    }
+
+    return vrptwSolution;
+  }
+
+  private int[] parseOrder(
+      VrptwDataModel vrptwDataModel,
+      RoutingModel routing,
+      RoutingIndexManager manager,
+      Assignment solution) {
+    int vehicleIndex = 0;
+    long index = routing.start(vehicleIndex);
+    int[] order = new int[vrptwDataModel.stayTimes.length];
+    int cur = 0;
+    while (!routing.isEnd(index)) {
+      int node = manager.indexToNode(index);
+      if (node != 0) {
+        order[cur] = node;
+        cur++;
+      }
+      index = solution.value(routing.nextVar(index));
+    }
+
+    return order;
   }
 
   public void printSolution(
